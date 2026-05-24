@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GENSAM — COVID Sequencing Data Platform · UXmikko</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Inter:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #ffffff;
+      --black: #000000;
+      --text-1: rgb(25, 29, 33);
+      --text-2: rgb(63, 68, 74);
+      --text-3: rgb(101, 116, 133);
+      --surface-1: rgb(249, 249, 249);
+      --surface-2: rgb(240, 242, 244);
+      --border: rgb(240, 240, 240);
+      --accent: rgb(181, 48, 74);
+      --accent-bg: rgba(181, 48, 74, 0.06);
+      --accent-border: rgba(181, 48, 74, 0.18);
+      --font-display: 'Bricolage Grotesque', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --shadow-card:
+        0px 0.6px 1.8px -1.25px rgba(0,0,0,0.18),
+        0px 2.3px  6.9px -2.5px  rgba(0,0,0,0.16),
+        0px 10px   30px  -3.75px rgba(0,0,0,0.06);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+    body { background: var(--white); font-family: var(--font-body); color: var(--text-1); overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+
+    .nav { position: fixed; top: 0; left: 0; right: 0; padding: 0 20px 20px; z-index: 99; animation: navSlide 0.6s cubic-bezier(0.22,1,0.36,1) both; }
+    @keyframes navSlide { from { opacity:0; transform:translateY(-84px); } to { opacity:1; transform:translateY(0); } }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 84px; padding: 8px 48px; background: rgba(255,255,255,0.6); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; box-shadow: 0px 0.6px 1.3px -1.5px rgba(0,0,0,0.19), 0px 2.3px 5px -3px rgba(0,0,0,0.16), 0px 10px 22px -4.5px rgba(0,0,0,0.02); }
+    .nav-logo { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--text-1); }
+    .nav-logo-mark { width: 32px; height: 32px; border-radius: 8px; background: var(--text-1); color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+    .nav-links { display: flex; gap: 8px; align-items: center; }
+    .nav-link { height: 36px; padding: 0 14px; border-radius: 8px; display: flex; align-items: center; font-size: 14px; font-weight: 500; color: var(--text-1); transition: background 0.15s; }
+    .nav-link:hover { background: rgba(25,29,33,0.06); }
+    .nav-link-cta { background: var(--text-1); color: white; border-radius: 8px; }
+    .nav-link-cta:hover { opacity: 0.85; background: var(--text-1); }
+    .nav-back { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: var(--text-2); transition: color 0.15s; }
+    .nav-back:hover { color: var(--text-1); }
+
+    .page { display: flex; flex-direction: column; align-items: center; width: 100%; }
+
+    .hero { width: 100%; padding: 104px 10px 10px; background: white; animation: fadeUp 0.7s 0.1s cubic-bezier(0.22,1,0.36,1) both; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+    .hero-card { background: linear-gradient(180deg, rgb(251,243,245) 0%, white 100%); border-radius: 48px; padding: 120px 60px; display: flex; flex-direction: column; gap: 72px; overflow: hidden; }
+    .hero-top { display: flex; flex-direction: row; flex-wrap: wrap; gap: 48px; align-items: flex-start; }
+    .hero-text { flex: 1; min-width: 280px; max-width: 560px; display: flex; flex-direction: column; gap: 36px; }
+    .hero-labels { display: flex; flex-direction: column; gap: 16px; }
+    .label-category { font-family: var(--font-body); font-size: 14px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+    .hero-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 48px); font-weight: 700; line-height: 1.15em; color: var(--text-1); }
+    .hero-desc { font-family: var(--font-body); font-size: clamp(15px, 1.8vw, 18px); font-weight: 400; line-height: 1.6em; color: var(--text-2); }
+    .hero-btn { display: inline-flex; align-items: center; width: fit-content; padding: 16px 24px; border: 1.5px solid var(--accent); border-radius: 16px; background: white; font-family: var(--font-display); font-size: 15px; font-weight: 500; color: var(--accent); cursor: pointer; transition: background 0.15s; }
+    .hero-btn:hover { background: var(--accent-bg); }
+    .hero-details { flex-shrink: 0; width: 320px; background: white; border-radius: 32px; padding: 36px; display: flex; flex-direction: column; gap: 20px; box-shadow: var(--shadow-card); transform: rotate(2deg); border: 1px solid rgba(240,240,240,0.8); }
+    .detail-row { display: flex; flex-direction: column; gap: 6px; }
+    .detail-label { font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+    .detail-value { font-family: var(--font-body); font-size: 15px; line-height: 1.5em; color: var(--text-1); }
+    .hero-image { width: 100%; aspect-ratio: 2.3 / 1; border-radius: 48px; overflow: hidden; background: linear-gradient(135deg, #f0cdd4 0%, #d9899a 50%, #e8b0bc 100%); display: flex; align-items: center; justify-content: center; }
+    .hero-image-placeholder { display: flex; flex-direction: column; align-items: center; gap: 16px; opacity: 0.35; }
+    .hero-image-placeholder svg { width: 64px; height: 64px; }
+    .hero-image-placeholder p { font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: 0.05em; }
+
+    .section { width: 100%; display: flex; flex-direction: column; align-items: center; padding: 0 20px 120px; }
+    .section-inner { width: 100%; max-width: 940px; display: flex; flex-direction: column; gap: 48px; }
+    .section-header { display: flex; flex-direction: column; gap: 16px; max-width: 700px; }
+    .section-eyebrow { font-family: var(--font-body); font-size: 14px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+    .section-title { font-family: var(--font-display); font-size: clamp(22px, 3vw, 36px); font-weight: 700; line-height: 1.4em; color: var(--text-1); }
+    .section-body { font-family: var(--font-body); font-size: clamp(15px, 1.7vw, 18px); font-weight: 400; line-height: 1.6em; color: var(--text-2); }
+    .section-body + .section-body { margin-top: 16px; }
+    .section-body strong { color: var(--text-1); font-weight: 700; }
+
+    .callout-card { background: var(--accent-bg); border-radius: 48px; padding: 72px; display: flex; flex-direction: column; gap: 16px; max-width: 940px; width: 100%; }
+    .callout-card .section-eyebrow { text-align: center; }
+    .callout-card .section-title { text-align: center; max-width: 760px; margin: 0 auto; }
+
+    .surface-card { background: var(--surface-1); border-radius: 40px; padding: 72px; box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: 36px; width: 100%; }
+    .surface-card-sm { background: var(--surface-1); border-radius: 24px; padding: 40px 32px; box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: 24px; width: 100%; }
+
+    .insight-strip { width: 100%; max-width: 940px; background: var(--accent-bg); border: 1px solid var(--accent-border); border-radius: 24px; padding: 32px 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .insight-item { display: flex; flex-direction: column; gap: 8px; }
+    .insight-label { font-family: var(--font-body); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
+    .insight-text { font-family: var(--font-body); font-size: 15px; line-height: 1.6em; color: var(--text-1); }
+
+    .numbered-list { display: flex; flex-direction: column; gap: 16px; }
+    .numbered-item { display: flex; flex-direction: row; gap: 16px; align-items: flex-start; }
+    .numbered-badge { flex-shrink: 0; width: 32px; height: 32px; border-radius: 100px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-family: var(--font-body); font-size: 13px; font-weight: 700; color: white; }
+    .numbered-content { flex: 1; padding-top: 4px; display: flex; flex-direction: column; gap: 4px; }
+    .numbered-content strong { font-family: var(--font-body); font-size: 16px; font-weight: 700; color: var(--text-1); }
+    .numbered-content p { font-family: var(--font-body); font-size: 15px; line-height: 1.6em; color: var(--text-2); }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .grid-card { background: white; border: 1px solid var(--border); border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 10px; }
+    .grid-card-title { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--text-1); }
+    .grid-card-body { font-family: var(--font-body); font-size: 15px; line-height: 1.6em; color: var(--text-2); }
+
+    .stats-row { display: flex; flex-direction: row; gap: 16px; flex-wrap: wrap; }
+    .stat-card { flex: 1; min-width: 160px; background: white; border: 1px solid var(--border); border-radius: 20px; padding: 28px 24px; display: flex; flex-direction: column; gap: 6px; }
+    .stat-number { font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 40px); font-weight: 700; color: var(--accent); line-height: 1; }
+    .stat-label { font-family: var(--font-body); font-size: 14px; line-height: 1.5em; color: var(--text-2); }
+
+    .img-placeholder { width: 100%; display: flex; align-items: center; justify-content: center; background: var(--surface-2); border-radius: 16px; overflow: hidden; }
+    .img-placeholder p { font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--text-3); letter-spacing: 0.04em; }
+
+    .footer-section { width: 100%; padding: 0 10px 10px; }
+    .footer-card { background: linear-gradient(180deg, white 0%, rgb(240,243,245) 100%); border-radius: 48px; padding: 120px 60px; display: flex; flex-direction: column; align-items: center; gap: 40px; }
+    .footer-cta { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+    .footer-eyebrow { font-family: var(--font-body); font-size: 14px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); }
+    .footer-heading { font-family: var(--font-display); font-size: clamp(48px, 8vw, 96px); font-weight: 800; line-height: 1em; color: var(--text-1); text-align: center; }
+    .footer-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .btn-dark { height: 48px; padding: 0 28px; border-radius: 16px; background: var(--text-1); color: white; font-family: var(--font-display); font-size: 15px; font-weight: 600; display: flex; align-items: center; transition: opacity 0.15s; }
+    .btn-dark:hover { opacity: 0.8; }
+    .btn-light { height: 48px; padding: 0 28px; border-radius: 16px; background: white; border: 1.5px solid var(--border); color: var(--text-1); font-family: var(--font-display); font-size: 15px; font-weight: 600; display: flex; align-items: center; transition: background 0.15s; }
+    .btn-light:hover { background: var(--surface-2); }
+    .footer-copy { font-family: var(--font-body); font-size: 13px; color: var(--text-3); display: flex; align-items: center; gap: 4px; }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1); }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 680px) {
+      .hero-card { padding: 80px 28px; }
+      .hero-top { flex-direction: column; }
+      .hero-details { width: 100%; transform: none; }
+      .surface-card { padding: 40px 28px; }
+      .callout-card { padding: 48px 28px; }
+      .insight-strip { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+      .footer-card { padding: 80px 28px; }
+      .nav-inner { padding: 8px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">
+        <div class="nav-logo-mark">M</div>
+        UXmikko
+      </a>
+      <div class="nav-links">
+        <a href="../" class="nav-back">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back to work
+        </a>
+        <a href="mailto:uxmikko@gmail.com" class="nav-link nav-link-cta">Get in touch</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-card">
+      <div class="hero-top">
+        <div class="hero-text">
+          <div class="hero-labels">
+            <p class="label-category">Life Sciences Platform</p>
+            <h1 class="hero-title">GENSAM — COVID Sequencing Data Platform</h1>
+          </div>
+          <p class="hero-desc">
+            A national platform for COVID genomic sequencing data had been built to a strict happy path — and failed silently on everything off it. Labs had stopped trusting the system and were emailing files instead. The problem wasn't the design: it was the complete absence of error handling and submission certainty.
+          </p>
+          <a href="mailto:uxmikko@gmail.com" class="hero-btn">Request full case study →</a>
+        </div>
+        <div class="hero-details">
+          <div class="detail-row">
+            <p class="detail-label">Client</p>
+            <p class="detail-value">Folkhälsomyndigheten</p>
+          </div>
+          <div class="detail-row">
+            <p class="detail-label">Role</p>
+            <p class="detail-value">UX/UI Designer</p>
+          </div>
+          <div class="detail-row">
+            <p class="detail-label">Tools</p>
+            <p class="detail-value">Figma · Confluence · Jira</p>
+          </div>
+          <div class="detail-row">
+            <p class="detail-label">Domain</p>
+            <p class="detail-value">Life sciences · Public health</p>
+          </div>
+          <div class="detail-row">
+            <p class="detail-label">Team</p>
+            <p class="detail-value">Solo designer · Government tech stack</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <div class="hero-image-placeholder">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M32 8v48M16 20h32M16 32h32M16 44h32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="32" cy="8" r="3" fill="currentColor"/><circle cx="32" cy="56" r="3" fill="currentColor"/><circle cx="16" cy="20" r="3" fill="currentColor"/><circle cx="48" cy="20" r="3" fill="currentColor"/><circle cx="16" cy="44" r="3" fill="currentColor"/><circle cx="48" cy="44" r="3" fill="currentColor"/></svg>
+          <p>Add your hero screen / timeline view here</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSIGHT STRIP -->
+  <section class="section" style="padding-top: 80px;">
+    <div class="insight-strip reveal">
+      <div class="insight-item">
+        <p class="insight-label">Insight</p>
+        <p class="insight-text">The core user anxiety wasn't "what went wrong" — it was "did anything happen at all." Better error states would help, but the more urgent problem was submission certainty.</p>
+      </div>
+      <div class="insight-item">
+        <p class="insight-label">Action</p>
+        <p class="insight-text">Proposed a timeline-based architecture as the primary mental model — making the user's progress visible rather than exposing system state. Buildable within government tech constraints.</p>
+      </div>
+      <div class="insight-item">
+        <p class="insight-label">Impact</p>
+        <p class="insight-text">Labs that had abandoned the platform and were emailing files instead came back after the redesign. The submission uncertainty that had broken trust was eliminated.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE PROBLEM -->
+  <section class="section" style="padding-top: 0;">
+    <div class="callout-card reveal">
+      <p class="section-eyebrow">The Problem</p>
+      <h2 class="section-title">Labs across Sweden were losing COVID sequencing data because the submission platform had no error handling — and had been built strictly to a happy path that didn't reflect how labs actually worked.</h2>
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Background</p>
+        <h2 class="section-title">An MVP built under urgency, now silently failing the labs that depended on it</h2>
+      </div>
+      <div class="surface-card reveal">
+        <p class="section-body">GENSAM was a national platform for lab technicians to register, upload, and track COVID genomic sequencing data. The system played a role in understanding mutation trends and supporting pandemic response.</p>
+        <p class="section-body">The platform had been built under urgency as an MVP. On the happy path, it worked. Anything off it — a failed submission, a format error, a partial upload — either failed silently or left users with no way to recover.</p>
+        <p class="section-body"><strong>The result:</strong> data loss, duplicated manual effort, and labs that had stopped trusting the system entirely.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MY ROLE -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">My Role</p>
+        <h2 class="section-title">Solo designer running research and design end-to-end on a constrained government tech stack</h2>
+      </div>
+      <div class="surface-card reveal">
+        <p class="section-body">UX/UI Designer at LH+P. I ran research and discovery, led design from wireframes through to high-fidelity handoff, and worked directly with the engineering team building on a constrained government tech stack. Same embedded team as SVEBar — I ran both projects in parallel.</p>
+        <p class="section-body">Working on two concurrent projects with the same agency team meant deep familiarity with the stakeholder context and institutional constraints, but required rigorous prioritisation of time between projects.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCOVERY -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Discovery</p>
+        <h2 class="section-title">Interviews and working sessions across multiple regions — mapping the full deposition workflow from sample to confirmed upload</h2>
+      </div>
+
+      <div class="surface-card reveal">
+        <p class="section-body">I ran interviews and working sessions with lab technicians across multiple Swedish regions. The goal was to understand the complete deposition workflow: from receiving a positive sample, to preparing sequencing files, to submitting and confirming successful upload.</p>
+
+        <div class="numbered-list">
+          <div class="numbered-item">
+            <div class="numbered-badge">1</div>
+            <div class="numbered-content">
+              <strong>The MVP had no off-ramp from the happy path</strong>
+              <p>No error states, no status tracking, no way to correct or update a submission once started. Users had built workarounds: spreadsheets to track batches, phone calls to confirm receipt, manual re-submissions when in doubt.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">2</div>
+            <div class="numbered-content">
+              <strong>The trust gap was the core problem</strong>
+              <p>Several labs had stopped actively using the platform and were emailing files directly instead. Solving the UX wasn't enough — the redesign needed to rebuild confidence in the system's reliability.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">3</div>
+            <div class="numbered-content">
+              <strong>Test ID matching was a missing workflow step</strong>
+              <p>Linking a sequencing result back to the original patient sample required a separate external spreadsheet. This was a critical workflow step the platform didn't support at all.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="surface-card-sm" style="background: rgba(181,48,74,0.05); border-left: 3px solid var(--accent); border-radius: 0 16px 16px 0;">
+          <p class="section-eyebrow">Baseline going in</p>
+          <p class="section-body">Labs were actively working around the system. The clearest signal was the number of submissions that arrived via email rather than through the platform — a direct measure of lost trust. Reducing that was the redesign target.</p>
+        </div>
+      </div>
+
+      <div class="img-placeholder reveal" style="height: 300px; border-radius: 16px;">
+        <p>[ Research findings / workflow mapping — add photo or Figma export here ]</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE HARD PART -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">The Hard Part</p>
+        <h2 class="section-title">A government stack that couldn't build everything users needed, and a trust problem requiring technical fixes design couldn't fully provide</h2>
+      </div>
+
+      <div class="two-col reveal">
+        <div class="grid-card">
+          <p class="grid-card-title">Government tech constraints</p>
+          <p class="grid-card-body">Some error handling that users genuinely needed wasn't buildable in the current funding round. Prioritisation calls had to be made and communicated clearly — to users and to the agency.</p>
+        </div>
+        <div class="grid-card">
+          <p class="grid-card-title">Designing for a system users had already abandoned</p>
+          <p class="grid-card-body">A cleaner UI wasn't going to fix the trust gap on its own. The design had to change the underlying experience of certainty: "I know what happened to my submission."</p>
+        </div>
+        <div class="grid-card">
+          <p class="grid-card-title">Scope uncertainty</p>
+          <p class="grid-card-body">The full feature scope wasn't clear at the start. Some features needed stakeholder discussion before they could be scoped. I had to prioritise design sequencing without knowing the full picture.</p>
+        </div>
+        <div class="grid-card">
+          <p class="grid-card-title">Honest expectation management</p>
+          <p class="grid-card-body">Users had legitimate complaints about backend reliability. Design could improve the experience, but restoring trust required being honest with both users and the team about what design alone could achieve.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW I NAVIGATED IT -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">How I Navigated It</p>
+        <h2 class="section-title">The core design decision: make the user's progress visible instead of exposing system state</h2>
+      </div>
+      <div class="surface-card reveal">
+        <p class="section-body">The insight that unlocked the design: instead of building better error states (which required significant backend work), I proposed a timeline-based mental model as the primary architecture. Making the user's journey visible was buildable within the current constraints — and it directly addressed the core anxiety: "did my submission actually go through?"</p>
+        <p class="section-body">For Test ID matching, I proposed integrating it directly into the platform flow, eliminating the external spreadsheet dependency and removing a major failure point from the workflow.</p>
+        <p class="section-body">For features that couldn't be built yet, I documented them in the product backlog with user research rationale — so the agency had a clear brief for the next funding round rather than a wishlist with no supporting evidence.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW MIGHT WE -->
+  <section class="section" style="padding-top: 0;">
+    <div class="callout-card reveal">
+      <p class="section-eyebrow">How Might We</p>
+      <h2 class="section-title">Give lab technicians unambiguous certainty that their submission landed — within the constraints of a government tech stack that couldn't yet support full error handling?</h2>
+    </div>
+  </section>
+
+  <!-- WHAT I BUILT -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Design</p>
+        <h2 class="section-title">Timeline-based submission flow, real error states for the first time, and Test ID matching built into the platform</h2>
+      </div>
+
+      <div class="surface-card reveal">
+        <p class="section-body">With the mental model reframed around submission progress rather than system state, I moved from discovery into design — building the timeline view, error handling, and test ID matching as a cohesive system rather than isolated improvements.</p>
+
+        <div class="numbered-list">
+          <div class="numbered-item">
+            <div class="numbered-badge">1</div>
+            <div class="numbered-content">
+              <strong>Timeline-based deposition overview</strong>
+              <p>Showing the real-time status of each submission at a glance. The first thing users see is progress — not system state or error codes. Addresses the "did anything happen at all" anxiety directly.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">2</div>
+            <div class="numbered-content">
+              <strong>Error states with visibility and recovery paths</strong>
+              <p>The first real error handling the platform had. Each error is visible with specific guidance for next steps — not just "something went wrong."</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">3</div>
+            <div class="numbered-content">
+              <strong>Integrated Test ID matching</strong>
+              <p>Eliminated the external spreadsheet dependency by building the matching workflow directly into the platform. Removed a major failure point and a significant source of manual effort.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">4</div>
+            <div class="numbered-content">
+              <strong>Submission correction flow</strong>
+              <p>Users can update or re-submit without starting over — the first time the platform supported any kind of recovery from a failed or partial submission.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">5</div>
+            <div class="numbered-content">
+              <strong>Design system for future development</strong>
+              <p>Built to public sector standards and extended with new patterns for the timeline view and error state hierarchy — both documented with rationale for the agency's engineering team.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="img-placeholder reveal" style="height: 340px; border-radius: 16px;">
+        <p>[ Timeline view / hi-fi screens — add your Figma export here ]</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTING -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Testing &amp; Iterations</p>
+        <h2 class="section-title">Low-fidelity walkthroughs targeting the three highest-anxiety moments in the submission workflow</h2>
+      </div>
+      <div class="surface-card reveal">
+        <p class="section-body">Low-fidelity wireframes tested with 4 lab technicians across two sessions. Scenarios focused on the three highest-anxiety moments: submitting a batch, encountering an error mid-submission, and checking the status of a previous deposition.</p>
+        <p class="section-body"><strong>Key validation:</strong> The timeline model was immediately intuitive. All four participants understood their position in the process without being prompted. Error visibility was described as "finally knowing what went wrong" by one participant who had previously experienced silent failures.</p>
+        <p class="section-body">Findings informed two rounds of iteration before moving to high-fidelity: error state copy was rewritten to be more actionable, and timeline detail level was adjusted to match what users actually needed to see versus what felt like noise.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Results</p>
+        <h2 class="section-title">Labs returned to the platform — and the email workaround that measured lost trust was eliminated</h2>
+      </div>
+
+      <div class="stats-row reveal">
+        <div class="stat-card">
+          <span class="stat-number">Rebuilt</span>
+          <span class="stat-label">platform trust — labs that had stopped using GENSAM re-engaged after the redesign</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">First-ever</span>
+          <span class="stat-label">error handling — submission failures now have a path forward, not a dead end</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">0 spreadsheets</span>
+          <span class="stat-label">needed for Test ID matching — integrated directly into the platform flow</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">Full Sweden</span>
+          <span class="stat-label">nationwide sequencing capacity fully supported across all regions</span>
+        </div>
+      </div>
+
+      <div class="surface-card-sm reveal" style="background: var(--accent-bg);">
+        <p class="section-eyebrow">What I'd do differently</p>
+        <p class="section-body"><strong>Argue harder for a proper error handling framework before the redesign started.</strong> We improved the UX around a system that still had technical gaps. Closing those gaps first would have made the design work more durable and the trust rebuild more complete. I flagged it — but I'd make the case more formally next time, with user research findings as the business case.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESIGN SYSTEM -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Design System</p>
+        <h2 class="section-title">New patterns for the timeline view and error state hierarchy — documented for agency engineering teams to build on independently</h2>
+      </div>
+      <div class="surface-card reveal">
+        <p class="section-body">Built to Swedish public sector design standards. Extended with new patterns for the timeline view and error state hierarchy — both documented with rationale and handed off to the agency engineering team for future development.</p>
+        <p class="section-body">The timeline pattern and error state hierarchy were genuinely novel — the standards didn't cover them. Documentation included usage guidance, edge cases, and rationale so the team could extend them appropriately without requiring a designer's involvement for every decision.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer-section">
+    <div class="footer-card">
+      <div class="footer-cta reveal">
+        <p class="footer-eyebrow">Like what you see?</p>
+        <h2 class="footer-heading">Let's Connect!</h2>
+        <div class="footer-btns">
+          <a class="btn-dark" href="mailto:uxmikko@gmail.com">Email me</a>
+          <a class="btn-light" href="https://www.linkedin.com/in/uxmikko" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+      <p class="footer-copy">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="0.75"/><path d="M7.5 7C7.5 7.552 7.052 8 6.5 8H6C5.534 8 5.301 8 5.117 7.924C4.872 7.823 4.677 7.628 4.576 7.383C4.5 7.199 4.5 6.966 4.5 6.5V5.5C4.5 5.034 4.5 4.801 4.576 4.618C4.677 4.372 4.872 4.177 5.117 4.076C5.301 4 5.534 4 6 4H6.5C7.052 4 7.5 4.448 7.5 5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"/></svg>
+        2025 UXmikko
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

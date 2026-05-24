@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BASF — Merging Three Developer Platforms · UXmikko</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Inter:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+
+    /* =============================================
+       DESIGN TOKENS — matched from mattfredette.com
+       ============================================= */
+    :root {
+      --white:       #ffffff;
+      --black:       #000000;
+      --text-1:      rgb(25, 29, 33);
+      --text-2:      rgb(63, 68, 74);
+      --text-3:      rgb(101, 116, 133);
+      --surface-1:   rgb(249, 249, 249);
+      --surface-2:   rgb(240, 242, 244);
+      --border:      rgb(240, 240, 240);
+
+      /* BASF accent — teal */
+      --accent:      rgb(43, 109, 119);
+      --accent-bg:   rgba(43, 109, 119, 0.07);
+      --accent-border: rgba(43, 109, 119, 0.2);
+
+      --font-display: 'Bricolage Grotesque', sans-serif;
+      --font-body:    'Inter', sans-serif;
+
+      --shadow-card:
+        0px 0.6px 1.8px -1.25px rgba(0,0,0,0.18),
+        0px 2.3px  6.9px -2.5px  rgba(0,0,0,0.16),
+        0px 10px   30px  -3.75px rgba(0,0,0,0.06);
+    }
+
+    /* =============================================
+       RESET
+       ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+    body { background: var(--white); font-family: var(--font-body); color: var(--text-1); overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+
+    /* =============================================
+       NAV — frosted glass, fixed
+       ============================================= */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      padding: 0 20px 20px; z-index: 99;
+      animation: navSlide 0.6s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes navSlide {
+      from { opacity:0; transform:translateY(-84px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 84px; padding: 8px 48px;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+      box-shadow:
+        0px 0.6px 1.3px -1.5px rgba(0,0,0,0.19),
+        0px 2.3px 5px   -3px   rgba(0,0,0,0.16),
+        0px 10px  22px  -4.5px rgba(0,0,0,0.02);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display); font-size: 20px; font-weight: 600;
+      color: var(--text-1);
+    }
+    .nav-logo-mark {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--text-1); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; flex-shrink: 0;
+    }
+    .nav-links { display: flex; gap: 8px; align-items: center; }
+    .nav-link {
+      height: 36px; padding: 0 14px; border-radius: 8px;
+      display: flex; align-items: center;
+      font-size: 14px; font-weight: 500; color: var(--text-1);
+      transition: background 0.15s;
+    }
+    .nav-link:hover { background: rgba(25,29,33,0.06); }
+    .nav-link-cta {
+      background: var(--text-1); color: white; border-radius: 8px;
+    }
+    .nav-link-cta:hover { opacity: 0.85; background: var(--text-1); }
+
+    /* Back arrow */
+    .nav-back {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 14px; font-weight: 500; color: var(--text-2);
+      transition: color 0.15s;
+    }
+    .nav-back:hover { color: var(--text-1); }
+
+    /* =============================================
+       PAGE WRAPPER
+       ============================================= */
+    .page {
+      display: flex; flex-direction: column; align-items: center;
+      width: 100%;
+    }
+
+    /* =============================================
+       HERO SECTION
+       ============================================= */
+    .hero {
+      width: 100%; padding: 104px 10px 10px;
+      background: white;
+      animation: fadeUp 0.7s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(30px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* Warm white gradient card — matches Matt's case study exactly */
+    .hero-card {
+      background: linear-gradient(180deg, rgb(252,250,249) 0%, white 100%);
+      border-radius: 48px;
+      padding: 120px 60px;
+      display: flex; flex-direction: column; gap: 72px;
+      overflow: hidden;
+    }
+
+    .hero-top {
+      display: flex; flex-direction: row; flex-wrap: wrap;
+      gap: 48px; align-items: flex-start;
+    }
+
+    .hero-text {
+      flex: 1; min-width: 280px; max-width: 560px;
+      display: flex; flex-direction: column; gap: 36px;
+    }
+
+    .hero-labels {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+
+    .label-category {
+      font-family: var(--font-body);
+      font-size: 14px; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 700; line-height: 1.15em;
+      color: var(--text-1);
+    }
+
+    .hero-desc {
+      font-family: var(--font-body);
+      font-size: clamp(15px, 1.8vw, 18px);
+      font-weight: 400; line-height: 1.6em;
+      color: var(--text-2);
+    }
+
+    .hero-btn {
+      display: inline-flex; align-items: center;
+      width: fit-content;
+      padding: 16px 24px;
+      border: 1.5px solid var(--accent);
+      border-radius: 16px;
+      background: white;
+      font-family: var(--font-display);
+      font-size: 15px; font-weight: 500;
+      color: var(--accent);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .hero-btn:hover { background: var(--accent-bg); }
+
+    /* Project details card — floating, slightly rotated */
+    .hero-details {
+      flex-shrink: 0;
+      width: 345px;
+      background: white;
+      border-radius: 32px;
+      padding: 40px;
+      display: flex; flex-direction: column; gap: 24px;
+      box-shadow: var(--shadow-card);
+      transform: rotate(2deg);
+      border: 1px solid rgba(240,240,240,0.8);
+    }
+
+    .detail-row {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .detail-label {
+      font-family: var(--font-body);
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent);
+    }
+    .detail-value {
+      font-family: var(--font-body);
+      font-size: 16px; line-height: 1.5em;
+      color: var(--text-1);
+    }
+
+    /* Hero image — full width */
+    .hero-image {
+      width: 100%;
+      aspect-ratio: 2.3 / 1;
+      border-radius: 48px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #d0e8eb 0%, #9ec8ce 50%, #c5dfe3 100%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+
+    .hero-image-placeholder {
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+      opacity: 0.35;
+    }
+    .hero-image-placeholder svg { width: 64px; height: 64px; }
+    .hero-image-placeholder p {
+      font-family: var(--font-body); font-size: 13px; font-weight: 500;
+      color: var(--accent); letter-spacing: 0.05em;
+    }
+
+    /* =============================================
+       SECTION SHARED
+       ============================================= */
+    .section {
+      width: 100%;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 0 20px 120px;
+    }
+
+    .section-inner {
+      width: 100%; max-width: 940px;
+      display: flex; flex-direction: column; gap: 48px;
+    }
+
+    .section-header {
+      display: flex; flex-direction: column; gap: 16px;
+      max-width: 700px;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-body);
+      font-size: 14px; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 3vw, 36px);
+      font-weight: 700; line-height: 1.4em;
+      color: var(--text-1);
+    }
+
+    .section-body {
+      font-family: var(--font-body);
+      font-size: clamp(15px, 1.7vw, 18px);
+      font-weight: 400; line-height: 1.6em;
+      color: var(--text-2);
+    }
+
+    .section-body + .section-body { margin-top: 16px; }
+
+    .section-body strong { color: var(--text-1); font-weight: 700; }
+
+    .section-body ul {
+      margin-top: 12px;
+      padding-left: 20px;
+      display: flex; flex-direction: column; gap: 8px;
+      list-style: disc;
+    }
+    .section-body ul li { color: var(--text-2); }
+
+    /* =============================================
+       HIGHLIGHT / CALLOUT CARD — amber bg
+       ============================================= */
+    .callout-card {
+      background: var(--accent-bg);
+      border-radius: 48px;
+      padding: 72px;
+      display: flex; flex-direction: column; gap: 16px;
+      max-width: 940px; width: 100%;
+    }
+
+    .callout-card .section-eyebrow { text-align: center; }
+    .callout-card .section-title { text-align: center; max-width: 760px; margin: 0 auto; }
+
+    /* =============================================
+       SURFACE CARD — grey bg, used for research etc
+       ============================================= */
+    .surface-card {
+      background: var(--surface-1);
+      border-radius: 40px;
+      padding: 72px;
+      box-shadow: var(--shadow-card);
+      display: flex; flex-direction: column; gap: 36px;
+      width: 100%;
+    }
+
+    .surface-card-sm {
+      background: var(--surface-1);
+      border-radius: 24px;
+      padding: 40px 32px;
+      box-shadow: var(--shadow-card);
+      display: flex; flex-direction: column; gap: 24px;
+      width: 100%;
+    }
+
+    /* =============================================
+       KEY INSIGHT STRIP — top of body
+       ============================================= */
+    .insight-strip {
+      width: 100%; max-width: 940px;
+      background: var(--accent-bg);
+      border: 1px solid var(--accent-border);
+      border-radius: 24px;
+      padding: 32px 40px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .insight-item { display: flex; flex-direction: column; gap: 8px; }
+
+    .insight-label {
+      font-family: var(--font-body);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .insight-text {
+      font-family: var(--font-body);
+      font-size: 15px; line-height: 1.6em;
+      color: var(--text-1);
+    }
+
+    /* =============================================
+       NUMBERED LIST — for key findings
+       ============================================= */
+    .numbered-list {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+
+    .numbered-item {
+      display: flex; flex-direction: row; gap: 16px; align-items: flex-start;
+    }
+
+    .numbered-badge {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      border-radius: 100px;
+      background: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-body); font-size: 13px; font-weight: 700;
+      color: white;
+    }
+
+    .numbered-content {
+      flex: 1; padding-top: 4px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+
+    .numbered-content strong {
+      font-family: var(--font-body);
+      font-size: 16px; font-weight: 700;
+      color: var(--text-1);
+    }
+
+    .numbered-content p {
+      font-family: var(--font-body);
+      font-size: 15px; line-height: 1.6em;
+      color: var(--text-2);
+    }
+
+    /* =============================================
+       PULL QUOTE
+       ============================================= */
+    .pull-quote-wrap {
+      width: 100%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .pull-quote {
+      max-width: 660px;
+      border-radius: 32px;
+      padding: 0 48px;
+      text-align: center;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+
+    .pull-quote-text {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 2.2vw, 24px);
+      font-weight: 500; line-height: 1.4em;
+      color: var(--text-1);
+    }
+
+    .pull-quote-text em { color: var(--accent); font-style: normal; font-weight: 700; }
+
+    .pull-quote-attribution {
+      font-family: var(--font-body);
+      font-size: 14px; line-height: 1.5em;
+      color: var(--text-3);
+    }
+
+    /* =============================================
+       TWO COLUMN GRID
+       ============================================= */
+    .two-col {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    }
+
+    /* =============================================
+       SWOT TABLE
+       ============================================= */
+    .swot-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .swot-cell {
+      padding: 24px; border: 1px solid var(--border);
+    }
+
+    .swot-cell:nth-child(1) { background: rgba(43,109,119,0.06); }
+    .swot-cell:nth-child(2) { background: rgba(240,242,244,0.6); }
+    .swot-cell:nth-child(3) { background: rgba(240,242,244,0.6); }
+    .swot-cell:nth-child(4) { background: rgba(43,109,119,0.04); }
+
+    .swot-label {
+      font-family: var(--font-body);
+      font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    .swot-items {
+      list-style: disc; padding-left: 16px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+
+    .swot-items li {
+      font-family: var(--font-body);
+      font-size: 14px; line-height: 1.55em;
+      color: var(--text-2);
+    }
+
+    /* =============================================
+       OUTCOME STATS ROW
+       ============================================= */
+    .stats-row {
+      display: flex; flex-direction: row; gap: 16px; flex-wrap: wrap;
+    }
+
+    .stat-card {
+      flex: 1; min-width: 160px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 24px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700; color: var(--accent);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: var(--font-body);
+      font-size: 14px; line-height: 1.5em;
+      color: var(--text-2);
+    }
+
+    /* =============================================
+       IMAGE PLACEHOLDER
+       ============================================= */
+    .img-placeholder {
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--surface-2);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-3);
+      font-size: 13px; font-weight: 500;
+      letter-spacing: 0.05em; font-family: var(--font-body);
+    }
+
+    /* =============================================
+       HMW STATEMENT — centered warm card
+       ============================================= */
+    .hmw-card {
+      background: rgb(252,250,249);
+      border-radius: 48px;
+      padding: 72px;
+      text-align: center;
+      display: flex; flex-direction: column; gap: 16px;
+      align-items: center;
+    }
+
+    .hmw-card .section-title {
+      max-width: 640px;
+      text-align: center;
+    }
+
+    /* =============================================
+       FOOTER CTA — exact match to Matt's
+       ============================================= */
+    .footer-section {
+      width: 100%; padding: 0 20px 20px;
+    }
+
+    .footer-card {
+      width: 100%;
+      background: linear-gradient(180deg, white 0%, var(--surface-2) 100%);
+      border-bottom-left-radius: 48px;
+      border-bottom-right-radius: 48px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: space-evenly;
+      height: 500px;
+      overflow: hidden;
+      gap: 28px; padding: 40px 24px;
+    }
+
+    .footer-cta { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+
+    .footer-eyebrow {
+      font-family: var(--font-body);
+      font-size: 13px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--text-1); text-align: center;
+    }
+
+    .footer-heading {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 9vw, 128px);
+      font-weight: 700; line-height: 1.2em;
+      color: var(--black); text-align: center;
+    }
+
+    .footer-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+    .btn-dark {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 16px 28px;
+      background: var(--text-1); color: white;
+      border: 1px solid var(--text-1);
+      border-radius: 16px;
+      font-family: var(--font-display); font-size: 15px; font-weight: 500;
+      cursor: pointer; transition: opacity 0.15s; text-decoration: none;
+    }
+    .btn-dark:hover { opacity: 0.85; }
+
+    .btn-light {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 16px 28px;
+      background: white; color: var(--text-1);
+      border: 1px solid var(--text-2);
+      border-radius: 16px;
+      font-family: var(--font-display); font-size: 15px; font-weight: 500;
+      cursor: pointer; transition: background 0.15s; text-decoration: none;
+    }
+    .btn-light:hover { background: var(--surface-2); }
+
+    .footer-copy {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--text-2);
+    }
+
+    /* =============================================
+       REVEAL ANIMATION
+       ============================================= */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* =============================================
+       RESPONSIVE
+       ============================================= */
+    @media (max-width: 900px) {
+      .nav-inner { padding: 8px 20px; }
+      .hero-card { padding: 80px 20px; gap: 40px; }
+      .hero-top { flex-direction: column; }
+      .hero-details { width: 100%; transform: none; }
+      .callout-card, .surface-card { padding: 48px 24px; }
+      .hmw-card { padding: 48px 24px; }
+      .section { padding: 0 16px 80px; }
+      .two-col { grid-template-columns: 1fr; }
+      .insight-strip { grid-template-columns: 1fr; }
+      .footer-heading { font-size: clamp(40px, 10vw, 72px); }
+    }
+
+    @media (max-width: 600px) {
+      .nav-link:not(.nav-link-cta):not(.nav-back) { display: none; }
+      .hero-image { aspect-ratio: 4 / 3; }
+      .stats-row { flex-direction: column; }
+      .swot-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ============================== NAV ============================== -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-logo" href="uxmikko-portfolio.html">
+        <div class="nav-logo-mark">M</div>
+        UXmikko
+      </a>
+      <div class="nav-links">
+        <a class="nav-back nav-link" href="uxmikko-portfolio.html">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Back
+        </a>
+        <a class="nav-link" href="uxmikko-portfolio.html#case-studies">Case Studies</a>
+        <a class="nav-link" href="uxmikko-portfolio.html#about-me">About Me</a>
+        <a class="nav-link nav-link-cta" href="mailto:uxmikko@gmail.com">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================== HERO ============================== -->
+  <section class="hero">
+    <div class="hero-card">
+
+      <!-- Text + Details card -->
+      <div class="hero-top">
+        <div class="hero-text">
+          <div class="hero-labels">
+            <span class="label-category">BASF · Enterprise Platform</span>
+            <h1 class="hero-title">Merging Three Developer Platforms into One Unified Experience</h1>
+          </div>
+          <p class="hero-desc">
+            Three internal tools, three overlapping user groups, no shared language — and a business decision already made to consolidate. I reframed the brief around boundary clarity and drove three Product Owners to a shared product vision.
+          </p>
+          <a class="hero-btn" href="https://www.figma.com" target="_blank" rel="noopener">
+            View Figma File ↗
+          </a>
+        </div>
+
+        <!-- Floating project details card -->
+        <div class="hero-details">
+          <div class="detail-row">
+            <span class="detail-label">Client</span>
+            <span class="detail-value">BASF (via Tenth Revolution Group)</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Duration</span>
+            <span class="detail-value">Oct 2024 – Present</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Role</span>
+            <span class="detail-value">Senior UX Designer — Discovery Lead, Product Strategist</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Tools</span>
+            <span class="detail-value">Figma · Backstage · GitHub · BASF Atoms</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero image -->
+      <div class="hero-image">
+        <div class="hero-image-placeholder">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="18" height="48" rx="4" fill="currentColor"/>
+            <rect x="30" y="20" width="18" height="36" rx="4" fill="currentColor"/>
+            <circle cx="48" cy="14" r="8" fill="currentColor"/>
+          </svg>
+          <p>Hero image — add your own screenshot here</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================== KEY INSIGHT STRIP ============================== -->
+  <section class="section" style="padding-bottom: 0; padding-top: 60px;">
+    <div class="insight-strip reveal">
+      <div class="insight-item">
+        <span class="insight-label">Insight</span>
+        <p class="insight-text">Users weren't confused because the platforms were different — they were confused because they <strong>overlapped without clear boundaries</strong>. An IA problem, not a UI problem.</p>
+      </div>
+      <div class="insight-item">
+        <span class="insight-label">Action</span>
+        <p class="insight-text">Reframed the brief around boundary clarity. Built a product brief from discovery that gave all three POs a shared basis for every prioritisation call that followed.</p>
+      </div>
+      <div class="insight-item">
+        <span class="insight-label">Impact</span>
+        <p class="insight-text">Three POs running separate roadmaps aligned on one document. Opinion replaced by evidence in sprint planning. The brief became the decision tool for the project.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== THE PROBLEM ============================== -->
+  <section class="section" style="padding-top: 60px;">
+    <div class="callout-card reveal">
+      <p class="section-eyebrow" style="text-align:center;">THE PROBLEM</p>
+      <h2 class="section-title" style="text-align:center; margin:0 auto; max-width:680px;">
+        Three internal platforms, three overlapping user groups, no shared language — and a mandate to consolidate already decided.
+      </h2>
+    </div>
+  </section>
+
+  <!-- ============================== CONTEXT ============================== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">BACKGROUND</p>
+        <h2 class="section-title">A consolidation brief without a shared definition of the problem</h2>
+      </div>
+
+      <div class="reveal">
+        <p class="section-body">
+          BASF ran three internal developer tools: <strong>Argus</strong>, the <strong>Data Science Platform</strong>, and the <strong>AppStore</strong>. Each had grown organically to serve specific needs. Together, they created fragmented workflows, duplicated access requests, and a cognitive overhead nobody had officially agreed to own.
+        </p>
+        <p class="section-body" style="margin-top:16px;">
+          The user base spanned three very different personas: experienced developers building internal apps, data scientists running pipelines and models, and novice internal users just trying to find and use what already existed. Designing for that spread — across a consolidated platform — was the real challenge.
+        </p>
+      </div>
+
+      <div class="pull-quote-wrap reveal">
+        <div class="pull-quote">
+          <p class="pull-quote-text">
+            "Consolidation wasn't a UI problem — it was an <em>information architecture problem</em>."
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================== DISCOVERY ============================== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">DISCOVERY</p>
+        <h2 class="section-title">Understanding the platforms before asking users about them</h2>
+      </div>
+
+      <div class="surface-card reveal">
+        <p class="section-body">
+          Before talking to anyone, I reviewed platform documentation, analytics, and tutorial videos. I wanted to understand how each platform understood <em>itself</em> before hearing how users experienced it.
+        </p>
+
+        <div class="numbered-list">
+          <div class="numbered-item">
+            <div class="numbered-badge">1</div>
+            <div class="numbered-content">
+              <strong>Platform audit</strong>
+              <p>Reviewed Argus, Data Science Platform, and AppStore documentation, analytics, and video walkthroughs independently before any interviews.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">2</div>
+            <div class="numbered-content">
+              <strong>Stakeholder interviews — all three Product Owners</strong>
+              <p>Mapped ownership, priorities, and where they disagreed. Three POs meant three roadmaps and three definitions of done — understanding the fault lines early was essential.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">3</div>
+            <div class="numbered-content">
+              <strong>User interviews — developers and data scientists</strong>
+              <p>Ran interviews across multiple internal teams. The consistent finding: users weren't confused by the platforms being different. They were confused by the overlap — the same app in two places, the same workflow triggering different permissions depending on where you started.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Research output card -->
+      <div class="surface-card-sm reveal">
+        <p class="section-eyebrow" style="margin-bottom:4px;">KEY FINDING</p>
+        <h3 class="section-title" style="font-size: clamp(18px, 2.2vw, 24px);">Users had stopped trusting that the right path existed — not that they couldn't find it</h3>
+        <p class="section-body">
+          <strong>What was measured going in:</strong> Platform fragmentation caused developers to context-switch between tools for a single workflow. Novice users had no guided onboarding path and frequently escalated to support. These were the baselines the redesign needed to move.
+        </p>
+      </div>
+
+      <!-- Image placeholder — affinity map or research artefact -->
+      <div class="img-placeholder reveal" style="height: 280px;">
+        [ Research artefact — add affinity map, interview notes, or journey map here ]
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================== THE HARD PART ============================== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">THE HARD PART</p>
+        <h2 class="section-title">Three POs, a hackathon forcing function, and technical constraints that weren't visible until mid-discovery</h2>
+      </div>
+
+      <div class="two-col">
+        <div class="surface-card-sm reveal">
+          <p class="section-eyebrow" style="margin-bottom:4px;">Stakeholder alignment</p>
+          <p class="section-body">Three POs meant three roadmaps, three definitions of done, and sometimes three incompatible priorities. I built a <strong>feature prioritisation table</strong> scored on impact, effort, and technical feasibility — it became the decision tool in sprint planning. When opinions clashed, the table moved the conversation from preference to evidence.</p>
+        </div>
+        <div class="surface-card-sm reveal">
+          <p class="section-eyebrow" style="margin-bottom:4px;">Technical constraints</p>
+          <p class="section-body">Engineering was building on <strong>Backstage</strong>, which added constraints that weren't fully visible until mid-discovery. Some things users needed weren't buildable in the current phase — I had to design for what was feasible while keeping the long-term direction honest.</p>
+        </div>
+        <div class="surface-card-sm reveal">
+          <p class="section-eyebrow" style="margin-bottom:4px;">Hackathon forcing function</p>
+          <p class="section-body">An internal hackathon forced a prioritisation call ahead of schedule. I drafted a brief that reframed the decision — not "which feature do we want" but <strong>"which user problem is most urgent."</strong> That shift gave the POs a shared basis for the call.</p>
+        </div>
+        <div class="surface-card-sm reveal">
+          <p class="section-eyebrow" style="margin-bottom:4px;">Handoff gap</p>
+          <p class="section-body">No formal design handoff process existed before this engagement. I moved design ticket conversations from GitHub into <strong>Figma comments</strong> — a small change that gave engineering context directly at the design level, significantly reducing back-and-forth.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================== HOW MIGHT WE ============================== -->
+  <section class="section" style="padding-top: 0; padding-bottom: 60px;">
+    <div class="hmw-card reveal" style="max-width: 940px; width: calc(100% - 40px);">
+      <p class="section-eyebrow">HOW MIGHT WE…</p>
+      <h2 class="section-title">
+        Consolidate three overlapping platforms into a single unified experience that serves developers, data scientists, and novice users — without making any of them feel like an afterthought?
+      </h2>
+    </div>
+  </section>
+
+  <!-- ============================== WHAT I BUILT ============================== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">DESIGN</p>
+        <h2 class="section-title">End-to-end journeys, a guided wizard, and a handoff workflow built from scratch</h2>
+      </div>
+
+      <div class="surface-card reveal">
+        <p class="section-body">
+          With the product brief agreed, I moved from discovery into design — building across all three personas simultaneously, keeping each flow legible without making the system feel like three products bolted together.
+        </p>
+
+        <div class="numbered-list">
+          <div class="numbered-item">
+            <div class="numbered-badge">1</div>
+            <div class="numbered-content">
+              <strong>End-to-end user journeys</strong>
+              <p>For app creation, data pipeline management, and dashboard consumption — mapped across developer, data scientist, and novice user paths.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">2</div>
+            <div class="numbered-content">
+              <strong>Low and mid-fidelity wireframes</strong>
+              <p>Three core flows: the app creation wizard, data pipeline onboarding, and the unified app dashboard. Iterated through two rounds of feasibility-driven revision.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">3</div>
+            <div class="numbered-content">
+              <strong>App creation wizard</strong>
+              <p>Reduced the onboarding path for novice users from a fragmented multi-platform process across three tools to a single guided flow.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">4</div>
+            <div class="numbered-content">
+              <strong>BASF Atoms extensions</strong>
+              <p>All components built within the BASF Atoms design system. Where patterns didn't exist — primarily the app wizard step flow and unified dashboard state management — I proposed and documented extensions, keeping them aligned with the existing token structure.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Wireframe / design image placeholder -->
+      <div class="img-placeholder reveal" style="height: 340px; border-radius: 16px;">
+        [ Wireframes / hi-fi screens — add your Figma export here ]
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================== TESTING ============================== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">TESTING & ITERATIONS</p>
+        <h2 class="section-title">Walkthrough sessions built around scenarios, not open feedback</h2>
+      </div>
+
+      <div class="surface-card reveal">
+        <p class="section-body">
+          I ran walkthrough sessions with POs and developers before each handoff, structured around specific scenarios rather than open feedback. Two key flows — the app wizard and the permissions model — went through two rounds of iteration based on feasibility blockers surfaced during walkthroughs.
+        </p>
+        <p class="section-body" style="margin-top: 16px;">
+          I also mentored a master's student through an internship project delivered on the same platform, which served as an additional validation layer for the wizard flow — the student's output was integrated into the platform.
+        </p>
+      </div>
+
+      <div class="surface-card-sm reveal" style="border-left: 3px solid var(--accent);">
+        <p class="section-eyebrow">WHAT I'D ADD NOW</p>
+        <p class="section-body">If I ran any sessions directly with data scientists or novice end-users (not just POs and engineers), those would go here. Even one or two walkthroughs counts. Format: "<em>Ran [X] user walkthroughs with internal [role] users, testing against 3 scenarios: [list them].</em>"</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================== OUTCOMES ============================== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+
+      <div class="section-header reveal">
+        <p class="section-eyebrow">RESULTS</p>
+        <h2 class="section-title">Unified product vision — three legacy systems, one agreed direction</h2>
+      </div>
+
+      <div class="stats-row reveal">
+        <div class="stat-card">
+          <span class="stat-number">3 POs</span>
+          <span class="stat-label">aligned on a single product brief for the first time</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">1 wizard</span>
+          <span class="stat-label">replaced a fragmented multi-tool onboarding path for novice users</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">↓ friction</span>
+          <span class="stat-label">in design–engineering handoff by moving context into Figma</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">1 intern</span>
+          <span class="stat-label">mentored — output integrated directly into the live platform</span>
+        </div>
+      </div>
+
+      <div class="surface-card-sm reveal" style="background: var(--accent-bg);">
+        <p class="section-eyebrow">WHAT I'D DO DIFFERENTLY</p>
+        <p class="section-body">
+          <strong>Push harder for direct user access earlier.</strong> A lot of discovery was mediated through Product Owners — efficient but filtered. More direct exposure would have made the prioritisation table stronger and surfaced the novice onboarding gap sooner.
+        </p>
+        <p class="section-body" style="margin-top: 12px;">
+          <strong>Establish a quantitative baseline before starting.</strong> We knew things were fragmented, but we didn't have a number attached to it. Having one would have made this outcomes section significantly cleaner.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================== FINAL THOUGHTS ============================== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">FINAL THOUGHTS</p>
+        <h2 class="section-title">What I learned about navigating complexity without a clear brief</h2>
+      </div>
+
+      <div class="surface-card reveal">
+        <p class="section-body">
+          The biggest shift I made on this project was recognising that the design problem wasn't what I was originally asked to solve. The brief was about UI consolidation. The real problem was that nobody had defined the boundaries between the three systems — so they overlapped, contradicted each other, and frustrated users regardless of how good the individual interfaces were.
+        </p>
+        <p class="section-body" style="margin-top: 16px;">
+          Reframing from UI to IA early — and getting three POs to accept that reframing — is what made the rest of the project workable. The product brief wasn't a deliverable. It was the tool that made every other decision possible.
+        </p>
+        <p class="section-body" style="margin-top: 16px;">
+          <strong>Next step:</strong> quantitative baseline data from the wizard flow — steps-to-completion, error rates, support ticket volume before and after. That's what would turn this from a strong story into an undeniable one.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================== FOOTER CTA ============================== -->
+  <div class="footer-section">
+    <div class="footer-card">
+      <div class="footer-cta reveal">
+        <p class="footer-eyebrow">Like what you see?</p>
+        <h2 class="footer-heading">Let's Connect!</h2>
+        <div class="footer-btns">
+          <a class="btn-dark" href="mailto:uxmikko@gmail.com">Email me</a>
+          <a class="btn-light" href="https://www.linkedin.com/in/uxmikko" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+      <p class="footer-copy">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="0.75"/>
+          <path d="M7.5 7C7.5 7.552 7.052 8 6.5 8H6C5.534 8 5.301 8 5.117 7.924C4.872 7.823 4.677 7.628 4.576 7.383C4.5 7.199 4.5 6.966 4.5 6.5V5.5C4.5 5.034 4.5 4.801 4.576 4.618C4.677 4.372 4.872 4.177 5.117 4.076C5.301 4 5.534 4 6 4H6.5C7.052 4 7.5 4.448 7.5 5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"/>
+        </svg>
+        2025 UXmikko
+      </p>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

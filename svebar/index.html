@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVEBar — Monitoring Multiresistant Bacteria · UXmikko</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Inter:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #ffffff;
+      --black: #000000;
+      --text-1: rgb(25, 29, 33);
+      --text-2: rgb(63, 68, 74);
+      --text-3: rgb(101, 116, 133);
+      --surface-1: rgb(249, 249, 249);
+      --surface-2: rgb(240, 242, 244);
+      --border: rgb(240, 240, 240);
+      --accent: rgb(54, 107, 116);
+      --accent-bg: rgba(54, 107, 116, 0.07);
+      --accent-border: rgba(54, 107, 116, 0.2);
+      --font-display: 'Bricolage Grotesque', sans-serif;
+      --font-body: 'Inter', sans-serif;
+      --shadow-card:
+        0px 0.6px 1.8px -1.25px rgba(0,0,0,0.18),
+        0px 2.3px  6.9px -2.5px  rgba(0,0,0,0.16),
+        0px 10px   30px  -3.75px rgba(0,0,0,0.06);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+    body { background: var(--white); font-family: var(--font-body); color: var(--text-1); overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+
+    /* NAV */
+    .nav { position: fixed; top: 0; left: 0; right: 0; padding: 0 20px 20px; z-index: 99; animation: navSlide 0.6s cubic-bezier(0.22,1,0.36,1) both; }
+    @keyframes navSlide { from { opacity:0; transform:translateY(-84px); } to { opacity:1; transform:translateY(0); } }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 84px; padding: 8px 48px; background: rgba(255,255,255,0.6); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); border-bottom-left-radius: 24px; border-bottom-right-radius: 24px; box-shadow: 0px 0.6px 1.3px -1.5px rgba(0,0,0,0.19), 0px 2.3px 5px -3px rgba(0,0,0,0.16), 0px 10px 22px -4.5px rgba(0,0,0,0.02); }
+    .nav-logo { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 20px; font-weight: 600; color: var(--text-1); }
+    .nav-logo-mark { width: 32px; height: 32px; border-radius: 8px; background: var(--text-1); color: white; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+    .nav-links { display: flex; gap: 8px; align-items: center; }
+    .nav-link { height: 36px; padding: 0 14px; border-radius: 8px; display: flex; align-items: center; font-size: 14px; font-weight: 500; color: var(--text-1); transition: background 0.15s; }
+    .nav-link:hover { background: rgba(25,29,33,0.06); }
+    .nav-link-cta { background: var(--text-1); color: white; border-radius: 8px; }
+    .nav-link-cta:hover { opacity: 0.85; background: var(--text-1); }
+    .nav-back { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500; color: var(--text-2); transition: color 0.15s; }
+    .nav-back:hover { color: var(--text-1); }
+
+    /* PAGE */
+    .page { display: flex; flex-direction: column; align-items: center; width: 100%; }
+
+    /* HERO */
+    .hero { width: 100%; padding: 104px 10px 10px; background: white; animation: fadeUp 0.7s 0.1s cubic-bezier(0.22,1,0.36,1) both; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+    .hero-card { background: linear-gradient(180deg, rgb(239,246,247) 0%, white 100%); border-radius: 48px; padding: 120px 60px; display: flex; flex-direction: column; gap: 72px; overflow: hidden; }
+    .hero-top { display: flex; flex-direction: row; flex-wrap: wrap; gap: 48px; align-items: flex-start; }
+    .hero-text { flex: 1; min-width: 280px; max-width: 560px; display: flex; flex-direction: column; gap: 36px; }
+    .hero-labels { display: flex; flex-direction: column; gap: 16px; }
+    .label-category { font-family: var(--font-body); font-size: 14px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+    .hero-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 48px); font-weight: 700; line-height: 1.15em; color: var(--text-1); }
+    .hero-desc { font-family: var(--font-body); font-size: clamp(15px, 1.8vw, 18px); font-weight: 400; line-height: 1.6em; color: var(--text-2); }
+    .hero-btn { display: inline-flex; align-items: center; width: fit-content; padding: 16px 24px; border: 1.5px solid var(--accent); border-radius: 16px; background: white; font-family: var(--font-display); font-size: 15px; font-weight: 500; color: var(--accent); cursor: pointer; transition: background 0.15s; }
+    .hero-btn:hover { background: var(--accent-bg); }
+    .hero-details { flex-shrink: 0; width: 320px; background: white; border-radius: 32px; padding: 36px; display: flex; flex-direction: column; gap: 20px; box-shadow: var(--shadow-card); transform: rotate(2deg); border: 1px solid rgba(240,240,240,0.8); }
+    .detail-row { display: flex; flex-direction: column; gap: 6px; }
+    .detail-label { font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+    .detail-value { font-family: var(--font-body); font-size: 15px; line-height: 1.5em; color: var(--text-1); }
+    .hero-image { width: 100%; aspect-ratio: 2.3 / 1; border-radius: 48px; overflow: hidden; background: linear-gradient(135deg, #c6dfe3 0%, #9bbfc6 50%, #b5d4d8 100%); display: flex; align-items: center; justify-content: center; }
+    .hero-image-placeholder { display: flex; flex-direction: column; align-items: center; gap: 16px; opacity: 0.35; }
+    .hero-image-placeholder svg { width: 64px; height: 64px; }
+    .hero-image-placeholder p { font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--accent); letter-spacing: 0.05em; }
+
+    /* SECTION */
+    .section { width: 100%; display: flex; flex-direction: column; align-items: center; padding: 0 20px 120px; }
+    .section-inner { width: 100%; max-width: 940px; display: flex; flex-direction: column; gap: 48px; }
+    .section-header { display: flex; flex-direction: column; gap: 16px; max-width: 700px; }
+    .section-eyebrow { font-family: var(--font-body); font-size: 14px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); }
+    .section-title { font-family: var(--font-display); font-size: clamp(22px, 3vw, 36px); font-weight: 700; line-height: 1.4em; color: var(--text-1); }
+    .section-body { font-family: var(--font-body); font-size: clamp(15px, 1.7vw, 18px); font-weight: 400; line-height: 1.6em; color: var(--text-2); }
+    .section-body + .section-body { margin-top: 16px; }
+    .section-body strong { color: var(--text-1); font-weight: 700; }
+
+    /* CALLOUT */
+    .callout-card { background: var(--accent-bg); border-radius: 48px; padding: 72px; display: flex; flex-direction: column; gap: 16px; max-width: 940px; width: 100%; }
+    .callout-card .section-eyebrow { text-align: center; }
+    .callout-card .section-title { text-align: center; max-width: 760px; margin: 0 auto; }
+
+    /* SURFACE CARD */
+    .surface-card { background: var(--surface-1); border-radius: 40px; padding: 72px; box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: 36px; width: 100%; }
+    .surface-card-sm { background: var(--surface-1); border-radius: 24px; padding: 40px 32px; box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: 24px; width: 100%; }
+
+    /* INSIGHT STRIP */
+    .insight-strip { width: 100%; max-width: 940px; background: var(--accent-bg); border: 1px solid var(--accent-border); border-radius: 24px; padding: 32px 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .insight-item { display: flex; flex-direction: column; gap: 8px; }
+    .insight-label { font-family: var(--font-body); font-size: 11px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); }
+    .insight-text { font-family: var(--font-body); font-size: 15px; line-height: 1.6em; color: var(--text-1); }
+
+    /* NUMBERED LIST */
+    .numbered-list { display: flex; flex-direction: column; gap: 16px; }
+    .numbered-item { display: flex; flex-direction: row; gap: 16px; align-items: flex-start; }
+    .numbered-badge { flex-shrink: 0; width: 32px; height: 32px; border-radius: 100px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-family: var(--font-body); font-size: 13px; font-weight: 700; color: white; }
+    .numbered-content { flex: 1; padding-top: 4px; display: flex; flex-direction: column; gap: 4px; }
+    .numbered-content strong { font-family: var(--font-body); font-size: 16px; font-weight: 700; color: var(--text-1); }
+    .numbered-content p { font-family: var(--font-body); font-size: 15px; line-height: 1.6em; color: var(--text-2); }
+
+    /* TWO COL GRID */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .grid-card { background: white; border: 1px solid var(--border); border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 10px; }
+    .grid-card-title { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--text-1); }
+    .grid-card-body { font-family: var(--font-body); font-size: 15px; line-height: 1.6em; color: var(--text-2); }
+
+    /* PULL QUOTE */
+    .pull-quote-wrap { width: 100%; display: flex; align-items: center; justify-content: center; }
+    .pull-quote { max-width: 660px; padding: 0 48px; text-align: center; display: flex; flex-direction: column; gap: 8px; }
+    .pull-quote-text { font-family: var(--font-display); font-size: clamp(18px, 2.2vw, 24px); font-weight: 500; line-height: 1.4em; color: var(--text-1); }
+    .pull-quote-text em { color: var(--accent); font-style: normal; font-weight: 700; }
+
+    /* STATS */
+    .stats-row { display: flex; flex-direction: row; gap: 16px; flex-wrap: wrap; }
+    .stat-card { flex: 1; min-width: 160px; background: white; border: 1px solid var(--border); border-radius: 20px; padding: 28px 24px; display: flex; flex-direction: column; gap: 6px; }
+    .stat-number { font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 40px); font-weight: 700; color: var(--accent); line-height: 1; }
+    .stat-label { font-family: var(--font-body); font-size: 14px; line-height: 1.5em; color: var(--text-2); }
+
+    /* AI CALLOUT — unique to SVEBar */
+    .ai-card { background: rgb(248,249,250); border: 1.5px dashed rgba(54,107,116,0.3); border-radius: 32px; padding: 48px; display: flex; flex-direction: column; gap: 20px; }
+    .ai-card-label { font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+    .ai-card-title { font-family: var(--font-display); font-size: clamp(18px, 2.2vw, 24px); font-weight: 700; line-height: 1.4em; color: var(--text-1); }
+    .ai-card-body { font-family: var(--font-body); font-size: 16px; line-height: 1.7em; color: var(--text-2); }
+
+    /* IMG PLACEHOLDER */
+    .img-placeholder { width: 100%; display: flex; align-items: center; justify-content: center; background: var(--surface-2); border-radius: 16px; overflow: hidden; }
+    .img-placeholder p { font-family: var(--font-body); font-size: 13px; font-weight: 500; color: var(--text-3); letter-spacing: 0.04em; }
+
+    /* FOOTER */
+    .footer-section { width: 100%; padding: 0 10px 10px; }
+    .footer-card { background: linear-gradient(180deg, white 0%, rgb(240,243,245) 100%); border-radius: 48px; padding: 120px 60px; display: flex; flex-direction: column; align-items: center; gap: 40px; }
+    .footer-cta { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+    .footer-eyebrow { font-family: var(--font-body); font-size: 14px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-3); }
+    .footer-heading { font-family: var(--font-display); font-size: clamp(48px, 8vw, 96px); font-weight: 800; line-height: 1em; color: var(--text-1); text-align: center; }
+    .footer-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .btn-dark { height: 48px; padding: 0 28px; border-radius: 16px; background: var(--text-1); color: white; font-family: var(--font-display); font-size: 15px; font-weight: 600; display: flex; align-items: center; transition: opacity 0.15s; }
+    .btn-dark:hover { opacity: 0.8; }
+    .btn-light { height: 48px; padding: 0 28px; border-radius: 16px; background: white; border: 1.5px solid var(--border); color: var(--text-1); font-family: var(--font-display); font-size: 15px; font-weight: 600; display: flex; align-items: center; transition: background 0.15s; }
+    .btn-light:hover { background: var(--surface-2); }
+    .footer-copy { font-family: var(--font-body); font-size: 13px; color: var(--text-3); display: flex; align-items: center; gap: 4px; }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1); }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 680px) {
+      .hero-card { padding: 80px 28px; }
+      .hero-top { flex-direction: column; }
+      .hero-details { width: 100%; transform: none; }
+      .surface-card { padding: 40px 28px; }
+      .callout-card { padding: 48px 28px; }
+      .insight-strip { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+      .footer-card { padding: 80px 28px; }
+      .nav-inner { padding: 8px 24px; }
+      .ai-card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="../" class="nav-logo">
+        <div class="nav-logo-mark">M</div>
+        UXmikko
+      </a>
+      <div class="nav-links">
+        <a href="../" class="nav-back">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back to work
+        </a>
+        <a href="mailto:uxmikko@gmail.com" class="nav-link nav-link-cta">Get in touch</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-card">
+      <div class="hero-top">
+        <div class="hero-text">
+          <div class="hero-labels">
+            <p class="label-category">Public Health Platform</p>
+            <h1 class="hero-title">SVEBar — Monitoring Multiresistant Bacteria</h1>
+          </div>
+          <p class="hero-desc">
+            Microbiologists and epidemiologists across Sweden used a decades-old platform to monitor national bacterial outbreaks. Trust in the system had collapsed. Users had stopped relying on alerts and were manually cross-checking data every day. The problem wasn't the interface — it was opacity.
+          </p>
+          <a href="mailto:uxmikko@gmail.com" class="hero-btn">Request full case study →</a>
+        </div>
+        <div class="hero-details">
+          <div class="detail-row">
+            <p class="detail-label">Client</p>
+            <p class="detail-value">Folkhälsomyndigheten</p>
+          </div>
+          <div class="detail-row">
+            <p class="detail-label">Role</p>
+            <p class="detail-value">UX/UI Designer</p>
+          </div>
+          <div class="detail-row">
+            <p class="detail-label">Tools</p>
+            <p class="detail-value">Figma · Confluence · Jira</p>
+          </div>
+          <div class="detail-row">
+            <p class="detail-label">Domain</p>
+            <p class="detail-value">Public sector · Life sciences</p>
+          </div>
+          <div class="detail-row">
+            <p class="detail-label">Team</p>
+            <p class="detail-value">Solo designer embedded with agency team</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <div class="hero-image-placeholder">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="12" width="48" height="36" rx="6" stroke="currentColor" stroke-width="2"/><path d="M8 20h48" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="16" r="2" fill="currentColor"/><circle cx="24" cy="16" r="2" fill="currentColor"/><circle cx="32" cy="16" r="2" fill="currentColor"/><path d="M16 30h8M16 36h16M16 42h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <p>Add your hero screen / dashboard here</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSIGHT STRIP -->
+  <section class="section" style="padding-top: 80px;">
+    <div class="insight-strip reveal">
+      <div class="insight-item">
+        <p class="insight-label">Insight</p>
+        <p class="insight-text">Users weren't struggling with the interface — they had stopped trusting its outputs. Monitoring rules set weeks ago were invisible. Alerts fired with no context for why.</p>
+      </div>
+      <div class="insight-item">
+        <p class="insight-label">Action</p>
+        <p class="insight-text">Restructured the entire architecture around the monitoring mental model: what's active, when it was configured, what triggered it — all visible without navigating into settings.</p>
+      </div>
+      <div class="insight-item">
+        <p class="insight-label">Impact</p>
+        <p class="insight-text">Epidemiologists could verify configurations at a glance. Alert context eliminated the daily manual cross-checking that had become their workaround.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE PROBLEM -->
+  <section class="section" style="padding-top: 0;">
+    <div class="callout-card reveal">
+      <p class="section-eyebrow">The Problem</p>
+      <h2 class="section-title">Microbiologists and epidemiologists were monitoring national bacterial outbreaks using a system decades past its design date — and it was making their job slower and more error-prone.</h2>
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Background</p>
+        <h2 class="section-title">A national surveillance platform where broken trust had real public health consequences</h2>
+      </div>
+      <div class="surface-card reveal">
+        <p class="section-body">SVEBar is the national platform used by microbiologists and epidemiologists across Sweden to monitor and report multiresistant bacteria. Early outbreak detection depends on this system working well.</p>
+        <p class="section-body">The existing platform was fragmented and deeply inconsistent. Monitoring configurations were buried in nested menus. Notifications weren't trusted. Users had started manually cross-checking data rather than relying on what the system told them.</p>
+        <p class="section-body"><strong>This wasn't a cosmetic problem.</strong> Lack of trust in alerts means slower response to potential outbreaks.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MY ROLE -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">My Role</p>
+        <h2 class="section-title">Solo designer embedded with the Public Health Agency team for the full engagement</h2>
+      </div>
+      <div class="surface-card reveal">
+        <p class="section-body">UX/UI Designer at LH+P, working embedded with the Folkhälsomyndigheten team. I was the only designer on the project across the full engagement — running research, leading ideation, building and testing wireframes, and handing off a complete design system aligned to public sector standards.</p>
+        <p class="section-body">I had direct access to the epidemiologists and microbiologists who used the system. No researcher in between — which meant the findings went directly into design decisions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCOVERY -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Discovery</p>
+        <h2 class="section-title">Observation first, then structured interviews — because watching sessions gave context that asking couldn't</h2>
+      </div>
+
+      <div class="surface-card reveal">
+        <p class="section-body">I spent the early phase watching before asking. Observing actual monitoring sessions with microbiologists gave me a much clearer picture than interviews alone would have. Then I ran structured workshops and interviews with microbiologists and epidemiologists across regional labs and national infection units, mapping the full monitoring workflow from a new positive sample arriving to a potential outbreak flag being raised.</p>
+
+        <div class="numbered-list">
+          <div class="numbered-item">
+            <div class="numbered-badge">1</div>
+            <div class="numbered-content">
+              <strong>The interface wasn't the problem — opacity was</strong>
+              <p>The biggest usability problem was that the monitoring configuration logic was invisible. Users had set up rules weeks or months earlier and couldn't recall what they'd done. The system gave no persistent feedback about what was configured or why.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">2</div>
+            <div class="numbered-content">
+              <strong>Notifications weren't trusted — and users had workarounds</strong>
+              <p>Several users had stopped relying on alerts entirely because alerts had fired incorrectly in the past. They were manually checking data daily. The system's primary value proposition wasn't functioning.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">3</div>
+            <div class="numbered-content">
+              <strong>Navigation was deeply nested for common tasks</strong>
+              <p>Routine configuration required multiple levels of navigation with no shortcuts and no visible state. Getting back to where you were required starting over.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">4</div>
+            <div class="numbered-content">
+              <strong>Synonym matching was a daily manual labour task</strong>
+              <p>Lab submissions included free-text bacteria identification. Because terminology wasn't standardised, scientists had to manually reconcile terms against a synonym database constantly. The database existed — working with it was painstakingly slow.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="surface-card-sm reveal" style="background: rgba(54,107,116,0.05); border-left: 3px solid var(--accent); border-radius: 0 16px 16px 0;">
+          <p class="section-eyebrow">Baseline going in</p>
+          <p class="section-body">Manual workarounds were the clearest signal. Expert users — epidemiologists with decades of domain knowledge — had stopped trusting the system's alerts. That set the redesign target clearly: restore trust in notifications, and make configuration visible and recoverable.</p>
+        </div>
+      </div>
+
+      <div class="img-placeholder reveal" style="height: 300px; border-radius: 16px;">
+        <p>[ Research findings / workshop synthesis — add photo or Figma export here ]</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE HARD PART -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">The Hard Part</p>
+        <h2 class="section-title">A regulated environment, expert users who couldn't describe their needs, and a trust problem that design alone couldn't fully fix</h2>
+      </div>
+
+      <div class="two-col reveal">
+        <div class="grid-card">
+          <p class="grid-card-title">Regulated public sector constraints</p>
+          <p class="grid-card-body">Modern and usable, but couldn't stray far from Swedish government design conventions. Every visual decision needed to be defensible within those standards.</p>
+        </div>
+        <div class="grid-card">
+          <p class="grid-card-title">Expert users with unstated mental models</p>
+          <p class="grid-card-body">The users knew exactly what they needed. They just couldn't always describe it in UX terms. Ethnographic observation became the research method — not surveys or questionnaires.</p>
+        </div>
+        <div class="grid-card">
+          <p class="grid-card-title">A backend trust gap design couldn't close alone</p>
+          <p class="grid-card-body">Users had stopped trusting alerts partly because alerts had actually misfired — a backend problem, not a design one. I had to design for the future state where the system was reliable while being honest about what design alone could achieve.</p>
+        </div>
+        <div class="grid-card">
+          <p class="grid-card-title">Slow-moving institutional approvals</p>
+          <p class="grid-card-body">In a national public health agency, decisions on platform direction required stakeholder sign-off at multiple levels. Moving quickly meant sequencing what could ship independently of that process.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW I NAVIGATED IT -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">How I Navigated It</p>
+        <h2 class="section-title">The navigation structure didn't match the monitoring mental model — so I restructured around how the work actually happens</h2>
+      </div>
+      <div class="surface-card reveal">
+        <p class="section-body">Once I understood the real workflow end-to-end, the interface problems became obvious. You don't think "configure a rule, then check a dashboard" — you think "I want to know if something unusual is happening with this bacteria in this region." The architecture needed to reflect that logic.</p>
+        <p class="section-body">For the notification trust issue: I designed transparent alert states with explicit configuration summaries. Users could see exactly what rule had fired and why. That's a design contribution to trust restoration, even if the full fix required backend work.</p>
+        <p class="section-body">For synonym management: I proposed a redesigned flow that replaced a slow database interface with a guided matching process — turning a task scientists dreaded into one they could move through quickly.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW MIGHT WE -->
+  <section class="section" style="padding-top: 0;">
+    <div class="callout-card reveal">
+      <p class="section-eyebrow">How Might We</p>
+      <h2 class="section-title">Make monitoring configurations permanently visible — so users can trust what the system is doing without navigating back through settings to check?</h2>
+    </div>
+  </section>
+
+  <!-- WHAT I BUILT -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Design</p>
+        <h2 class="section-title">Dashboard-first architecture, alert transparency, and a synonym flow redesigned from scratch</h2>
+      </div>
+
+      <div class="surface-card reveal">
+        <p class="section-body">With the architecture reframed around the monitoring mental model, I moved from discovery into design — building across the dashboard, configuration flows, and alert system simultaneously, keeping the system coherent at every level of access.</p>
+
+        <div class="numbered-list">
+          <div class="numbered-item">
+            <div class="numbered-badge">1</div>
+            <div class="numbered-content">
+              <strong>Dashboard-based architecture</strong>
+              <p>Replaced the deeply nested menu system. Primary view shows monitored bacteria, current status, and active alerts in one place — matching the real monitoring mental model.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">2</div>
+            <div class="numbered-content">
+              <strong>Step-based configuration flows</strong>
+              <p>For monitoring rules, with persistent state feedback. Users can see what's configured and when it was set up — addressing the core "I don't know what I've set up" problem directly.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">3</div>
+            <div class="numbered-content">
+              <strong>Visual alert system with rule summaries</strong>
+              <p>Each alert shows which rule triggered it, with prioritisation logic. The first real alert transparency the platform had — users could finally understand why an alert had fired.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">4</div>
+            <div class="numbered-content">
+              <strong>Synonym management redesign</strong>
+              <p>Replaced a slow, difficult database interface with a guided matching flow for mapping incoming lab terms to known organisms. Turned a task scientists dreaded into a one-click confirmation workflow.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">5</div>
+            <div class="numbered-content">
+              <strong>Design system aligned to Swedish public sector standards</strong>
+              <p>Where the standards didn't cover specific patterns — alert priority logic, configuration summary states — I documented proposed extensions with rationale, keeping them alignable with existing standards.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="img-placeholder reveal" style="height: 340px; border-radius: 16px;">
+        <p>[ Wireframes / hi-fi screens — add your Figma export here ]</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTING -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Testing &amp; Iterations</p>
+        <h2 class="section-title">Walkthrough sessions structured around the three biggest pain points identified in research</h2>
+      </div>
+      <div class="surface-card reveal">
+        <p class="section-body">Wireframe walkthroughs with lab users and regional infection unit staff. Scenarios were built around the three highest-anxiety moments: setting up a new monitoring rule, interpreting an active alert, and updating an existing configuration.</p>
+        <p class="section-body"><strong>Key validation:</strong> Users found the dashboard structure immediately legible. The configuration flow — particularly the persistent state summary — addressed the "I don't know what I've set up" problem directly. One participant noted they could for the first time quickly verify their configurations without navigating back through the settings tree.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Results</p>
+        <h2 class="section-title">Configuration visibility restored — and the daily manual workaround eliminated</h2>
+      </div>
+
+      <div class="stats-row reveal">
+        <div class="stat-card">
+          <span class="stat-number">Rebuilt</span>
+          <span class="stat-label">trust in alerts through explicit rule summaries and transparent trigger logic</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">0 nesting</span>
+          <span class="stat-label">to reach monitoring status — dashboard replaced multi-level navigation</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">↓ manual</span>
+          <span class="stat-label">cross-checking eliminated by configuration visibility and alert transparency</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number">1 handoff</span>
+          <span class="stat-label">design system delivered to agency for ongoing development without a designer</span>
+        </div>
+      </div>
+
+      <div class="surface-card-sm reveal" style="background: var(--accent-bg);">
+        <p class="section-eyebrow">What I'd do differently</p>
+        <p class="section-body"><strong>Establish a quantitative baseline at the start.</strong> We knew users were doing manual workarounds, but we didn't track how often or how long. A simple baseline — even just "how many times a week do you manually check data that the system should surface automatically" — would have made this outcomes section significantly stronger.</p>
+        <p class="section-body" style="margin-top: 12px;"><strong>Push harder on the alert trust issue as a product problem, not just a design problem.</strong> The backend logic gap was known early. Getting it flagged formally as a product requirement — rather than a future improvement — would have led to a more complete fix.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DESIGN SYSTEM -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="section-header reveal">
+        <p class="section-eyebrow">Design System</p>
+        <h2 class="section-title">Public sector standards applied and extended — with documented rationale for patterns the standards didn't cover</h2>
+      </div>
+      <div class="surface-card reveal">
+        <p class="section-body">All work built to Swedish public sector design standards. Where the standards didn't cover specific patterns — particularly around the alert system's priority logic and the configuration summary states — I documented proposed extensions with rationale, keeping them alignable with the existing standards for future development without a designer present.</p>
+        <p class="section-body">The design system was a deliberate handoff artefact, not a byproduct. The agency needed to keep building after the engagement ended. Every extension included usage guidance and edge cases.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI OPPORTUNITY -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="ai-card reveal">
+        <p class="ai-card-label">Looking ahead — the AI opportunity</p>
+        <h2 class="ai-card-title">The synonym matching problem I redesigned is exactly the kind of task AI autosuggestions are built for</h2>
+        <p class="ai-card-body">The database was already there — what was missing was speed. A model trained on bacteriology terminology could surface likely matches as scientists type, turning a slow manual lookup into a one-click confirmation. The design pattern I built — guided matching with human validation — maps directly onto how AI-assisted workflows should be structured: the model suggests, the expert confirms.</p>
+        <p class="ai-card-body">That's the kind of AI integration that reduces friction without removing the human judgment that actually matters in public health surveillance.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer-section">
+    <div class="footer-card">
+      <div class="footer-cta reveal">
+        <p class="footer-eyebrow">Like what you see?</p>
+        <h2 class="footer-heading">Let's Connect!</h2>
+        <div class="footer-btns">
+          <a class="btn-dark" href="mailto:uxmikko@gmail.com">Email me</a>
+          <a class="btn-light" href="https://www.linkedin.com/in/uxmikko" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+      <p class="footer-copy">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="0.75"/><path d="M7.5 7C7.5 7.552 7.052 8 6.5 8H6C5.534 8 5.301 8 5.117 7.924C4.872 7.823 4.677 7.628 4.576 7.383C4.5 7.199 4.5 6.966 4.5 6.5V5.5C4.5 5.034 4.5 4.801 4.576 4.618C4.677 4.372 4.872 4.177 5.117 4.076C5.301 4 5.534 4 6 4H6.5C7.052 4 7.5 4.448 7.5 5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"/></svg>
+        2025 UXmikko
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UXmikko — Senior Product Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Inter:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* =============================================
+       DESIGN TOKENS — extracted from mattfredette.com
+       ============================================= */
+    :root {
+      --color-bg:            #ffffff;
+      --color-surface:       rgb(240, 243, 245);
+      --color-text-primary:  rgb(25, 29, 33);
+      --color-text-secondary:rgb(63, 68, 74);
+      --color-border:        rgb(240, 240, 240);
+      --color-white:         #ffffff;
+      --color-black:         #000000;
+
+      /* Per-project accents */
+      --accent-basf:    rgb(43, 109, 119);
+      --accent-svebar:  rgb(54, 107, 116);
+      --accent-gensam:  rgb(181, 48, 74);
+      --accent-fass:    rgb(165, 71, 17);
+
+      --radius-page:    48px;
+      --radius-card:    24px;
+      --radius-btn:     16px;
+      --radius-photo:   14px;
+
+      --font-display: 'Bricolage Grotesque', sans-serif;
+      --font-body:    'Inter', sans-serif;
+    }
+
+    /* =============================================
+       RESET & BASE
+       ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+    body {
+      background: var(--color-bg);
+      font-family: var(--font-body);
+      color: var(--color-text-primary);
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* =============================================
+       LAYOUT WRAPPER
+       ============================================= */
+    .site {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    /* =============================================
+       NAV BAR — frosted glass, fixed, slides down
+       ============================================= */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 0 20px 20px;
+      z-index: 99;
+      animation: navSlideDown 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes navSlideDown {
+      from { opacity: 0; transform: translateY(-84px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .nav-inner {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      height: 84px;
+      padding: 8px 48px;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+      box-shadow:
+        0px 0.6px 1.3px -1.5px rgba(0,0,0,0.19),
+        0px 2.3px 5px   -3px   rgba(0,0,0,0.16),
+        0px 10px  22px  -4.5px rgba(0,0,0,0.02);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .nav-logo-mark {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: var(--color-text-primary);
+      display: flex; align-items: center; justify-content: center;
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-link {
+      display: flex; align-items: center; justify-content: center;
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text-primary);
+      transition: background 0.15s ease;
+    }
+    .nav-link:hover { background: rgba(25,29,33,0.06); }
+
+    /* =============================================
+       HERO SECTION
+       ============================================= */
+    .hero {
+      width: 100%;
+      height: 100svh;
+      min-height: 700px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 104px 20px 0;
+      background: var(--color-bg);
+    }
+
+    /* The big rounded gradient card */
+    .hero-card {
+      width: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      border-radius: var(--radius-page);
+      padding: 0 24px 48px;
+      background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-white) 100%);
+      overflow: hidden;
+      animation: heroFadeUp 0.7s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      max-width: 720px;
+    }
+
+    .hero-heading-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+      justify-content: center;
+      padding-bottom: 8px;
+    }
+
+    .hero-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(42px, 8vw, 96px);
+      font-weight: 700;
+      line-height: 1.2em;
+      color: var(--color-text-primary);
+    }
+
+    /* Tilted profile photo */
+    .hero-photo {
+      width: clamp(48px, 7vw, 96px);
+      height: clamp(48px, 7vw, 96px);
+      flex-shrink: 0;
+      border-radius: var(--radius-photo);
+      border: 2.5px solid var(--color-border);
+      overflow: hidden;
+      transform: rotate(4deg);
+      box-shadow:
+        0.12px 0.51px 0.53px -1.08px rgba(25,29,33,0.28),
+        0.46px 1.95px 2px   -2.17px rgba(25,29,33,0.26),
+        2px    8.5px  8.73px -3.25px rgba(25,29,33,0.16);
+      background: var(--color-surface);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      z-index: 1;
+    }
+
+    .hero-tagline {
+      font-family: var(--font-body);
+      font-size: clamp(15px, 2vw, 20px);
+      font-weight: 400;
+      line-height: 1.8em;
+      color: var(--color-text-secondary);
+      text-align: center;
+      max-width: 600px;
+      animation: heroFadeUp 0.7s 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(43,109,119,0.08);
+      border: 1px solid rgba(43,109,119,0.2);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent-basf);
+      animation: heroFadeUp 0.7s 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .hero-badge-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent-basf);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    /* Scroll cue arrow */
+    .hero-scroll {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 500;
+      color: var(--color-text-secondary);
+      opacity: 0.6;
+      animation: heroFadeUp 0.7s 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .hero-scroll:hover { opacity: 1; }
+    .hero-scroll svg { animation: bounce 1.8s ease-in-out infinite; }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(5px); }
+    }
+
+    /* =============================================
+       SECTION SHARED STYLES
+       ============================================= */
+    .section {
+      width: 100%;
+      padding: 0 20px;
+    }
+
+    .section-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding-bottom: 120px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 0 10px;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .section-h2 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 700;
+      line-height: 1.15em;
+      color: var(--color-text-primary);
+    }
+
+    /* reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =============================================
+       CASE STUDIES — DESKTOP 2-column, then stacked
+       ============================================= */
+    #case-studies {
+      scroll-margin-top: 64px;
+      background: var(--color-bg);
+    }
+
+    .cards-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .cards-row {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+    }
+
+    /* Individual project card */
+    .project-card {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card-image {
+      width: 100%;
+      height: 340px;
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Placeholder image fills — colored backgrounds with pattern */
+    .card-image-inner {
+      width: 100%; height: 100%;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .project-card:hover .card-image-inner { transform: scale(1.04); }
+
+    .card-image-inner svg {
+      width: 80px; height: 80px;
+      opacity: 0.25;
+    }
+
+    /* Per-project colors */
+    .card-basf  .card-image-inner { background: linear-gradient(135deg, #d0e8eb 0%, #a8d4d9 100%); }
+    .card-svebar.card-image-inner,
+    .card-svebar .card-image-inner { background: linear-gradient(135deg, #c8e6d0 0%, #9dd4b0 100%); }
+    .card-gensam .card-image-inner { background: linear-gradient(135deg, #f0d0d8 0%, #e0a8b8 100%); }
+    .card-fass   .card-image-inner { background: linear-gradient(135deg, #f0e0cc 0%, #e0c0a0 100%); }
+
+    .card-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .card-category {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .card-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2.5vw, 30px);
+      font-weight: 700;
+      line-height: 1.3em;
+      color: var(--color-text-primary);
+    }
+
+    .card-desc {
+      font-family: var(--font-body);
+      font-size: clamp(14px, 1.5vw, 17px);
+      font-weight: 400;
+      line-height: 1.65em;
+      color: var(--color-text-secondary);
+    }
+
+    /* =============================================
+       ABOUT SECTION
+       ============================================= */
+    #about-me {
+      scroll-margin-top: 64px;
+      background: var(--color-bg);
+    }
+
+    .about-card {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      flex-direction: row;
+      gap: 64px;
+      align-items: flex-start;
+      padding: 80px 24px 40px;
+    }
+
+    .about-text {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .about-photo-wrap {
+      flex-shrink: 0;
+      width: 260px;
+      height: 260px;
+      border-radius: var(--radius-photo);
+      border: 2.5px solid var(--color-border);
+      overflow: hidden;
+      transform: rotate(-4deg);
+      box-shadow:
+        0.12px 0.51px 0.53px -1.08px rgba(25,29,33,0.28),
+        0.46px 1.95px 2px   -2.17px rgba(25,29,33,0.26),
+        2px    8.5px  8.73px -3.25px rgba(25,29,33,0.16);
+      background: var(--color-surface);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 72px;
+    }
+
+    .about-p {
+      font-family: var(--font-body);
+      font-size: clamp(15px, 1.8vw, 19px);
+      font-weight: 400;
+      line-height: 1.8em;
+      color: var(--color-text-secondary);
+    }
+
+    .about-row2 {
+      width: 100%;
+      max-width: 1200px;
+      padding: 0 24px 80px;
+    }
+
+    .about-row2 .about-p { max-width: 780px; }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .skill-tag {
+      padding: 6px 14px;
+      border-radius: 100px;
+      background: var(--color-surface);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+
+    /* Experience list */
+    .exp-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 8px;
+    }
+    .exp-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-company {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+    .exp-role {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+    }
+
+    /* =============================================
+       FOOTER / CTA
+       ============================================= */
+    .footer-section {
+      width: 100%;
+      padding: 0 20px 20px;
+    }
+
+    .footer-card {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      height: 500px;
+      border-bottom-left-radius: var(--radius-page);
+      border-bottom-right-radius: var(--radius-page);
+      background: linear-gradient(180deg, var(--color-white) 0%, var(--color-surface) 100%);
+      overflow: hidden;
+      gap: 32px;
+      padding: 40px 24px;
+    }
+
+    .footer-cta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-eyebrow {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-text-primary);
+      text-align: center;
+    }
+
+    .footer-heading {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 9vw, 128px);
+      font-weight: 700;
+      line-height: 1.2em;
+      color: var(--color-black);
+      text-align: center;
+    }
+
+    .footer-btns {
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 16px 28px;
+      border-radius: var(--radius-btn);
+      background: var(--color-text-primary);
+      color: var(--color-white);
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 500;
+      border: 1px solid var(--color-text-primary);
+      cursor: pointer;
+      transition: opacity 0.15s ease;
+      text-decoration: none;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+
+    .btn-secondary {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 16px 28px;
+      border-radius: var(--radius-btn);
+      background: var(--color-white);
+      color: var(--color-text-primary);
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 500;
+      border: 1px solid var(--color-text-secondary);
+      cursor: pointer;
+      transition: background 0.15s ease;
+      text-decoration: none;
+    }
+    .btn-secondary:hover { background: var(--color-surface); }
+
+    .footer-copyright {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
+
+    /* =============================================
+       RESPONSIVE
+       ============================================= */
+    @media (max-width: 900px) {
+      .nav-inner { padding: 8px 20px; }
+      .cards-row { flex-direction: column; }
+      .about-card { flex-direction: column; align-items: center; padding: 48px 16px 24px; gap: 32px; }
+      .about-photo-wrap { width: 200px; height: 200px; order: -1; }
+      .about-row2 { padding: 0 16px 60px; }
+      .footer-heading { font-size: clamp(36px, 10vw, 72px); }
+      .footer-btns { flex-direction: column; align-items: stretch; }
+      .section-body { padding-bottom: 60px; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-link { display: none; }
+      .nav-link.nav-link-resume { display: flex; }
+      .hero { padding: 84px 12px 0; }
+      .hero-card { padding: 0 16px 32px; gap: 32px; }
+      .section { padding: 0 12px; }
+      .cards-grid { gap: 16px; }
+      .card-image { height: 220px; }
+      .footer-section { padding: 0 12px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="site">
+
+  <!-- ==================== NAV ==================== -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">
+        <div class="nav-logo-mark">M</div>
+        UXmikko
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="#">Home</a>
+        <a class="nav-link" href="#case-studies">Case Studies</a>
+        <a class="nav-link" href="#about-me">About Me</a>
+        <a class="nav-link nav-link-resume btn-primary" href="mailto:uxmikko@gmail.com" style="height:36px;padding:0 16px;font-size:14px;border-radius:8px;">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero">
+    <div class="hero-card">
+      <div class="hero-content">
+
+        <div class="hero-badge">
+          <div class="hero-badge-dot"></div>
+          Open to Senior / Staff / Principal roles · Remote or relocation
+        </div>
+
+        <div class="hero-heading-row">
+          <h1 class="hero-h1">Hi,</h1>
+          <div class="hero-photo" aria-hidden="true">🎨</div>
+          <h1 class="hero-h1">I'm Mikko!</h1>
+        </div>
+
+        <p class="hero-tagline">
+          A senior product designer who works on genuinely complex products — developer tools, data platforms, life sciences, public health infrastructure. Not a generalist. That's deliberate.
+        </p>
+
+        <a class="hero-scroll" href="#case-studies">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          See my work
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CASE STUDIES ==================== -->
+  <section class="section" id="case-studies">
+    <div class="section-body">
+
+      <div class="section-header reveal">
+        <h2 class="section-h2">Case Studies</h2>
+      </div>
+
+      <div class="cards-grid">
+
+        <!-- Row 1 -->
+        <div class="cards-row">
+
+          <!-- BASF -->
+          <a class="project-card card-basf reveal" href="basf/" tabindex="0">
+            <div class="card-image">
+              <div class="card-image-inner">
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="10" width="20" height="60" rx="4" fill="currentColor"/>
+                  <rect x="36" y="24" width="20" height="46" rx="4" fill="currentColor"/>
+                  <rect x="62" y="16" width="8" height="54" rx="4" fill="currentColor"/>
+                  <circle cx="46" cy="16" r="8" fill="currentColor"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card-meta">
+              <span class="card-category" style="color: var(--accent-basf);">Enterprise Platform</span>
+              <div class="card-title-row">
+                <h3 class="card-title">BASF — Merging Three Developer Platforms</h3>
+              </div>
+              <p class="card-desc">Consolidated three overlapping internal tools into a unified experience for developers, data scientists, and novice users — reframing a UI problem as an IA problem.</p>
+            </div>
+          </a>
+
+          <!-- SVEBar -->
+          <a class="project-card card-svebar reveal" href="svebar/" tabindex="0" style="--delay:0.1s">
+            <div class="card-image">
+              <div class="card-image-inner" style="background: linear-gradient(135deg, #c8e6d0 0%, #9dd4b0 100%);">
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="40" cy="40" r="28" stroke="currentColor" stroke-width="3"/>
+                  <circle cx="40" cy="40" r="14" fill="currentColor"/>
+                  <path d="M40 12v8M40 60v8M12 40h8M60 40h8" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card-meta">
+              <span class="card-category" style="color: var(--accent-svebar);">Public Health Platform</span>
+              <div class="card-title-row">
+                <h3 class="card-title">SVEBar — Monitoring Multiresistant Bacteria</h3>
+              </div>
+              <p class="card-desc">Rebuilt Sweden's national outbreak monitoring system to restore expert user trust — restructuring around the monitoring mental model, not the menu tree.</p>
+            </div>
+          </a>
+
+        </div>
+
+        <!-- Row 2 -->
+        <div class="cards-row">
+
+          <!-- GENSAM -->
+          <a class="project-card card-gensam reveal" href="gensam/" tabindex="0">
+            <div class="card-image">
+              <div class="card-image-inner">
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 60 Q40 20 60 60" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+                  <path d="M26 48 Q40 28 54 48" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                  <circle cx="40" cy="36" r="5" fill="currentColor"/>
+                  <path d="M10 60h60" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card-meta">
+              <span class="card-category" style="color: var(--accent-gensam);">Life Sciences · Data Platform</span>
+              <div class="card-title-row">
+                <h3 class="card-title">GENSAM — COVID Sequencing Data Platform</h3>
+              </div>
+              <p class="card-desc">Designed a national genomic sequencing platform for epidemiologists tracking COVID variants — making complex sequencing pipelines legible to non-technical users.</p>
+            </div>
+          </a>
+
+          <!-- FASS -->
+          <a class="project-card card-fass reveal" href="fass/" tabindex="0">
+            <div class="card-image">
+              <div class="card-image-inner">
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="18" y="14" width="44" height="52" rx="6" stroke="currentColor" stroke-width="3"/>
+                  <path d="M28 30h24M28 40h24M28 50h16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                  <path d="M54 14v20l-6-4-6 4V14" fill="currentColor"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card-meta">
+              <span class="card-category" style="color: var(--accent-fass);">Website Redesign · Pharma</span>
+              <div class="card-title-row">
+                <h3 class="card-title">FASS — Redesigning the Pharmaceuticals Portal</h3>
+              </div>
+              <p class="card-desc">Redesigned Sweden's primary pharmaceutical information portal — improving usability for clinicians, patients, and the general public navigating complex drug data.</p>
+            </div>
+          </a>
+
+        </div>
+
+      </div><!-- /cards-grid -->
+    </div><!-- /section-body -->
+  </section>
+
+  <!-- ==================== ABOUT ME ==================== -->
+  <section class="section" id="about-me">
+    <div class="section-body" style="padding-bottom:0;">
+
+      <div class="section-header reveal" style="max-width:1200px;">
+        <h2 class="section-h2">About Me</h2>
+      </div>
+
+      <div class="about-card reveal">
+        <div class="about-text">
+          <p class="about-p">
+            Senior UX/product designer with 5+ years across B2B SaaS, public health infrastructure, and pharma. I work best on complex products for technical users — developers, data scientists, scientists, engineers. People who know exactly what they need and notice when a tool disrespects that.
+          </p>
+          <p class="about-p">
+            My approach starts with discovery. Design is the output, not the starting point. I run research, synthesise it into product direction, and navigate multi-stakeholder environments with conflicting priorities, regulatory constraints, and engineering limitations.
+          </p>
+          <div class="skills-list">
+            <span class="skill-tag">Product Strategy</span>
+            <span class="skill-tag">User Research</span>
+            <span class="skill-tag">Complex Systems</span>
+            <span class="skill-tag">Design Systems</span>
+            <span class="skill-tag">Developer Tools</span>
+            <span class="skill-tag">Life Sciences</span>
+            <span class="skill-tag">Figma</span>
+            <span class="skill-tag">Cross-functional Alignment</span>
+          </div>
+        </div>
+        <div class="about-photo-wrap" aria-hidden="true">🎨</div>
+      </div>
+
+      <div class="about-row2 reveal">
+        <p class="about-p" style="margin-bottom:24px;">
+          What excites me is the gap between domain complexity and software legibility. Closing that gap — for people who are experts in their field but shouldn't have to be experts in the software — is where good UX actually matters.
+        </p>
+        <div class="exp-list">
+          <div class="exp-item">
+            <span class="exp-company">BASF <span style="font-weight:400;color:var(--color-text-secondary);">· Senior UX Designer</span></span>
+            <span class="exp-role">Oct 2024 – Present · via Tenth Revolution Group</span>
+          </div>
+          <div class="exp-item">
+            <span class="exp-company">FASS <span style="font-weight:400;color:var(--color-text-secondary);">· UX/UI Designer</span></span>
+            <span class="exp-role">Apr – Sep 2024</span>
+          </div>
+          <div class="exp-item">
+            <span class="exp-company">Folkhälsomyndigheten <span style="font-weight:400;color:var(--color-text-secondary);">· UX/UI Designer</span></span>
+            <span class="exp-role">Sep 2022 – Mar 2024 · SVEBar + GENSAM</span>
+          </div>
+          <div class="exp-item">
+            <span class="exp-company">Riksbyggen <span style="font-weight:400;color:var(--color-text-secondary);">· UX/UI Designer</span></span>
+            <span class="exp-role">Jan – Jun 2022</span>
+          </div>
+          <div class="exp-item">
+            <span class="exp-company">INNORBIS <span style="font-weight:400;color:var(--color-text-secondary);">· UX Designer</span></span>
+            <span class="exp-role">Feb – Sep 2021</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER CTA ==================== -->
+  <div class="footer-section">
+    <div class="footer-card">
+      <div class="footer-cta reveal">
+        <p class="footer-eyebrow">Like what you see?</p>
+        <h2 class="footer-heading">Let's Connect!</h2>
+        <div class="footer-btns">
+          <a class="btn-primary" href="mailto:uxmikko@gmail.com">Email me</a>
+          <a class="btn-secondary" href="https://www.linkedin.com/in/uxmikko" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+      <p class="footer-copyright">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="0.75"/>
+          <path d="M7.5 7C7.5 7.552 7.052 8 6.5 8H6C5.534 8 5.301 8 5.117 7.924C4.872 7.823 4.677 7.628 4.576 7.383C4.5 7.199 4.5 6.966 4.5 6.5V5.5C4.5 5.034 4.5 4.801 4.576 4.618C4.677 4.372 4.872 4.177 5.117 4.076C5.301 4 5.534 4 6 4H6.5C7.052 4 7.5 4.448 7.5 5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"/>
+        </svg>
+        2025 UXmikko
+      </p>
+    </div>
+  </div>
+
+</div><!-- /site -->
+
+<script>
+  // Scroll-triggered reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
