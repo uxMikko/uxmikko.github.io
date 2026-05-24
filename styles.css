@@ -1,0 +1,693 @@
+/* =============================================================================
+   UXMIKKO PORTFOLIO — SHARED STYLES
+   styles.css · Loaded by every page
+   Edit this file to change design across the whole site.
+   ============================================================================= */
+
+
+/* =============================================================================
+   1. DESIGN TOKENS
+   To change a colour site-wide, edit it once here.
+   Per-project accent colours live in a <style> block inside each case study HTML.
+   ============================================================================= */
+:root {
+  /* Colour palette */
+  --white:     #ffffff;
+  --black:     #000000;
+  --text-1:    rgb(25, 29, 33);       /* headings, primary text */
+  --text-2:    rgb(63, 68, 74);       /* body copy */
+  --text-3:    rgb(101, 116, 133);    /* muted / labels */
+  --surface-1: rgb(249, 249, 249);    /* card backgrounds */
+  --surface-2: rgb(240, 242, 244);    /* page-level surfaces */
+  --border:    rgb(240, 240, 240);    /* dividers */
+
+  /* Accent (overridden per case study — see each page's <style> block) */
+  --accent:        rgb(43, 109, 119);
+  --accent-bg:     rgba(43, 109, 119, 0.07);
+  --accent-border: rgba(43, 109, 119, 0.2);
+
+  /* Typography */
+  --font-display: 'Bricolage Grotesque', sans-serif;
+  --font-body:    'Inter', sans-serif;
+
+  /* Shadows */
+  --shadow-card:
+    0px 0.6px 1.8px -1.25px rgba(0,0,0,0.18),
+    0px 2.3px  6.9px -2.5px  rgba(0,0,0,0.16),
+    0px 10px   30px  -3.75px rgba(0,0,0,0.06);
+}
+
+
+/* =============================================================================
+   2. RESET
+   ============================================================================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--white);
+  font-family: var(--font-body);
+  color: var(--text-1);
+  overflow-x: hidden;
+}
+
+a   { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+ul  { list-style: none; }
+
+
+/* =============================================================================
+   3. NAV — frosted glass, fixed
+   To change: nav height, blur, or logo size → edit here.
+   ============================================================================= */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  padding: 0 20px 20px;
+  z-index: 99;
+  animation: navSlide 0.6s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 84px;
+  padding: 8px 48px;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  border-bottom-left-radius:  24px;
+  border-bottom-right-radius: 24px;
+  box-shadow:
+    0px 0.6px 1.3px -1.5px rgba(0,0,0,0.19),
+    0px 2.3px 5px   -3px   rgba(0,0,0,0.16),
+    0px 10px  22px  -4.5px rgba(0,0,0,0.02);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.nav-logo-mark {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: var(--text-1);
+  color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700;
+  flex-shrink: 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.nav-link {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
+  display: flex; align-items: center;
+  font-size: 14px; font-weight: 500;
+  color: var(--text-1);
+  transition: background 0.15s;
+}
+
+.nav-link:hover { background: rgba(25,29,33,0.06); }
+
+.nav-link-cta {
+  background: var(--text-1);
+  color: white;
+  border-radius: 8px;
+}
+
+.nav-link-cta:hover { opacity: 0.85; background: var(--text-1); }
+
+/* Back arrow link used in case study pages */
+.nav-back {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 500;
+  color: var(--text-2);
+  transition: color 0.15s;
+}
+
+.nav-back:hover { color: var(--text-1); }
+
+/* Homepage-only nav links (hidden on case study pages) */
+.nav-home-only { display: flex; gap: 8px; align-items: center; }
+
+
+/* =============================================================================
+   4. PAGE WRAPPER
+   ============================================================================= */
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+
+/* =============================================================================
+   5. HERO — case study hero card
+   The homepage has its own hero — see section 11 below.
+   To change hero card shape or gradient: edit .hero-card
+   ============================================================================= */
+.hero {
+  width: 100%;
+  padding: 104px 10px 10px;
+  background: white;
+  animation: fadeUp 0.7s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+/* Gradient tint set per page via inline style on .hero-card */
+.hero-card {
+  border-radius: 48px;
+  padding: 120px 60px;
+  display: flex; flex-direction: column; gap: 72px;
+  overflow: hidden;
+}
+
+.hero-top {
+  display: flex; flex-direction: row; flex-wrap: wrap;
+  gap: 48px; align-items: flex-start;
+}
+
+.hero-text {
+  flex: 1; min-width: 280px; max-width: 560px;
+  display: flex; flex-direction: column; gap: 36px;
+}
+
+.hero-labels {
+  display: flex; flex-direction: column; gap: 16px;
+}
+
+.label-category {
+  font-family: var(--font-body);
+  font-size: 14px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent);
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700; line-height: 1.15em;
+  color: var(--text-1);
+}
+
+.hero-desc {
+  font-family: var(--font-body);
+  font-size: clamp(15px, 1.8vw, 18px);
+  font-weight: 400; line-height: 1.6em;
+  color: var(--text-2);
+}
+
+.hero-btn {
+  display: inline-flex; align-items: center;
+  width: fit-content;
+  padding: 16px 24px;
+  border: 1.5px solid var(--accent);
+  border-radius: 16px;
+  background: white;
+  font-family: var(--font-display);
+  font-size: 15px; font-weight: 500;
+  color: var(--accent);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.hero-btn:hover { background: var(--accent-bg); }
+
+/* Floating project details card */
+.hero-details {
+  flex-shrink: 0; width: 320px;
+  background: white;
+  border-radius: 32px; padding: 36px;
+  display: flex; flex-direction: column; gap: 20px;
+  box-shadow: var(--shadow-card);
+  transform: rotate(2deg);
+  border: 1px solid rgba(240,240,240,0.8);
+}
+
+.detail-row   { display: flex; flex-direction: column; gap: 6px; }
+
+.detail-label {
+  font-family: var(--font-body);
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent);
+}
+
+.detail-value {
+  font-family: var(--font-body);
+  font-size: 15px; line-height: 1.5em;
+  color: var(--text-1);
+}
+
+/* Hero image / placeholder area */
+.hero-image {
+  width: 100%; aspect-ratio: 2.3 / 1;
+  border-radius: 48px; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.hero-image-placeholder {
+  display: flex; flex-direction: column; align-items: center; gap: 16px;
+  opacity: 0.35;
+}
+
+.hero-image-placeholder svg { width: 64px; height: 64px; }
+
+.hero-image-placeholder p {
+  font-family: var(--font-body);
+  font-size: 13px; font-weight: 500;
+  color: var(--accent); letter-spacing: 0.05em;
+}
+
+
+/* =============================================================================
+   6. SECTIONS — shared layout
+   .section          outer wrapper (handles horizontal padding + bottom spacing)
+   .section-inner    max-width content column
+   .section-header   eyebrow + title block
+   ============================================================================= */
+.section {
+  width: 100%;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 0 20px 120px;
+}
+
+.section-inner {
+  width: 100%; max-width: 940px;
+  display: flex; flex-direction: column; gap: 48px;
+}
+
+.section-header {
+  display: flex; flex-direction: column; gap: 16px;
+  max-width: 700px;
+}
+
+.section-eyebrow {
+  font-family: var(--font-body);
+  font-size: 14px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--accent);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 36px);
+  font-weight: 700; line-height: 1.4em;
+  color: var(--text-1);
+}
+
+.section-body {
+  font-family: var(--font-body);
+  font-size: clamp(15px, 1.7vw, 18px);
+  font-weight: 400; line-height: 1.6em;
+  color: var(--text-2);
+}
+
+.section-body + .section-body { margin-top: 16px; }
+.section-body strong { color: var(--text-1); font-weight: 700; }
+
+
+/* =============================================================================
+   7. COMPONENTS
+   ============================================================================= */
+
+/* ---- Callout card (problem statement, HMW) ---- */
+.callout-card {
+  background: var(--accent-bg);
+  border-radius: 48px; padding: 72px;
+  display: flex; flex-direction: column; gap: 16px;
+  max-width: 940px; width: 100%;
+}
+
+.callout-card .section-eyebrow { text-align: center; }
+.callout-card .section-title   { text-align: center; max-width: 760px; margin: 0 auto; }
+
+/* ---- Surface cards (discovery, context, etc.) ---- */
+.surface-card {
+  background: var(--surface-1);
+  border-radius: 40px; padding: 72px;
+  box-shadow: var(--shadow-card);
+  display: flex; flex-direction: column; gap: 36px;
+  width: 100%;
+}
+
+.surface-card-sm {
+  background: var(--surface-1);
+  border-radius: 24px; padding: 40px 32px;
+  box-shadow: var(--shadow-card);
+  display: flex; flex-direction: column; gap: 24px;
+  width: 100%;
+}
+
+/* ---- Insight strip (Insight / Action / Impact) ---- */
+.insight-strip {
+  width: 100%; max-width: 940px;
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-border);
+  border-radius: 24px; padding: 32px 40px;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.insight-item  { display: flex; flex-direction: column; gap: 8px; }
+
+.insight-label {
+  font-family: var(--font-body);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--accent);
+}
+
+.insight-text {
+  font-family: var(--font-body);
+  font-size: 15px; line-height: 1.6em;
+  color: var(--text-1);
+}
+
+/* ---- Numbered list (key findings, deliverables) ---- */
+.numbered-list { display: flex; flex-direction: column; gap: 16px; }
+
+.numbered-item {
+  display: flex; flex-direction: row; gap: 16px; align-items: flex-start;
+}
+
+.numbered-badge {
+  flex-shrink: 0; width: 32px; height: 32px;
+  border-radius: 100px;
+  background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-body); font-size: 13px; font-weight: 700;
+  color: white;
+}
+
+.numbered-content {
+  flex: 1; padding-top: 4px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+
+.numbered-content strong {
+  font-family: var(--font-body);
+  font-size: 16px; font-weight: 700;
+  color: var(--text-1);
+}
+
+.numbered-content p {
+  font-family: var(--font-body);
+  font-size: 15px; line-height: 1.6em;
+  color: var(--text-2);
+}
+
+/* ---- Two-column grid (hard part cards) ---- */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+.grid-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 24px; padding: 32px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+.grid-card-title {
+  font-family: var(--font-display);
+  font-size: 17px; font-weight: 700;
+  color: var(--text-1);
+}
+
+.grid-card-body {
+  font-family: var(--font-body);
+  font-size: 15px; line-height: 1.6em;
+  color: var(--text-2);
+}
+
+/* ---- Outcome stat cards ---- */
+.stats-row {
+  display: flex; flex-direction: row; gap: 16px; flex-wrap: wrap;
+}
+
+.stat-card {
+  flex: 1; min-width: 160px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 20px; padding: 28px 24px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.5vw, 40px);
+  font-weight: 700; color: var(--accent);
+  line-height: 1;
+}
+
+.stat-label {
+  font-family: var(--font-body);
+  font-size: 14px; line-height: 1.5em;
+  color: var(--text-2);
+}
+
+/* ---- AI opportunity card (SVEBar only) ---- */
+.ai-card {
+  background: rgb(248,249,250);
+  border: 1.5px dashed var(--accent-border);
+  border-radius: 32px; padding: 48px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+
+.ai-card-label {
+  font-family: var(--font-body);
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ai-card-title {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.2vw, 24px);
+  font-weight: 700; line-height: 1.4em;
+  color: var(--text-1);
+}
+
+.ai-card-body {
+  font-family: var(--font-body);
+  font-size: 16px; line-height: 1.7em;
+  color: var(--text-2);
+}
+
+/* ---- Image / wireframe placeholders ---- */
+.img-placeholder {
+  width: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--surface-2);
+  border-radius: 16px; overflow: hidden;
+}
+
+.img-placeholder p {
+  font-family: var(--font-body);
+  font-size: 13px; font-weight: 500;
+  color: var(--text-3); letter-spacing: 0.04em;
+  padding: 24px; text-align: center;
+}
+
+/* Swap in real images: replace .img-placeholder with <img> tag.
+   Example: <img src="../img/basf/hero.png" alt="BASF dashboard" style="width:100%; border-radius:16px;"> */
+
+
+/* =============================================================================
+   8. FOOTER CTA — "Let's Connect!"
+   To change the footer gradient or heading size: edit here.
+   ============================================================================= */
+.footer-section { width: 100%; padding: 0 10px 10px; }
+
+.footer-card {
+  background: linear-gradient(180deg, white 0%, rgb(240,243,245) 100%);
+  border-radius: 48px; padding: 120px 60px;
+  display: flex; flex-direction: column; align-items: center; gap: 40px;
+}
+
+.footer-cta {
+  display: flex; flex-direction: column; align-items: center; gap: 24px;
+}
+
+.footer-eyebrow {
+  font-family: var(--font-body);
+  font-size: 14px; font-weight: 700;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--text-3);
+}
+
+.footer-heading {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 800; line-height: 1em;
+  color: var(--text-1); text-align: center;
+}
+
+.footer-btns {
+  display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+}
+
+.btn-dark {
+  height: 48px; padding: 0 28px;
+  border-radius: 16px;
+  background: var(--text-1); color: white;
+  font-family: var(--font-display); font-size: 15px; font-weight: 600;
+  display: flex; align-items: center;
+  transition: opacity 0.15s;
+}
+
+.btn-dark:hover { opacity: 0.8; }
+
+.btn-light {
+  height: 48px; padding: 0 28px;
+  border-radius: 16px;
+  background: white;
+  border: 1.5px solid var(--border);
+  color: var(--text-1);
+  font-family: var(--font-display); font-size: 15px; font-weight: 600;
+  display: flex; align-items: center;
+  transition: background 0.15s;
+}
+
+.btn-light:hover { background: var(--surface-2); }
+
+.footer-copy {
+  font-family: var(--font-body); font-size: 13px;
+  color: var(--text-3);
+  display: flex; align-items: center; gap: 4px;
+}
+
+
+/* =============================================================================
+   9. HOMEPAGE-SPECIFIC STYLES
+   Applies only to index.html — project cards, hero, about section etc.
+   ============================================================================= */
+
+/* ---- Homepage hero ---- */
+.home-hero {
+  width: 100%; padding: 120px 10px 10px;
+  animation: fadeUp 0.7s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.home-hero-card {
+  background: linear-gradient(180deg, rgb(240,243,245) 0%, white 100%);
+  border-radius: 48px; padding: 120px 60px;
+  display: flex; flex-direction: column; gap: 64px;
+  align-items: flex-start;
+  position: relative;
+}
+
+/* ---- Project cards grid ---- */
+.project-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 20px; width: 100%; max-width: 940px;
+}
+
+.project-card {
+  border-radius: 32px; padding: 40px;
+  display: flex; flex-direction: column; gap: 20px;
+  overflow: hidden; position: relative;
+  cursor: pointer; text-decoration: none;
+  transition: transform 0.2s cubic-bezier(0.22,1,0.36,1);
+  border: 1px solid transparent;
+}
+
+.project-card:hover { transform: translateY(-4px); }
+
+/* Per-project accent backgrounds — edit these colours per card */
+.card-basf   { background: linear-gradient(145deg, rgba(43,109,119,0.08) 0%, rgba(43,109,119,0.03) 100%); border-color: rgba(43,109,119,0.15); }
+.card-svebar { background: linear-gradient(145deg, rgba(54,107,116,0.08) 0%, rgba(54,107,116,0.03) 100%); border-color: rgba(54,107,116,0.15); }
+.card-gensam { background: linear-gradient(145deg, rgba(181,48,74,0.07) 0%, rgba(181,48,74,0.02) 100%);  border-color: rgba(181,48,74,0.12); }
+.card-fass   { background: linear-gradient(145deg, rgba(165,71,17,0.07) 0%, rgba(165,71,17,0.02) 100%);  border-color: rgba(165,71,17,0.12); }
+
+/* ---- About section ---- */
+.exp-list { display: flex; flex-direction: column; gap: 0; }
+
+.exp-item {
+  display: flex; flex-direction: row; gap: 24px; align-items: flex-start;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.exp-item:last-child { border-bottom: none; }
+
+.exp-date {
+  font-family: var(--font-body); font-size: 13px; color: var(--text-3);
+  min-width: 140px; padding-top: 2px;
+}
+
+.exp-details { display: flex; flex-direction: column; gap: 4px; }
+.exp-role    { font-family: var(--font-body); font-size: 15px; font-weight: 600; color: var(--text-1); }
+.exp-company { font-family: var(--font-body); font-size: 14px; color: var(--text-2); }
+
+
+/* =============================================================================
+   10. ANIMATIONS
+   ============================================================================= */
+@keyframes navSlide {
+  from { opacity:0; transform:translateY(-84px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(30px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* Scroll reveal — add .reveal to any element, JS adds .visible on intersection */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity   0.6s cubic-bezier(0.22,1,0.36,1),
+    transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+
+.reveal.visible { opacity: 1; transform: none; }
+
+
+/* =============================================================================
+   11. RESPONSIVE
+   ============================================================================= */
+@media (max-width: 680px) {
+  .nav-inner { padding: 8px 24px; }
+
+  .hero-card    { padding: 80px 28px; }
+  .hero-top     { flex-direction: column; }
+  .hero-details { width: 100%; transform: none; }
+
+  .surface-card { padding: 40px 28px; }
+  .callout-card { padding: 48px 28px; }
+  .insight-strip { grid-template-columns: 1fr; }
+  .two-col      { grid-template-columns: 1fr; }
+  .ai-card      { padding: 32px 24px; }
+
+  .footer-card  { padding: 80px 28px; }
+  .footer-btns  { gap: 12px; }
+
+  .home-hero-card   { padding: 80px 28px; }
+  .project-grid     { grid-template-columns: 1fr; }
+
+  .exp-item   { flex-direction: column; gap: 4px; }
+  .exp-date   { min-width: unset; }
+}
