@@ -146,9 +146,16 @@ ul  { list-style: none; }
 /* Back arrow link used in case study pages */
 .nav-back {
   display: flex; align-items: center; gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
   font-size: 14px; font-weight: 500;
   color: var(--text-2);
-  transition: color 0.15s;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-back:hover {
+  color: var(--text-1);
+  background: rgba(25, 29, 33, 0.06);
 }
 
 .nav-back:hover { color: var(--text-1); }
