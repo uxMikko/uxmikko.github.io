@@ -21,10 +21,11 @@
       --color-black:         #000000;
 
       /* Per-project accents */
-      --accent-basf:    rgb(43, 109, 119);
-      --accent-svebar:  rgb(54, 107, 116);
-      --accent-gensam:  rgb(181, 48, 74);
-      --accent-fass:    rgb(165, 71, 17);
+      --accent-basf:    rgb(0, 110, 148);
+      --accent-svebar:  rgb(43, 116, 148);
+      --accent-gensam:  rgb(45, 84, 146);
+      --accent-fass:    rgb(11, 64, 94);
+      --accent-ltn:     rgb(0, 96, 100);
 
       --radius-page:    48px;
       --radius-card:    24px;
@@ -364,11 +365,12 @@
     }
 
     /* Per-project colors */
-    .card-basf  .card-image-inner { background: linear-gradient(135deg, #d0e8eb 0%, #a8d4d9 100%); }
+    .card-basf  .card-image-inner { background: linear-gradient(135deg, #d0e8f2 0%, #a8d0e4 100%); }
     .card-svebar.card-image-inner,
-    .card-svebar .card-image-inner { background: linear-gradient(135deg, #c8e6d0 0%, #9dd4b0 100%); }
-    .card-gensam .card-image-inner { background: linear-gradient(135deg, #f0d0d8 0%, #e0a8b8 100%); }
-    .card-fass   .card-image-inner { background: linear-gradient(135deg, #f0e0cc 0%, #e0c0a0 100%); }
+    .card-svebar .card-image-inner { background: linear-gradient(135deg, #cde0ea 0%, #9cc5d5 100%); }
+    .card-gensam .card-image-inner { background: linear-gradient(135deg, #ccd5ea 0%, #9ab0d5 100%); }
+    .card-fass   .card-image-inner { background: linear-gradient(135deg, #c4d5e0 0%, #9abac8 100%); }
+    .card-ltn    .card-image-inner { background: linear-gradient(135deg, #c8e0e2 0%, #9dc4c6 100%); }
 
     .card-meta {
       display: flex;
@@ -715,7 +717,7 @@
           <!-- SVEBar -->
           <a class="project-card card-svebar reveal" href="svebar/" tabindex="0" style="--delay:0.1s">
             <div class="card-image">
-              <div class="card-image-inner" style="background: linear-gradient(135deg, #c8e6d0 0%, #9dd4b0 100%);">
+              <div class="card-image-inner" style="background: linear-gradient(135deg, #cde0ea 0%, #9cc5d5 100%);">
                 <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="40" cy="40" r="28" stroke="currentColor" stroke-width="3"/>
                   <circle cx="40" cy="40" r="14" fill="currentColor"/>
@@ -775,6 +777,30 @@
                 <h3 class="card-title">FASS — Redesigning the Pharmaceuticals Portal</h3>
               </div>
               <p class="card-desc">Redesigned Sweden's primary pharmaceutical information portal — improving usability for clinicians, patients, and the general public navigating complex drug data.</p>
+            </div>
+          </a>
+
+        </div>
+
+        <div class="cards-row">
+
+          <a class="project-card card-ltn reveal" href="ltn/" tabindex="0">
+            <div class="card-image">
+              <div class="card-image-inner">
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="14" y="10" width="52" height="60" rx="8" stroke="currentColor" stroke-width="3"/>
+                  <path d="M26 28h28M26 38h28M26 48h18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                  <circle cx="56" cy="58" r="10" fill="currentColor" fill-opacity="0.15" stroke="currentColor" stroke-width="2.5"/>
+                  <path d="M52 58l3 3 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="card-meta">
+              <span class="card-category" style="color: var(--accent-ltn);">Compliance Portal · Government</span>
+              <div class="card-title-row">
+                <h3 class="card-title">LTN — Nicotine Product Registration Portal</h3>
+              </div>
+              <p class="card-desc">Designed and shipped a secure, legally compliant registration portal for tobacco-free nicotine products under a hard government deadline — converting internal resistance into adoption.</p>
             </div>
           </a>
 
