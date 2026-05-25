@@ -1,7 +1,12 @@
 /* =============================================================================
-   UXMIKKO PORTFOLIO — SHARED STYLES
-   styles.css · Loaded by every page
-   Edit this file to change design across the whole site.
+   UXMIKKO PORTFOLIO — CASE STUDY STYLES
+   styles.css · Loaded by: basf/index.html, svebar/index.html, gensam/index.html, fass/index.html
+   The homepage (index.html) has its own self-contained <style> block.
+
+   HOW TO EDIT:
+   · Change layout/components for all case studies → edit here
+   · Change one case study's colour → open that page, edit the 3-line <style> block at top
+   · Change the homepage → open index.html, edit its <style> block
    ============================================================================= */
 
 
