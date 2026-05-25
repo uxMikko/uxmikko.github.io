@@ -568,7 +568,10 @@ ul  { list-style: none; }
   transition: opacity 0.15s;
 }
 
-.btn-dark:hover { opacity: 0.8; }
+.btn-dark:hover {
+   background: rgb(50, 55, 60);
+   transition: background 0.15s;
+}
 
 .btn-light {
   height: 48px; padding: 0 28px;
