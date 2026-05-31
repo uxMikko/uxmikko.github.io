@@ -731,16 +731,17 @@ ul  { list-style: none; }
 }
 
 .hero-scroll {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 13px; font-weight: 500;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 22px; font-weight: 500;
   color: var(--text-2);
   opacity: 0.6;
+  margin-top: 32px;
   animation: fadeUp 0.7s 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   text-decoration: none;
   transition: opacity 0.2s;
 }
 .hero-scroll:hover { opacity: 1; }
-.hero-scroll svg { animation: bounce 1.8s ease-in-out infinite; }
+.hero-scroll svg { width: 28px; height: 28px; animation: bounce 1.8s ease-in-out infinite; }
 
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
