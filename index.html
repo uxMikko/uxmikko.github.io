@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UXmikko — Senior Product Designer</title>
+  <title>uxMmikko — Senior Product Designer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Inter:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
@@ -873,22 +873,48 @@
   </section>
 
   <!-- ==================== FOOTER CTA ==================== -->
-  <div class="footer-section">
+  <div class="footer-section" id="contact">
     <div class="footer-card">
-      <div class="footer-cta reveal">
-        <p class="footer-eyebrow">Like what you see?</p>
-        <h2 class="footer-heading">Let's Connect!</h2>
-        <div class="footer-btns">
-          <a class="btn-primary" href="../contact/">Let's talk!</a>
-          <a class="btn-secondary" href="https://www.linkedin.com/in/uxmikko" target="_blank" rel="noopener">LinkedIn</a>
+      <div class="footer-form-wrap reveal">
+
+        <div class="footer-form-intro">
+          <p class="footer-eyebrow">Like what you see?</p>
+          <h2 class="footer-heading">Let's<br>Connect!</h2>
+          <div class="footer-form-links">
+            <a class="footer-form-link" href="mailto:uxmikko@gmail.com">
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.25"/><path d="M2 5.5l6 4 6-4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+              uxmikko@gmail.com
+            </a>
+            <a class="footer-form-link" href="https://linkedin.com/in/uxmikko" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.25"/><path d="M5 7v4M5 5v.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/><path d="M8 11V8.5C8 7.67 8.67 7 9.5 7S11 7.67 11 8.5V11" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+              linkedin.com/in/uxmikko
+            </a>
+          </div>
         </div>
+
+        <form class="footer-form" action="https://formspree.io/f/XXXXXXXX" method="POST">
+          <div class="form-group">
+            <label class="form-label" for="name">Name</label>
+            <input class="form-input" id="name" type="text" name="name" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-input" id="email" type="email" name="email" placeholder="your@email.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="message">Message</label>
+            <textarea class="form-textarea" id="message" name="message" placeholder="What's on your mind?" required></textarea>
+          </div>
+          <button class="form-submit" type="submit">Send message</button>
+        </form>
+
       </div>
       <p class="footer-copyright">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
           <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="0.75"/>
           <path d="M7.5 7C7.5 7.552 7.052 8 6.5 8H6C5.534 8 5.301 8 5.117 7.924C4.872 7.823 4.677 7.628 4.576 7.383C4.5 7.199 4.5 6.966 4.5 6.5V5.5C4.5 5.034 4.5 4.801 4.576 4.618C4.677 4.372 4.872 4.177 5.117 4.076C5.301 4 5.534 4 6 4H6.5C7.052 4 7.5 4.448 7.5 5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"/>
         </svg>
-        2025 UXmikko
+        2026 uxMikko
       </p>
     </div>
   </div>
