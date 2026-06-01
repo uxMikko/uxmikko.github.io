@@ -638,24 +638,24 @@ ul  { list-style: none; }
 .site .hero-card {
   width: 100%;
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 48px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  place-items: center;
   border-radius: 48px;
-  padding: 0 24px 48px;
+  padding: 0 24px;
   background: linear-gradient(180deg, var(--surface-2) 0%, var(--white) 100%);
   overflow: hidden;
   animation: fadeUp 0.7s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .hero-content {
+  grid-row: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
   max-width: 720px;
+  width: 100%;
 }
 
 .hero-heading-row {
@@ -731,11 +731,11 @@ ul  { list-style: none; }
 }
 
 .hero-scroll {
+  grid-row: 2;
   display: flex; align-items: center; gap: 12px;
-  font-size: 22px; font-weight: 500;
+  font-size: 24px; font-weight: 500;
   color: var(--text-2);
   opacity: 0.6;
-  margin-top: 32px;
   animation: fadeUp 0.7s 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   text-decoration: none;
   transition: opacity 0.2s;
@@ -1045,7 +1045,7 @@ ul  { list-style: none; }
   .site .nav-link { display: none; }
   .site .nav-link.nav-link-resume { display: flex; }
   .site .hero { padding: 84px 12px 0; }
-  .site .hero-card { padding: 0 16px 32px; gap: 32px; }
+  .site .hero-card { padding: 0 16px; }
   .site .section { padding: 0 12px; }
   .cards-grid { gap: 16px; }
   .card-image { height: 220px; }
