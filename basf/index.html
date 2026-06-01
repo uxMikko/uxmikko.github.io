@@ -43,7 +43,7 @@
             <h1 class="hero-title">Merging Three Developer Platforms into One Unified Experience</h1>
           </div>
           <p class="hero-desc">
-            Three internal tools, three overlapping user groups, no shared language — and a business decision already made to consolidate. I reframed the brief around boundary clarity and drove three Product Owners to a shared product vision.
+            Three internal tools, three overlapping user groups, and a mandate to consolidate — with no shared definition of what that meant. I spent the first weeks figuring out the real problem before anyone designed anything.
           </p>
           <!-- 
           <a class="hero-btn" href="https://www.figma.com" target="_blank" rel="noopener">
@@ -116,10 +116,10 @@
 
       <div class="reveal">
         <p class="section-body">
-          BASF ran three internal developer tools: <strong>Argus</strong>, the <strong>Data Science Platform</strong>, and the <strong>AppStore</strong>. Each had grown organically to serve specific needs. Together, they created fragmented workflows, duplicated access requests, and a cognitive overhead nobody had officially agreed to own.
+          BASF had three internal developer tools: <strong>Argus</strong>, the <strong>Data Science Platform</strong>, and the <strong>AppStore</strong>. Each had grown to serve a specific need. Together they created fragmented workflows, duplicated access requests, and no clear owner for any of it.
         </p>
         <p class="section-body" style="margin-top:16px;">
-          The user base spanned three very different personas: experienced developers building internal apps, data scientists running pipelines and models, and novice internal users just trying to find and use what already existed. Designing for that spread — across a consolidated platform — was the real challenge.
+          The users fell into three groups: developers building internal apps, data scientists running pipelines and models, and non-technical users who just needed to find and use tools that already existed. Those groups have very different needs. Designing one platform for all three was the actual problem.
         </p>
       </div>
 
@@ -177,7 +177,7 @@
         <p class="section-eyebrow" style="margin-bottom:4px;">KEY FINDING</p>
         <h3 class="section-title" style="font-size: clamp(18px, 2.2vw, 24px);">Users had stopped trusting that the right path existed — not that they couldn't find it</h3>
         <p class="section-body">
-          <strong>What was measured going in:</strong> Platform fragmentation caused developers to context-switch between tools for a single workflow. Novice users had no guided onboarding path and frequently escalated to support. These were the baselines the redesign needed to move.
+          <strong>What we could measure going in:</strong> Developers were switching between three tools to complete a single workflow. Novice users had no onboarding path and regularly raised support tickets. Those were the baselines.
         </p>
       </div>
 
@@ -200,11 +200,11 @@
       <div class="two-col">
         <div class="surface-card-sm reveal">
           <p class="section-eyebrow" style="margin-bottom:4px;">Stakeholder alignment</p>
-          <p class="section-body">Three POs meant three roadmaps, three definitions of done, and sometimes three incompatible priorities. I built a <strong>feature prioritisation table</strong> scored on impact, effort, and technical feasibility — it became the decision tool in sprint planning. When opinions clashed, the table moved the conversation from preference to evidence.</p>
+          <p class="section-body">Three product owners, three roadmaps, three definitions of done. When priorities clashed, I built a scoring table — impact, effort, technical feasibility — and put it in front of everyone. It moved arguments about features into conversations about user problems.</p>
         </div>
         <div class="surface-card-sm reveal">
           <p class="section-eyebrow" style="margin-bottom:4px;">Technical constraints</p>
-          <p class="section-body">Engineering was building on <strong>Backstage</strong>, which added constraints that weren't fully visible until mid-discovery. Some things users needed weren't buildable in the current phase — I had to design for what was feasible while keeping the long-term direction honest.</p>
+          <p class="section-body">Engineering was building on <strong>Backstage</strong>. Some constraints only became clear mid-discovery — things users needed that couldn't be built in this phase. I had to design for what was actually buildable while being honest about what would come later.</p>
         </div>
         <div class="surface-card-sm reveal">
           <p class="section-eyebrow" style="margin-bottom:4px;">Hackathon forcing function</p>
@@ -212,7 +212,7 @@
         </div>
         <div class="surface-card-sm reveal">
           <p class="section-eyebrow" style="margin-bottom:4px;">Handoff gap</p>
-          <p class="section-body">No formal design handoff process existed before this engagement. I moved design ticket conversations from GitHub into <strong>Figma comments</strong> — a small change that gave engineering context directly at the design level, significantly reducing back-and-forth.</p>
+          <p class="section-body">There was no design handoff process when I started. I moved conversations about design decisions from GitHub issues into <strong>Figma comments</strong> — engineers had context next to the thing they were building. The back-and-forth dropped noticeably.</p>
         </div>
       </div>
 
@@ -239,7 +239,7 @@
 
       <div class="surface-card reveal">
         <p class="section-body">
-          With the product brief agreed, I moved from discovery into design — building across all three personas simultaneously, keeping each flow legible without making the system feel like three products bolted together.
+          Once the brief was agreed, I started designing. Three user groups meant three main flows — app creation for developers, pipeline onboarding for data scientists, and a dashboard for novice users. I built them in parallel, keeping the structure consistent enough to feel like one product.
         </p>
 
         <div class="numbered-list">
@@ -292,10 +292,10 @@
 
       <div class="surface-card reveal">
         <p class="section-body">
-          I ran walkthrough sessions with POs and developers before each handoff, structured around specific scenarios rather than open feedback. Two key flows — the app wizard and the permissions model — went through two rounds of iteration based on feasibility blockers surfaced during walkthroughs.
+          Before each handoff, I ran walkthrough sessions with the product owners and developers. The sessions were structured around specific scenarios — not open-ended feedback. The app wizard and permissions model both went through two rounds of iteration based on what those sessions surfaced.
         </p>
         <p class="section-body" style="margin-top: 16px;">
-          I also mentored a master's student through an internship project delivered on the same platform, which served as an additional validation layer for the wizard flow — the student's output was integrated into the platform.
+          I also mentored a master's student on an internship project on the same platform. Their work ended up integrated into the live system, which gave the wizard flow an extra round of real validation.
         </p>
       </div>
 
@@ -358,13 +358,13 @@
 
       <div class="surface-card reveal">
         <p class="section-body">
-          The biggest shift I made on this project was recognising that the design problem wasn't what I was originally asked to solve. The brief was about UI consolidation. The real problem was that nobody had defined the boundaries between the three systems — so they overlapped, contradicted each other, and frustrated users regardless of how good the individual interfaces were.
+          The brief was about UI consolidation. The real problem was that nobody had defined the boundaries between the three systems. They overlapped, contradicted each other, and frustrated users — not because the interfaces were bad, but because nobody had agreed on what each one was for.
         </p>
         <p class="section-body" style="margin-top: 16px;">
-          Reframing from UI to IA early — and getting three POs to accept that reframing — is what made the rest of the project workable. The product brief wasn't a deliverable. It was the tool that made every other decision possible.
+          Reframing from UI to IA early — and getting three product owners to accept that reframing — made everything else possible. The product brief wasn't just something I handed over. It became the document everyone went back to when priorities clashed.
         </p>
         <p class="section-body" style="margin-top: 16px;">
-          <strong>Next step:</strong> quantitative baseline data from the wizard flow — steps-to-completion, error rates, support ticket volume before and after. That's what would turn this from a strong story into an undeniable one.
+          <strong>Next step:</strong> quantitative data from the wizard flow — steps-to-completion, error rates, support ticket volume before and after. That's what would turn this from a strong story into an undeniable one.
         </p>
       </div>
 
