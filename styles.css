@@ -673,6 +673,7 @@ ul  { list-style: none; }
   font-weight: 700;
   line-height: 1.2em;
   color: var(--text-1);
+  white-space: nowrap;
 }
 
 .hero-photo {
