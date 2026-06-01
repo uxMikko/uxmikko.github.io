@@ -757,7 +757,7 @@ ul  { list-style: none; }
 .cards-grid {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 48px;
   width: 100%;
   max-width: 1200px;
 }
