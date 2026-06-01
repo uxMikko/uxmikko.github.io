@@ -41,7 +41,7 @@
             <h1 class="hero-title">LTN — Nicotine Product Registration Portal</h1>
           </div>
           <p class="hero-desc">
-            A new Swedish law required all tobacco-free nicotine products to be registered with the Public Health Agency before going to market. The agency had no digital process for this. We had to design and ship a secure, legally compliant registration portal before the grace period expired — with operations staff actively resistant to the automation it introduced.
+            A new Swedish law all tobacco-free nicotine products to be registered with the Public Health Agency before going to market. The agency had no digital process for this. We had to design and ship a secure, legally compliant registration portal before the grace period expired — with operations staff actively resistant to the automation it introduced.
           </p>
           <a href="mailto:UxMikko@gmail.com" class="hero-btn">Request full case study →</a>
         </div>
@@ -162,7 +162,7 @@
             <div class="numbered-badge">3</div>
             <div class="numbered-content">
               <strong>Legal precision was non-negotiable</strong>
-              <p>Every label, form field, and error message had to use officially approved language in both Swedish and English. Design decisions that would be trivial in a consumer context required legal review and formal sign-off.</p>
+              <p>Every label, form field, and error message had to use officially approved language in both Swedish and English. Design decisions that would be trivial in a consumer context legal review and formal sign-off.</p>
             </div>
           </div>
           <div class="numbered-item">
@@ -201,15 +201,15 @@
         </div>
         <div class="grid-card">
           <p class="grid-card-title">Stakeholder resistance to automation</p>
-          <p class="grid-card-body">Operations staff had legitimate concerns about what automation meant for their roles. Designing around their resistance required more than good UX — it required changing what the portal promised them.</p>
+          <p class="grid-card-body">Operations staff had legitimate concerns about what automation meant for their roles. Designing around their resistance more than good UX — it changing what the portal promised them.</p>
         </div>
         <div class="grid-card">
           <p class="grid-card-title">Legally controlled language</p>
-          <p class="grid-card-body">Every piece of content — button labels, error messages, form field names — required formal sign-off. Design had to move through legal review cycles without losing momentum.</p>
+          <p class="grid-card-body">Every piece of content — button labels, error messages, form field names — formal sign-off. Design had to move through legal review cycles without losing momentum.</p>
         </div>
         <div class="grid-card">
           <p class="grid-card-title">Government security requirements</p>
-          <p class="grid-card-body">Strict data security requirements constrained certain design patterns. Choices that would be simple in a consumer context required security review — adding time and limiting flexibility on interaction design.</p>
+          <p class="grid-card-body">Strict data security requirements constrained certain design patterns. Choices that would be simple in a consumer context security review — adding time and limiting flexibility on interaction design.</p>
         </div>
       </div>
     </div>
@@ -223,7 +223,7 @@
         <h2 class="section-title">The sign-off bottleneck wasn't a workflow problem — it was a trust problem. The solution was to make automation opt-out, not opt-in.</h2>
       </div>
       <div class="surface-card reveal">
-        <p class="section-body">The central tension: operations needed to feel in control, but the model couldn't scale if every submission required personal approval. The answer was an asynchronous sign-off protocol — submissions go through automated validation and proceed unless operations flags them. They're still in the loop; they're just not a required gate for every clean submission.</p>
+        <p class="section-body">The central tension: operations needed to feel in control, but the model couldn't scale if every submission personal approval. The answer was an asynchronous sign-off protocol — submissions go through automated validation and proceed unless operations flags them. They're still in the loop; they're just not a gate for every clean submission.</p>
         <p class="section-body">This reframe was key. Instead of "automation will handle it," the message became: "you review what matters, the system handles what's clear." That distinction made the difference between resistance and adoption.</p>
         <p class="section-body">For the legal content problem, I worked in close parallel with the legal team — building design and copy review cycles into the sprint structure rather than treating them as sequential. That kept both moving without either blocking the other.</p>
         <p class="section-body">For the duplicate product issue — companies often register slight variants of the same product — I designed a "duplicate and edit" registration flow, which eliminated the biggest time cost for frequent submitters and significantly reduced the volume of error-prone manual re-entry.</p>
@@ -255,7 +255,7 @@
             <div class="numbered-badge">1</div>
             <div class="numbered-content">
               <strong>Step-by-step registration wizard</strong>
-              <p>Broke the legally complex registration process into clear, sequential steps with real-time validation. Companies know exactly what's required at each stage and get immediate feedback on incomplete or incorrect submissions — before they hit submit.</p>
+              <p>Broke the legally complex registration process into clear, sequential steps with real-time validation. Companies know exactly what's at each stage and get immediate feedback on incomplete or incorrect submissions — before they hit submit.</p>
             </div>
           </div>
           <div class="numbered-item">
@@ -305,7 +305,7 @@
       <div class="surface-card reveal">
         <p class="section-body">Low-fidelity wireframes tested in feedback sessions with both the operations team and the development team, run separately. Testing two different user groups simultaneously meant scenarios had to be designed for very different mental models — "how do I register my product" versus "how do I process and approve submissions."</p>
         <p class="section-body"><strong>Key finding from operations sessions:</strong> the asynchronous sign-off model needed clearer language explaining what "automatic approval" actually meant in practice. Participants wanted to know exactly when they'd be notified and what level of review they were still doing. That informed a dedicated onboarding step for agency staff on first use.</p>
-        <p class="section-body">The duplicate registration flow tested extremely well — operations staff noted it would significantly reduce the back-and-forth currently required for variant products, validating it as the right prioritisation call.</p>
+        <p class="section-body">The duplicate registration flow tested extremely well — operations staff noted it would significantly reduce the back-and-forth currently for variant products, validating it as the right prioritisation call.</p>
       </div>
     </div>
   </section>
@@ -354,7 +354,7 @@
       </div>
       <div class="surface-card reveal">
         <p class="section-body">All design built to government visual standards — official colours, typography, and accessibility requirements. The system had to work across two distinct contexts: the public-facing registration portal (company users, potentially any browser, variable technical literacy) and the internal agency dashboard (operations staff, controlled environment, expert users).</p>
-        <p class="section-body">Designing for both in the same system required clear shared foundations — component structure, spacing, colour — while allowing the two contexts to diverge in interaction density and visual complexity where appropriate. The internal dashboard could carry more information density than the public portal.</p>
+        <p class="section-body">Designing for both in the same system clear shared foundations — component structure, spacing, colour — while allowing the two contexts to diverge in interaction density and visual complexity where appropriate. The internal dashboard could carry more information density than the public portal.</p>
       </div>
     </div>
   </section>
@@ -368,17 +368,21 @@
         <form class="footer-form" id="contact-form" onsubmit="handleSubmit(event)">
           <div class="form-group">
             <label class="form-label" for="name">Name</label>
-            <input class="form-input" id="name" type="text" name="name" placeholder="Your name" required>
+            <input class="form-input" id="name" type="text" name="name" placeholder="Your name">
+            <span class="form-error"></span>
           </div>
           <div class="form-group">
             <label class="form-label" for="email">Email</label>
-            <input class="form-input" id="email" type="email" name="email" placeholder="your@email.com" required>
+            <input class="form-input" id="email" type="email" name="email" placeholder="your@email.com">
+            <span class="form-error"></span>
           </div>
           <div class="form-group">
             <label class="form-label" for="message">Message</label>
-            <textarea class="form-textarea" id="message" name="message" placeholder="What's on your mind?" required></textarea>
+            <textarea class="form-textarea" id="message" name="message" placeholder="What's on your mind?"></textarea>
+            <span class="form-error"></span>
           </div>
           <button class="form-submit" type="submit">Send message</button>
+          <span class="form-error form-submit-error"></span>
         </form>
       </div>
       </div>
@@ -424,36 +428,92 @@
 </div>
 
 <script>
-async function handleSubmit(e) {
-  e.preventDefault();
-  const form = e.target;
-  const btn = form.querySelector('.form-submit');
-  btn.textContent = 'Sending...';
-  btn.disabled = true;
-  try {
-    await fetch('https://formspree.io/f/xykngwry', {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    });
-    form.reset();
-    showToast();
-  } catch {
-    btn.textContent = 'Something went wrong — try emailing directly';
-  } finally {
-    btn.textContent = 'Send message';
-    btn.disabled = false;
+(function () {
+  function checkName(v)  { return v.trim() ? '' : 'Please enter your name.'; }
+  function checkMsg(v)   { return v.trim() ? '' : 'Please enter a message.'; }
+  function checkEmail(v) {
+    v = v.trim();
+    if (!v) return 'Please enter your email address.';
+    var re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    return re.test(v) ? '' : 'Please enter a valid email (e.g. you@example.com).';
   }
-}
-function showToast() {
-  const t = document.getElementById('toast');
-  t.style.opacity = '1';
-  t.style.transform = 'translateX(-50%) translateY(0)';
-  setTimeout(() => {
-    t.style.opacity = '0';
-    t.style.transform = 'translateX(-50%) translateY(80px)';
-  }, 4000);
-}
+
+  function validate(el, checker) {
+    var msg  = checker(el.value);
+    var grp  = el.closest('.form-group');
+    var span = grp ? grp.querySelector('.form-error') : null;
+    el.classList.toggle('error', !!msg);
+    if (span) span.textContent = msg;
+    return !msg;
+  }
+
+  function attachListeners(form) {
+    var fields = [
+      { id: '#name',    check: checkName  },
+      { id: '#email',   check: checkEmail },
+      { id: '#message', check: checkMsg   },
+    ];
+    fields.forEach(function(f) {
+      var el = form.querySelector(f.id);
+      if (!el) return;
+      el.addEventListener('blur',  function() { validate(el, f.check); });
+      el.addEventListener('input', function() { if (el.classList.contains('error')) validate(el, f.check); });
+    });
+  }
+
+  var form = document.getElementById('contact-form');
+  if (form) attachListeners(form);
+
+  window.handleSubmit = async function (e) {
+    e.preventDefault();
+    var form      = e.target;
+    var nameEl    = form.querySelector('#name');
+    var emailEl   = form.querySelector('#email');
+    var msgEl     = form.querySelector('#message');
+    var submitErr = form.querySelector('.form-submit-error');
+
+    var ok = [
+      validate(nameEl,  checkName),
+      validate(emailEl, checkEmail),
+      validate(msgEl,   checkMsg),
+    ].every(Boolean);
+    if (!ok) return;
+
+    var btn = form.querySelector('.form-submit');
+    if (submitErr) submitErr.textContent = '';
+    btn.textContent = 'Sending…';
+    btn.disabled    = true;
+
+    try {
+      var res = await fetch('https://formspree.io/f/xykngwry', {
+        method:  'POST',
+        body:    new FormData(form),
+        headers: { 'Accept': 'application/json' },
+      });
+      if (!res.ok) throw new Error();
+      form.reset();
+      form.querySelectorAll('.form-error').forEach(function(s) { s.textContent = ''; });
+      form.querySelectorAll('.error').forEach(function(el) { el.classList.remove('error'); });
+      showToast();
+    } catch(err) {
+      if (submitErr) submitErr.textContent = 'Something went wrong — please email me directly.';
+    } finally {
+      btn.textContent = 'Send message';
+      btn.disabled    = false;
+    }
+  };
+
+  function showToast() {
+    var t = document.getElementById('toast');
+    if (!t) return;
+    t.style.opacity   = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+    setTimeout(function() {
+      t.style.opacity   = '0';
+      t.style.transform = 'translateX(-50%) translateY(80px)';
+    }, 4000);
+  }
+})();
 </script>
 </body>
 </html>

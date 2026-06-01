@@ -159,7 +159,7 @@
             <div class="numbered-badge">3</div>
             <div class="numbered-content">
               <strong>The pronunciation interface assumed too much technical knowledge</strong>
-              <p>The adjustment flow required understanding TTS parameters most users didn't have or want. The steps were procedurally complex in ways that didn't match how users thought about the task: they wanted to hear how it sounds and adjust if needed.</p>
+              <p>The adjustment flow understanding TTS parameters most users didn't have or want. The steps were procedurally complex in ways that didn't match how users thought about the task: they wanted to hear how it sounds and adjust if needed.</p>
             </div>
           </div>
         </div>
@@ -187,7 +187,7 @@
       <div class="two-col reveal">
         <div class="grid-card">
           <p class="grid-card-title">Regulatory environment</p>
-          <p class="grid-card-body">Strict requirements on how drug information can be presented. Design decisions that would be straightforward in a consumer context — surfacing the most relevant information first — required sign-off and took time.</p>
+          <p class="grid-card-body">Strict requirements on how drug information can be presented. Design decisions that would be straightforward in a consumer context — surfacing the most relevant information first — sign-off and took time.</p>
         </div>
         <div class="grid-card">
           <p class="grid-card-title">Sequencing under uncertainty</p>
@@ -214,7 +214,7 @@
       </div>
       <div class="surface-card reveal">
         <p class="section-body">The design decision that mattered most wasn't about the interface — it was about sequencing. Persistent settings was the highest-friction, most buildable improvement available. I focused the first sprint there. That gave the team something concrete and shippable while more complex features moved through approvals — and it gave us something to test quickly.</p>
-        <p class="section-body">For the pronunciation interface, I simplified the flow by reducing the number of decisions required. Instead of asking users to understand TTS parameters, I proposed a model based on familiar outcomes: hear how it sounds, adjust if needed. The technical layer stayed behind the interaction.</p>
+        <p class="section-body">For the pronunciation interface, I simplified the flow by reducing the number of decisions. Instead of asking users to understand TTS parameters, I proposed a model based on familiar outcomes: hear how it sounds, adjust if needed. The technical layer stayed behind the interaction.</p>
         <p class="section-body">For collaboration, which needed more stakeholder approval, I documented the user research rationale clearly so it could move through approvals with evidence behind it — not just a design suggestion.</p>
       </div>
     </div>
@@ -258,7 +258,7 @@
             <div class="numbered-badge">3</div>
             <div class="numbered-content">
               <strong>Simplified pronunciation adjustment workflow</strong>
-              <p>Outcome-first rather than parameter-first. Users hear how it sounds and adjust — the TTS parameters stay behind the interface. Reduced steps required and removed the need for TTS knowledge.</p>
+              <p>Outcome-first rather than parameter-first. Users hear how it sounds and adjust — the TTS parameters stay behind the interface. Reduced steps and removed the need for TTS knowledge.</p>
             </div>
           </div>
           <div class="numbered-item">
@@ -319,7 +319,7 @@
         </div>
         <div class="stat-card">
           <span class="stat-number">Simpler</span>
-          <span class="stat-label">pronunciation flow — fewer steps, no TTS knowledge required</span>
+          <span class="stat-label">pronunciation flow — fewer steps, no TTS knowledge</span>
         </div>
         <div class="stat-card">
           <span class="stat-number">Scalable</span>
@@ -358,17 +358,21 @@
         <form class="footer-form" id="contact-form" onsubmit="handleSubmit(event)">
           <div class="form-group">
             <label class="form-label" for="name">Name</label>
-            <input class="form-input" id="name" type="text" name="name" placeholder="Your name" required>
+            <input class="form-input" id="name" type="text" name="name" placeholder="Your name">
+            <span class="form-error"></span>
           </div>
           <div class="form-group">
             <label class="form-label" for="email">Email</label>
-            <input class="form-input" id="email" type="email" name="email" placeholder="your@email.com" required>
+            <input class="form-input" id="email" type="email" name="email" placeholder="your@email.com">
+            <span class="form-error"></span>
           </div>
           <div class="form-group">
             <label class="form-label" for="message">Message</label>
-            <textarea class="form-textarea" id="message" name="message" placeholder="What's on your mind?" required></textarea>
+            <textarea class="form-textarea" id="message" name="message" placeholder="What's on your mind?"></textarea>
+            <span class="form-error"></span>
           </div>
           <button class="form-submit" type="submit">Send message</button>
+          <span class="form-error form-submit-error"></span>
         </form>
       </div>
       </div>
@@ -416,36 +420,92 @@
 </div>
 
 <script>
-async function handleSubmit(e) {
-  e.preventDefault();
-  const form = e.target;
-  const btn = form.querySelector('.form-submit');
-  btn.textContent = 'Sending...';
-  btn.disabled = true;
-  try {
-    await fetch('https://formspree.io/f/xykngwry', {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    });
-    form.reset();
-    showToast();
-  } catch {
-    btn.textContent = 'Something went wrong — try emailing directly';
-  } finally {
-    btn.textContent = 'Send message';
-    btn.disabled = false;
+(function () {
+  function checkName(v)  { return v.trim() ? '' : 'Please enter your name.'; }
+  function checkMsg(v)   { return v.trim() ? '' : 'Please enter a message.'; }
+  function checkEmail(v) {
+    v = v.trim();
+    if (!v) return 'Please enter your email address.';
+    var re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    return re.test(v) ? '' : 'Please enter a valid email (e.g. you@example.com).';
   }
-}
-function showToast() {
-  const t = document.getElementById('toast');
-  t.style.opacity = '1';
-  t.style.transform = 'translateX(-50%) translateY(0)';
-  setTimeout(() => {
-    t.style.opacity = '0';
-    t.style.transform = 'translateX(-50%) translateY(80px)';
-  }, 4000);
-}
+
+  function validate(el, checker) {
+    var msg  = checker(el.value);
+    var grp  = el.closest('.form-group');
+    var span = grp ? grp.querySelector('.form-error') : null;
+    el.classList.toggle('error', !!msg);
+    if (span) span.textContent = msg;
+    return !msg;
+  }
+
+  function attachListeners(form) {
+    var fields = [
+      { id: '#name',    check: checkName  },
+      { id: '#email',   check: checkEmail },
+      { id: '#message', check: checkMsg   },
+    ];
+    fields.forEach(function(f) {
+      var el = form.querySelector(f.id);
+      if (!el) return;
+      el.addEventListener('blur',  function() { validate(el, f.check); });
+      el.addEventListener('input', function() { if (el.classList.contains('error')) validate(el, f.check); });
+    });
+  }
+
+  var form = document.getElementById('contact-form');
+  if (form) attachListeners(form);
+
+  window.handleSubmit = async function (e) {
+    e.preventDefault();
+    var form      = e.target;
+    var nameEl    = form.querySelector('#name');
+    var emailEl   = form.querySelector('#email');
+    var msgEl     = form.querySelector('#message');
+    var submitErr = form.querySelector('.form-submit-error');
+
+    var ok = [
+      validate(nameEl,  checkName),
+      validate(emailEl, checkEmail),
+      validate(msgEl,   checkMsg),
+    ].every(Boolean);
+    if (!ok) return;
+
+    var btn = form.querySelector('.form-submit');
+    if (submitErr) submitErr.textContent = '';
+    btn.textContent = 'Sending…';
+    btn.disabled    = true;
+
+    try {
+      var res = await fetch('https://formspree.io/f/xykngwry', {
+        method:  'POST',
+        body:    new FormData(form),
+        headers: { 'Accept': 'application/json' },
+      });
+      if (!res.ok) throw new Error();
+      form.reset();
+      form.querySelectorAll('.form-error').forEach(function(s) { s.textContent = ''; });
+      form.querySelectorAll('.error').forEach(function(el) { el.classList.remove('error'); });
+      showToast();
+    } catch(err) {
+      if (submitErr) submitErr.textContent = 'Something went wrong — please email me directly.';
+    } finally {
+      btn.textContent = 'Send message';
+      btn.disabled    = false;
+    }
+  };
+
+  function showToast() {
+    var t = document.getElementById('toast');
+    if (!t) return;
+    t.style.opacity   = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+    setTimeout(function() {
+      t.style.opacity   = '0';
+      t.style.transform = 'translateX(-50%) translateY(80px)';
+    }, 4000);
+  }
+})();
 </script>
 </body>
 </html>

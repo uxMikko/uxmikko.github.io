@@ -125,7 +125,7 @@
       </div>
       <div class="surface-card reveal">
         <p class="section-body">UX/UI Designer at LH+P. I ran research and discovery, led design from wireframes through to high-fidelity handoff, and worked directly with the engineering team building on a constrained government tech stack. Same embedded team as SVEBar — I ran both projects in parallel.</p>
-        <p class="section-body">Working on two concurrent projects with the same agency team meant deep familiarity with the stakeholder context and institutional constraints, but required rigorous prioritisation of time between projects.</p>
+        <p class="section-body">Working on two concurrent projects with the same agency team meant deep familiarity with the stakeholder context and institutional constraints, but rigorous prioritisation of time between projects.</p>
       </div>
     </div>
   </section>
@@ -160,7 +160,7 @@
             <div class="numbered-badge">3</div>
             <div class="numbered-content">
               <strong>Test ID matching was a missing workflow step</strong>
-              <p>Linking a sequencing result back to the original patient sample required a separate external spreadsheet. This was a critical workflow step the platform didn't support at all.</p>
+              <p>Linking a sequencing result back to the original patient sample a separate external spreadsheet. This was a critical workflow step the platform didn't support at all.</p>
             </div>
           </div>
         </div>
@@ -200,7 +200,7 @@
         </div>
         <div class="grid-card">
           <p class="grid-card-title">Honest expectation management</p>
-          <p class="grid-card-body">Users had legitimate complaints about backend reliability. Design could improve the experience, but restoring trust required being honest with both users and the team about what design alone could achieve.</p>
+          <p class="grid-card-body">Users had legitimate complaints about backend reliability. Design could improve the experience, but restoring trust being honest with both users and the team about what design alone could achieve.</p>
         </div>
       </div>
     </div>
@@ -214,7 +214,7 @@
         <h2 class="section-title">The core design decision: make the user's progress visible instead of exposing system state</h2>
       </div>
       <div class="surface-card reveal">
-        <p class="section-body">The insight that unlocked the design: instead of building better error states (which required significant backend work), I proposed a timeline-based mental model as the primary architecture. Making the user's journey visible was buildable within the current constraints — and it directly addressed the core anxiety: "did my submission actually go through?"</p>
+        <p class="section-body">The insight that unlocked the design: instead of building better error states (which significant backend work), I proposed a timeline-based mental model as the primary architecture. Making the user's journey visible was buildable within the current constraints — and it directly addressed the core anxiety: "did my submission actually go through?"</p>
         <p class="section-body">For Test ID matching, I proposed integrating it directly into the platform flow, eliminating the external spreadsheet dependency and removing a major failure point from the workflow.</p>
         <p class="section-body">For features that couldn't be built yet, I documented them in the product backlog with user research rationale — so the agency had a clear brief for the next funding round rather than a wishlist with no supporting evidence.</p>
       </div>
@@ -357,17 +357,21 @@
         <form class="footer-form" id="contact-form" onsubmit="handleSubmit(event)">
           <div class="form-group">
             <label class="form-label" for="name">Name</label>
-            <input class="form-input" id="name" type="text" name="name" placeholder="Your name" required>
+            <input class="form-input" id="name" type="text" name="name" placeholder="Your name">
+            <span class="form-error"></span>
           </div>
           <div class="form-group">
             <label class="form-label" for="email">Email</label>
-            <input class="form-input" id="email" type="email" name="email" placeholder="your@email.com" required>
+            <input class="form-input" id="email" type="email" name="email" placeholder="your@email.com">
+            <span class="form-error"></span>
           </div>
           <div class="form-group">
             <label class="form-label" for="message">Message</label>
-            <textarea class="form-textarea" id="message" name="message" placeholder="What's on your mind?" required></textarea>
+            <textarea class="form-textarea" id="message" name="message" placeholder="What's on your mind?"></textarea>
+            <span class="form-error"></span>
           </div>
           <button class="form-submit" type="submit">Send message</button>
+          <span class="form-error form-submit-error"></span>
         </form>
       </div>
       </div>
@@ -415,36 +419,92 @@
 </div>
 
 <script>
-async function handleSubmit(e) {
-  e.preventDefault();
-  const form = e.target;
-  const btn = form.querySelector('.form-submit');
-  btn.textContent = 'Sending...';
-  btn.disabled = true;
-  try {
-    await fetch('https://formspree.io/f/xykngwry', {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    });
-    form.reset();
-    showToast();
-  } catch {
-    btn.textContent = 'Something went wrong — try emailing directly';
-  } finally {
-    btn.textContent = 'Send message';
-    btn.disabled = false;
+(function () {
+  function checkName(v)  { return v.trim() ? '' : 'Please enter your name.'; }
+  function checkMsg(v)   { return v.trim() ? '' : 'Please enter a message.'; }
+  function checkEmail(v) {
+    v = v.trim();
+    if (!v) return 'Please enter your email address.';
+    var re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    return re.test(v) ? '' : 'Please enter a valid email (e.g. you@example.com).';
   }
-}
-function showToast() {
-  const t = document.getElementById('toast');
-  t.style.opacity = '1';
-  t.style.transform = 'translateX(-50%) translateY(0)';
-  setTimeout(() => {
-    t.style.opacity = '0';
-    t.style.transform = 'translateX(-50%) translateY(80px)';
-  }, 4000);
-}
+
+  function validate(el, checker) {
+    var msg  = checker(el.value);
+    var grp  = el.closest('.form-group');
+    var span = grp ? grp.querySelector('.form-error') : null;
+    el.classList.toggle('error', !!msg);
+    if (span) span.textContent = msg;
+    return !msg;
+  }
+
+  function attachListeners(form) {
+    var fields = [
+      { id: '#name',    check: checkName  },
+      { id: '#email',   check: checkEmail },
+      { id: '#message', check: checkMsg   },
+    ];
+    fields.forEach(function(f) {
+      var el = form.querySelector(f.id);
+      if (!el) return;
+      el.addEventListener('blur',  function() { validate(el, f.check); });
+      el.addEventListener('input', function() { if (el.classList.contains('error')) validate(el, f.check); });
+    });
+  }
+
+  var form = document.getElementById('contact-form');
+  if (form) attachListeners(form);
+
+  window.handleSubmit = async function (e) {
+    e.preventDefault();
+    var form      = e.target;
+    var nameEl    = form.querySelector('#name');
+    var emailEl   = form.querySelector('#email');
+    var msgEl     = form.querySelector('#message');
+    var submitErr = form.querySelector('.form-submit-error');
+
+    var ok = [
+      validate(nameEl,  checkName),
+      validate(emailEl, checkEmail),
+      validate(msgEl,   checkMsg),
+    ].every(Boolean);
+    if (!ok) return;
+
+    var btn = form.querySelector('.form-submit');
+    if (submitErr) submitErr.textContent = '';
+    btn.textContent = 'Sending…';
+    btn.disabled    = true;
+
+    try {
+      var res = await fetch('https://formspree.io/f/xykngwry', {
+        method:  'POST',
+        body:    new FormData(form),
+        headers: { 'Accept': 'application/json' },
+      });
+      if (!res.ok) throw new Error();
+      form.reset();
+      form.querySelectorAll('.form-error').forEach(function(s) { s.textContent = ''; });
+      form.querySelectorAll('.error').forEach(function(el) { el.classList.remove('error'); });
+      showToast();
+    } catch(err) {
+      if (submitErr) submitErr.textContent = 'Something went wrong — please email me directly.';
+    } finally {
+      btn.textContent = 'Send message';
+      btn.disabled    = false;
+    }
+  };
+
+  function showToast() {
+    var t = document.getElementById('toast');
+    if (!t) return;
+    t.style.opacity   = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+    setTimeout(function() {
+      t.style.opacity   = '0';
+      t.style.transform = 'translateX(-50%) translateY(80px)';
+    }, 4000);
+  }
+})();
 </script>
 </body>
 </html>

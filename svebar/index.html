@@ -160,7 +160,7 @@
             <div class="numbered-badge">3</div>
             <div class="numbered-content">
               <strong>Navigation was deeply nested for common tasks</strong>
-              <p>Routine configuration required multiple levels of navigation with no shortcuts and no visible state. Getting back to where you were required starting over.</p>
+              <p>Routine configuration multiple levels of navigation with no shortcuts and no visible state. Getting back to where you were starting over.</p>
             </div>
           </div>
           <div class="numbered-item">
@@ -207,7 +207,7 @@
         </div>
         <div class="grid-card">
           <p class="grid-card-title">Slow-moving institutional approvals</p>
-          <p class="grid-card-body">In a national public health agency, decisions on platform direction required stakeholder sign-off at multiple levels. Moving quickly meant sequencing what could ship independently of that process.</p>
+          <p class="grid-card-body">In a national public health agency, decisions on platform direction stakeholder sign-off at multiple levels. Moving quickly meant sequencing what could ship independently of that process.</p>
         </div>
       </div>
     </div>
@@ -222,7 +222,7 @@
       </div>
       <div class="surface-card reveal">
         <p class="section-body">Once I understood the real workflow end-to-end, the interface problems became obvious. You don't think "configure a rule, then check a dashboard" — you think "I want to know if something unusual is happening with this bacteria in this region." The architecture needed to reflect that logic.</p>
-        <p class="section-body">For the notification trust issue: I designed transparent alert states with explicit configuration summaries. Users could see exactly what rule had fired and why. That's a design contribution to trust restoration, even if the full fix required backend work.</p>
+        <p class="section-body">For the notification trust issue: I designed transparent alert states with explicit configuration summaries. Users could see exactly what rule had fired and why. That's a design contribution to trust restoration, even if the full fix backend work.</p>
         <p class="section-body">For synonym management: I proposed a redesigned flow that replaced a slow database interface with a guided matching process — turning a task scientists dreaded into one they could move through quickly.</p>
       </div>
     </div>
@@ -376,17 +376,21 @@
         <form class="footer-form" id="contact-form" onsubmit="handleSubmit(event)">
           <div class="form-group">
             <label class="form-label" for="name">Name</label>
-            <input class="form-input" id="name" type="text" name="name" placeholder="Your name" required>
+            <input class="form-input" id="name" type="text" name="name" placeholder="Your name">
+            <span class="form-error"></span>
           </div>
           <div class="form-group">
             <label class="form-label" for="email">Email</label>
-            <input class="form-input" id="email" type="email" name="email" placeholder="your@email.com" required>
+            <input class="form-input" id="email" type="email" name="email" placeholder="your@email.com">
+            <span class="form-error"></span>
           </div>
           <div class="form-group">
             <label class="form-label" for="message">Message</label>
-            <textarea class="form-textarea" id="message" name="message" placeholder="What's on your mind?" required></textarea>
+            <textarea class="form-textarea" id="message" name="message" placeholder="What's on your mind?"></textarea>
+            <span class="form-error"></span>
           </div>
           <button class="form-submit" type="submit">Send message</button>
+          <span class="form-error form-submit-error"></span>
         </form>
       </div>
       </div>
@@ -434,36 +438,92 @@
 </div>
 
 <script>
-async function handleSubmit(e) {
-  e.preventDefault();
-  const form = e.target;
-  const btn = form.querySelector('.form-submit');
-  btn.textContent = 'Sending...';
-  btn.disabled = true;
-  try {
-    await fetch('https://formspree.io/f/xykngwry', {
-      method: 'POST',
-      body: new FormData(form),
-      headers: { 'Accept': 'application/json' }
-    });
-    form.reset();
-    showToast();
-  } catch {
-    btn.textContent = 'Something went wrong — try emailing directly';
-  } finally {
-    btn.textContent = 'Send message';
-    btn.disabled = false;
+(function () {
+  function checkName(v)  { return v.trim() ? '' : 'Please enter your name.'; }
+  function checkMsg(v)   { return v.trim() ? '' : 'Please enter a message.'; }
+  function checkEmail(v) {
+    v = v.trim();
+    if (!v) return 'Please enter your email address.';
+    var re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    return re.test(v) ? '' : 'Please enter a valid email (e.g. you@example.com).';
   }
-}
-function showToast() {
-  const t = document.getElementById('toast');
-  t.style.opacity = '1';
-  t.style.transform = 'translateX(-50%) translateY(0)';
-  setTimeout(() => {
-    t.style.opacity = '0';
-    t.style.transform = 'translateX(-50%) translateY(80px)';
-  }, 4000);
-}
+
+  function validate(el, checker) {
+    var msg  = checker(el.value);
+    var grp  = el.closest('.form-group');
+    var span = grp ? grp.querySelector('.form-error') : null;
+    el.classList.toggle('error', !!msg);
+    if (span) span.textContent = msg;
+    return !msg;
+  }
+
+  function attachListeners(form) {
+    var fields = [
+      { id: '#name',    check: checkName  },
+      { id: '#email',   check: checkEmail },
+      { id: '#message', check: checkMsg   },
+    ];
+    fields.forEach(function(f) {
+      var el = form.querySelector(f.id);
+      if (!el) return;
+      el.addEventListener('blur',  function() { validate(el, f.check); });
+      el.addEventListener('input', function() { if (el.classList.contains('error')) validate(el, f.check); });
+    });
+  }
+
+  var form = document.getElementById('contact-form');
+  if (form) attachListeners(form);
+
+  window.handleSubmit = async function (e) {
+    e.preventDefault();
+    var form      = e.target;
+    var nameEl    = form.querySelector('#name');
+    var emailEl   = form.querySelector('#email');
+    var msgEl     = form.querySelector('#message');
+    var submitErr = form.querySelector('.form-submit-error');
+
+    var ok = [
+      validate(nameEl,  checkName),
+      validate(emailEl, checkEmail),
+      validate(msgEl,   checkMsg),
+    ].every(Boolean);
+    if (!ok) return;
+
+    var btn = form.querySelector('.form-submit');
+    if (submitErr) submitErr.textContent = '';
+    btn.textContent = 'Sending…';
+    btn.disabled    = true;
+
+    try {
+      var res = await fetch('https://formspree.io/f/xykngwry', {
+        method:  'POST',
+        body:    new FormData(form),
+        headers: { 'Accept': 'application/json' },
+      });
+      if (!res.ok) throw new Error();
+      form.reset();
+      form.querySelectorAll('.form-error').forEach(function(s) { s.textContent = ''; });
+      form.querySelectorAll('.error').forEach(function(el) { el.classList.remove('error'); });
+      showToast();
+    } catch(err) {
+      if (submitErr) submitErr.textContent = 'Something went wrong — please email me directly.';
+    } finally {
+      btn.textContent = 'Send message';
+      btn.disabled    = false;
+    }
+  };
+
+  function showToast() {
+    var t = document.getElementById('toast');
+    if (!t) return;
+    t.style.opacity   = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+    setTimeout(function() {
+      t.style.opacity   = '0';
+      t.style.transform = 'translateX(-50%) translateY(80px)';
+    }, 4000);
+  }
+})();
 </script>
 </body>
 </html>
