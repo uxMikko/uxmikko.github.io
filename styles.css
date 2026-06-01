@@ -677,8 +677,9 @@ ul  { list-style: none; }
 
 .hero-photo {
   display: inline;
-  font-size: inherit;
+  font-size: clamp(60px, 10vw, 120px); /* match exactly what .hero-h1 uses */
   line-height: inherit;
+  vertical-align: middle;
 }
 
 .hero-tagline {
