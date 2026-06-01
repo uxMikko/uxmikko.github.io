@@ -676,21 +676,9 @@ ul  { list-style: none; }
 }
 
 .hero-photo {
-  width: clamp(48px, 7vw, 96px);
-  height: clamp(48px, 7vw, 96px);
-  flex-shrink: 0;
-  border-radius: 14px;
-  border: 2.5px solid var(--border);
-  overflow: hidden;
-  transform: rotate(4deg);
-  box-shadow:
-    0.12px 0.51px 0.53px -1.08px rgba(25,29,33,0.28),
-    0.46px 1.95px 2px   -2.17px rgba(25,29,33,0.26),
-    2px    8.5px  8.73px -3.25px rgba(25,29,33,0.16);
-  background: var(--surface-2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 28px;
-  z-index: 1;
+  display: inline;
+  font-size: inherit;
+  line-height: inherit;
 }
 
 .hero-tagline {
