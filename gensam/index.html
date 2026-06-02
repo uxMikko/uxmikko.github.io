@@ -43,7 +43,7 @@
             <h1 class="hero-title">GENSAM — COVID Sequencing Data Platform</h1>
           </div>
           <p class="hero-desc">
-            A national platform for COVID genomic sequencing data had been built to a strict happy path — and failed silently on everything off it. Labs had stopped trusting the system and were emailing files instead. The problem wasn't the design: it was the complete absence of error handling and submission certainty.
+            GENSAM started as a bare-bones portal built to secure further funding — something that worked on the happy path. When anything went wrong, labs had no way to know what had happened or what to do next. I redesigned it from scratch.
           </p>
           <!--  
           <a href="mailto:UxMikko@gmail.com" class="hero-btn">Request full case study →</a>
@@ -82,15 +82,15 @@
     <div class="insight-strip reveal">
       <div class="insight-item">
         <p class="insight-label">Insight</p>
-        <p class="insight-text">The core user anxiety wasn't "what went wrong" — it was "did anything happen at all." Better error states would help, but the more urgent problem was submission certainty.</p>
+        <p class="insight-text">The core anxiety wasn't "what went wrong" — it was "did anything happen at all." A deposition could cross two labs and pass through a supercomputer, and there was nothing to tell anyone where it stood.</p>
       </div>
       <div class="insight-item">
         <p class="insight-label">Action</p>
-        <p class="insight-text">Proposed a timeline-based architecture as the primary mental model — making the user's progress visible rather than exposing system state. Buildable within government tech constraints.</p>
+        <p class="insight-text">Designed a deposition-first flow — collect all details and verify the SMiNet registry match before a single file is uploaded. Then a timeline to make every step legible, whether it's the originating lab or a different lab doing the actual upload.</p>
       </div>
       <div class="insight-item">
         <p class="insight-label">Impact</p>
-        <p class="insight-text">Labs that had abandoned the platform and were emailing files instead came back after the redesign. The submission uncertainty that had broken trust was eliminated.</p>
+        <p class="insight-text">Labs that had abandoned the platform came back. The SMiNet match problem was surfaced before it became irreversible. And for the first time, anyone involved in a deposition — regardless of which lab they were in — could see exactly where it stood.</p>
       </div>
     </div>
   </section>
@@ -99,7 +99,7 @@
   <section class="section" style="padding-top: 0;">
     <div class="callout-card reveal">
       <p class="section-eyebrow">The Problem</p>
-      <h2 class="section-title">Labs across Sweden were losing COVID sequencing data because the submission platform had no error handling — and had been built strictly to a happy path that didn't reflect how labs actually worked.</h2>
+      <h2 class="section-title">A national COVID sequencing platform had been built as a minimal proof of concept. It worked when everything went right. When something went wrong — a filename mismatch, a failed registry check, a file from the wrong lab — it failed silently and gave no one a path forward.</h2>
     </div>
   </section>
 
@@ -111,9 +111,9 @@
         <h2 class="section-title">An MVP built under urgency, now silently failing the labs that depended on it</h2>
       </div>
       <div class="surface-card reveal">
-        <p class="section-body">GENSAM was a national platform for lab technicians to register, upload, and track COVID genomic sequencing data. The system played a role in understanding mutation trends and supporting pandemic response.</p>
-        <p class="section-body">The platform had been built under urgency as an MVP. On the happy path, it worked. Anything off it — a failed submission, a format error, a partial upload — either failed silently or left users with no way to recover.</p>
-        <p class="section-body"><strong>The result:</strong> data loss, duplicated manual effort, and labs that had stopped trusting the system entirely.</p>
+        <p class="section-body">GENSAM was Sweden's national platform for registering and tracking COVID genomic sequencing data. Around 10% of all positive COVID tests in Sweden were deposited and analysed through it — building a dataset that epidemiologists could use to track how mutations spread across time and geography.</p>
+        <p class="section-body">The platform had been built quickly as an MVP to demonstrate something working — enough to secure further funding. On the happy path, it did. Anything off it — a failed upload, a filename mismatch, a failed registry check — either failed silently or left the lab with no way forward.</p>
+        <p class="section-body"><strong>The result:</strong> data loss, labs emailing files as a workaround, and an admin burden that fell on senior scientists who had much better things to do.</p>
       </div>
     </div>
   </section>
@@ -126,7 +126,7 @@
         <h2 class="section-title">Solo designer running research and design end-to-end on a constrained government tech stack</h2>
       </div>
       <div class="surface-card reveal">
-        <p class="section-body">UX/UI Designer at LH+P. I ran research and discovery, led design from wireframes through to high-fidelity handoff, and worked directly with the engineering team building on a constrained government tech stack. Same embedded team as SVEBar — I ran both projects in parallel.</p>
+        <p class="section-body">UX/UI Designer at LH+P. I ran research and discovery, redesigned the platform from the ground up, and worked directly with the engineering team on a constrained government tech stack. Same embedded team as SVEBar — I ran both projects in parallel.</p>
         <p class="section-body">Running two projects in parallel with the same agency team meant I understood the institutional context well. It also meant I had to be strict about where my time went.</p>
       </div>
     </div>
@@ -141,35 +141,43 @@
       </div>
 
       <div class="surface-card reveal">
-        <p class="section-body">I ran interviews and working sessions with lab technicians across multiple Swedish regions. The goal was to understand the complete deposition workflow: from receiving a positive sample, to preparing sequencing files, to submitting and confirming successful upload.</p>
+        <p class="section-body">I ran interviews and working sessions with lab technicians across multiple Swedish regions. The goal was to understand the full deposition workflow — from receiving a positive test, to preparing sequencing files, to confirming that the result had landed in permanent storage and was accessible to the labs that needed it.</p>
 
         <div class="numbered-list">
           <div class="numbered-item">
             <div class="numbered-badge">1</div>
             <div class="numbered-content">
               <strong>The MVP had no off-ramp from the happy path</strong>
-              <p>No error states, no status tracking, no way to correct or update a submission once started. Users had built workarounds: spreadsheets to track batches, phone calls to confirm receipt, manual re-submissions when in doubt.</p>
+              <p>No error states, no status tracking, no way to update a submission once started. Labs had built workarounds: spreadsheets to track batches, phone calls to confirm receipt, re-submissions when in doubt.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">2</div>
             <div class="numbered-content">
-              <strong>The trust gap was the core problem</strong>
-              <p>Several labs had stopped actively using the platform and were emailing files directly instead. Solving the UX wasn't enough — the redesign needed to rebuild confidence in the system's reliability.</p>
+              <strong>The SMiNet ID problem was the most irreversible failure mode</strong>
+              <p>Every deposition had to be matched against SMiNet — Sweden's infectious disease registry — before the sequencing result could be permanently stored. If a file failed after uploading and the SMiNet ID had already been spent, it couldn't be reused. The lab had to contact the agency to resolve it. That admin work fell on senior scientists who had much better things to do — and there weren't enough of them to keep up.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">3</div>
             <div class="numbered-content">
-              <strong>Test ID matching was a missing workflow step</strong>
-              <p>Linking a sequencing result back to the original patient sample required a separate external spreadsheet. This was a critical workflow step the platform didn't support at all.</p>
+              <strong>Depositions crossed lab boundaries with no handoff design</strong>
+              <p>A lab in Stockholm might own a deposition but have a lab in another city do the actual sequencing and upload the files. The platform had no concept of a cross-lab handoff. There was no way to see where a deposition stood or who was responsible for the next step.</p>
             </div>
           </div>
         </div>
 
+          <div class="numbered-item">
+            <div class="numbered-badge">4</div>
+            <div class="numbered-content">
+              <strong>Paired-end sequencing had no UI support</strong>
+              <p>Some tests were sequenced from both sides of the genome, producing two files instead of one. The platform had one upload slot. There was also no mechanism for collecting deposition details before files were uploaded — so the system had no way to know whether to expect one file or two.</p>
+            </div>
+          </div>
+
         <div class="surface-card-sm" style="background: rgba(181,48,74,0.05); border-left: 3px solid var(--accent); border-radius: 0 16px 16px 0;">
           <p class="section-eyebrow">Baseline going in</p>
-          <p class="section-body">Labs were actively working around the system. The clearest signal was the number of submissions that arrived via email rather than through the platform — a direct measure of lost trust. Reducing that was the redesign target.</p>
+          <p class="section-body">Labs were emailing files instead of using the platform. The SMiNet ID problem was creating an admin bottleneck at the agency. And depositions that crossed lab boundaries had no visibility at all — nobody knew where they stood.</p>
         </div>
       </div>
 
@@ -189,20 +197,20 @@
 
       <div class="two-col reveal">
         <div class="grid-card">
+          <p class="grid-card-title">The SMiNet ID couldn't be un-spent</p>
+          <p class="grid-card-body">Once an ID was consumed by a failed upload, it was gone. Design couldn't fix the backend — but it had to surface the match check before upload, not after. Getting that change scoped and prioritised was not straightforward.</p>
+        </div>
+        <div class="grid-card">
+          <p class="grid-card-title">Cross-lab depositions had no clear owner</p>
+          <p class="grid-card-body">When the lab that owned a deposition was different from the lab doing the upload, nobody had visibility. The design needed to make handoffs explicit — but the platform had no concept of a multi-lab deposition at all.</p>
+        </div>
+        <div class="grid-card">
+          <p class="grid-card-title">Deposition details had to come before files</p>
+          <p class="grid-card-body">To know whether to show a single or paired file upload, the system needed the sequencing technology selected first. Changing the flow so that the deposition form was filled in before any upload started was a constraint the engineering team had to agree to.</p>
+        </div>
+        <div class="grid-card">
           <p class="grid-card-title">Government tech constraints</p>
-          <p class="grid-card-body">Some error handling that users genuinely needed wasn't buildable in the current funding round. Prioritisation calls had to be made and communicated clearly — to users and to the agency.</p>
-        </div>
-        <div class="grid-card">
-          <p class="grid-card-title">Designing for a system users had already abandoned</p>
-          <p class="grid-card-body">A cleaner UI wasn't going to fix the trust gap on its own. The design had to change the underlying experience of certainty: "I know what happened to my submission."</p>
-        </div>
-        <div class="grid-card">
-          <p class="grid-card-title">Scope uncertainty</p>
-          <p class="grid-card-body">The full feature scope wasn't clear at the start. Some features needed more discussion before they could be scoped. I had to prioritise what to design first without knowing the full picture.</p>
-        </div>
-        <div class="grid-card">
-          <p class="grid-card-title">Honest expectation management</p>
-          <p class="grid-card-body">Users had legitimate complaints about backend reliability. Design could improve the experience, but restoring trust meant being honest with both users and the team about what design alone could achieve.</p>
+          <p class="grid-card-body">Some backend fixes that users genuinely needed weren't buildable in the current funding round. I had to design for what was actually buildable and document the rest clearly enough that it could be scoped in a future round.</p>
         </div>
       </div>
     </div>
@@ -227,7 +235,7 @@
   <section class="section" style="padding-top: 0;">
     <div class="callout-card reveal">
       <p class="section-eyebrow">How Might We</p>
-      <h2 class="section-title">Give lab technicians unambiguous certainty that their submission landed — within the constraints of a government tech stack that couldn't yet support full error handling?</h2>
+      <h2 class="section-title">Make every step of a deposition legible to whoever is responsible for it — whether that's the lab that owns it or a different lab doing the upload — and catch errors before they become permanent?</h2>
     </div>
   </section>
 
@@ -240,42 +248,42 @@
       </div>
 
       <div class="surface-card reveal">
-        <p class="section-body">Once the mental model was settled, I started designing. I built the timeline view, error handling, and Test ID matching as a connected system — not a set of isolated improvements.</p>
+        <p class="section-body">Once the flow was agreed, I designed the timeline view, the deposition-first upload form, error states, and the SMiNet validation as a connected system — each piece addressed a specific failure mode from research.</p>
 
         <div class="numbered-list">
           <div class="numbered-item">
             <div class="numbered-badge">1</div>
             <div class="numbered-content">
               <strong>Timeline-based deposition overview</strong>
-              <p>Showing the real-time status of each submission at a glance. The first thing users see is progress — not system state or error codes. Addresses the "did anything happen at all" anxiety directly.</p>
+              <p>Every deposition shows its current state at a glance — initiated, files uploaded, SMiNet matched, sequencing in progress, result available. Legible to both the owning lab and any lab involved in the upload. The result appeared as a genome version code, visible to the labs once sequencing was complete.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">2</div>
             <div class="numbered-content">
               <strong>Error states with visibility and recovery paths</strong>
-              <p>The first real error handling the platform had. Each error is visible with specific guidance for next steps — not just "something went wrong."</p>
+              <p>First real error handling the platform had. Each error surfaces with specific guidance — including what to do if the SMiNet ID has already been consumed, so labs know immediately whether they need to contact the agency.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">3</div>
             <div class="numbered-content">
-              <strong>Integrated Test ID matching</strong>
-              <p>Eliminated the external spreadsheet dependency by building the matching workflow directly into the platform. Removed a major failure point and a significant source of manual effort.</p>
+              <strong>Deposition-first upload flow with technology selection</strong>
+              <p>Deposition details — including which sequencing technology was used — are collected before any files are uploaded. The platform then presents the right form: one file slot for standard sequencing, two for paired-end. Eliminated the ambiguity about what was expected and prevented the file type mismatch errors that caused most silent failures.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">4</div>
             <div class="numbered-content">
-              <strong>Submission correction flow</strong>
-              <p>Users can update or re-submit without starting over — the first time the platform supported any kind of recovery from a failed or partial submission.</p>
+              <strong>SMiNet pre-validation</strong>
+              <p>The SMiNet registry match is surfaced at the deposition stage, before files are uploaded. Labs see immediately whether the ID will match — catching the most irreversible failure before it happens rather than after.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">5</div>
             <div class="numbered-content">
-              <strong>Design system for future development</strong>
-              <p>Built to public sector standards and extended with new patterns for the timeline view and error state hierarchy — both documented with rationale for the agency's engineering team.</p>
+              <strong>Cross-lab handoff visibility</strong>
+              <p>Depositions show their full history — initiated by which lab, files uploaded by which lab, current responsible party. For the first time, a lab in Stockholm could see the status of a deposition being fulfilled by a lab in another city.</p>
             </div>
           </div>
         </div>
@@ -324,14 +332,14 @@
           <span class="stat-label">needed for Test ID matching — integrated directly into the platform flow</span>
         </div>
         <div class="stat-card">
-          <span class="stat-number">Full Sweden</span>
-          <span class="stat-label">nationwide sequencing capacity fully supported across all regions</span>
+          <span class="stat-number">~10%</span>
+          <span class="stat-label">of all positive COVID tests in Sweden deposited and analysed through the platform</span>
         </div>
       </div>
 
       <div class="surface-card-sm reveal" style="background: var(--accent-bg);">
         <p class="section-eyebrow">What I'd do differently</p>
-        <p class="section-body"><strong>Argue harder for a proper error handling framework before the redesign started.</strong> We improved the UX around a system that still had technical gaps. Closing those gaps first would have made the design work more durable and the trust rebuild more complete. I flagged it — but I'd make the case more formally next time, with user research findings as the business case.</p>
+        <p class="section-body"><strong>Push harder to get the SMiNet ID release mechanism built before shipping.</strong> The design surfaced the mismatch earlier, but a spent ID was still a dead end. One backend fix — letting the agency release a spent ID without manual intervention — would have closed the biggest remaining failure mode. I flagged it. I'd have made the case more formally with the research findings behind it.</p>
       </div>
     </div>
   </section>
@@ -344,7 +352,7 @@
         <h2 class="section-title">New patterns for the timeline view and error state hierarchy — documented for agency engineering teams to build on independently</h2>
       </div>
       <div class="surface-card reveal">
-        <p class="section-body">Built to Swedish public sector design standards. The timeline view and error state hierarchy were new patterns — the standards didn't cover them. I documented both with rationale and handed them off to the agency engineering team.</p>
+        <p class="section-body">Built to Swedish public sector design standards. The timeline view, the deposition-first upload form, and the error state hierarchy were all new patterns — the standards didn't cover any of them. I documented each with rationale and handed them off to the agency engineering team.</p>
         <p class="section-body">The documentation included usage guidance, edge cases, and rationale — so the team could extend the patterns without needing a designer for every decision.</p>
       </div>
     </div>

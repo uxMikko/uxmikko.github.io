@@ -222,7 +222,7 @@ ul  { list-style: none; }
 .label-category {
   font-family: var(--font-body);
   font-size: 14px; font-weight: 700;
-  letter-spacing: 0.16em; text-transform: uppercase;
+  letter-spacing: 0.04em;
   color: var(--accent);
 }
 
@@ -845,7 +845,7 @@ ul  { list-style: none; }
 .card-category {
   font-family: var(--font-body);
   font-size: 13px; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .card-title-row { display: flex; align-items: center; gap: 10px; }
