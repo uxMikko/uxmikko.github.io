@@ -509,5 +509,30 @@
   }
 })();
 </script>
+
+<script>
+(function () {
+  var ov = document.createElement('div');
+  ov.className = 'lb-overlay';
+  var im = document.createElement('img');
+  ov.appendChild(im);
+  document.body.appendChild(ov);
+
+  document.querySelectorAll('.cs-img').forEach(function (el) {
+    el.style.cursor = 'zoom-in';
+    el.addEventListener('click', function (e) {
+      e.stopPropagation();
+      im.src = el.src;
+      im.alt = el.alt;
+      ov.classList.add('open');
+    });
+  });
+
+  ov.addEventListener('click', function () { ov.classList.remove('open'); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') ov.classList.remove('open');
+  });
+})();
+</script>
 </body>
 </html>
