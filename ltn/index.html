@@ -43,7 +43,7 @@
             <h1 class="hero-title">LTN — Nicotine Product Registration Portal</h1>
           </div>
           <p class="hero-desc">
-            A new Swedish law required all tobacco-free nicotine products to be registered with the Public Health Agency before going to market. The agency had no digital process for this. We had to design and ship a secure, legally compliant portal before the grace period expired — with the operations team actively resistant to the automation it introduced.
+            A new Swedish law gave every importer and manufacturer of tobacco-free nicotine products until January 1st to register through a portal that didn't exist yet. We couldn't talk to the people who'd be using it — they were the tobacco industry, and we were the public health agency. The legal text was the brief.
           </p>
           <a href="mailto:UxMikko@gmail.com" class="hero-btn">Request full case study →</a>
         </div>
@@ -84,15 +84,15 @@
     <div class="insight-strip reveal">
       <div class="insight-item">
         <p class="insight-label">Insight</p>
-        <p class="insight-text">Operations staff weren't resisting the portal — they were resisting losing control. The design problem wasn't workflow automation; it was trust in the new process.</p>
+        <p class="insight-text">We couldn't do user research with the actual registrants. The legal text was the brief. Designing one system for everyone from a one-person vape shop to Phillip Morris — without research to tell us where the edges were — was the actual challenge.</p>
       </div>
       <div class="insight-item">
         <p class="insight-label">Action</p>
-        <p class="insight-text">Built human validation into the automated flow — an asynchronous sign-off protocol that kept operations in the loop without making them a bottleneck. Automation and oversight coexisting.</p>
+        <p class="insight-text">Interpreted the legal requirements with the agency's lawyers, designed for the widest range of user sophistication, launched a month early so real users could build drafts before the hard deadline, and proposed an agile sign-off that kept things moving even when the approver was unavailable.</p>
       </div>
       <div class="insight-item">
         <p class="insight-label">Impact</p>
-        <p class="insight-text">Portal launched on the legal deadline. Hundreds of products registered successfully. Operational workload reduced — without removing the human oversight that made adoption possible.</p>
+        <p class="insight-text">Launched on the legal deadline. Hundreds of products successfully registered. The soft launch a month early validated the design with real users before it mattered. Operations staff who initially resisted the portal became its strongest internal advocates.</p>
       </div>
     </div>
   </section>
@@ -113,9 +113,9 @@
         <h2 class="section-title">A government agency, a legal deadline, and a registration process that had only ever existed on paper</h2>
       </div>
       <div class="surface-card reveal">
-        <p class="section-body">In 2023, Sweden enacted legislation requiring all tobacco-free nicotine products — pouches, sprays, gums — to be registered with the Public Health Agency before they could be marketed. Before this law, no registration process existed. Companies were submitting product data via manual forms and email.</p>
-        <p class="section-body">The agency had a grace period before the law took full effect. We had to design and ship a compliant, secure registration portal within that window. Not a beta, not an MVP with rough edges — a system that would handle legally sensitive product data under strict government standards from day one.</p>
-        <p class="section-body"><strong>Complicating factor:</strong> the operations staff who'd manage submissions were worried about automation. A portal that replaced their manual review process felt threatening — regardless of how good the design was.</p>
+        <p class="section-body">In 2023, Sweden enacted legislation requiring all tobacco-free nicotine products — pouches, sprays, gums — to be registered with the Public Health Agency before going to market. The law took effect January 1st. Before it, no registration process existed.</p>
+        <p class="section-body">The registrants ranged from a one-person vape shop importing a single product to corporations like Phillip Morris with entire product families. One portal, one flow, one registration form — for all of them. Every registration had to include every ingredient, its CAS number, and its ratio in the product. The platform would cross-reference each ingredient against a database of toxic compounds and flag any product with illegal substances or nicotine doses above the legal limit.</p>
+        <p class="section-body">We couldn't do user research with the actual registrants. The regulatory relationship between the public health agency and the tobacco industry made that impossible. The legal text and the agency's lawyers were our primary design input.</p>
       </div>
     </div>
   </section>
@@ -128,7 +128,7 @@
         <h2 class="section-title">The only designer on a small cross-functional team — running research, design, and stakeholder alignment simultaneously</h2>
       </div>
       <div class="surface-card reveal">
-        <p class="section-body">UX/UI Designer at LH+P, embedded with the Folkhälsomyndigheten team. I was the only designer across the full project — running research, leading design from wireframes through to handoff, and navigating the internal dynamics that sat underneath the surface design problems.</p>
+        <p class="section-body">UX/UI Designer at LH+P, embedded with the Folkhälsomyndigheten team. I was the only designer across the full project — working from legal text rather than user research, designing for an audience I couldn't talk to, and navigating the internal dynamics that sat underneath the surface design problems.</p>
         <p class="section-body">The team was small: me, a few developers, a product lead, QA, and the operations team. Being the only designer meant every decision needed a rationale that worked for multiple audiences — the companies submitting products, the agency staff managing them, and the legal team validating compliance.</p>
       </div>
     </div>
@@ -139,25 +139,25 @@
     <div class="section-inner">
       <div class="section-header reveal">
         <p class="section-eyebrow">Discovery</p>
-        <h2 class="section-title">Shadowing operations first — understanding manual workflows before proposing automated replacements</h2>
+        <h2 class="section-title">Legal text as design input — and operations staff as the closest proxy for user insight</h2>
       </div>
 
       <div class="surface-card reveal">
-        <p class="section-body">I collaborated closely with operations staff to map the existing manual process — how registrations were received, processed, and approved via email and paper forms. Understanding their workflow before proposing a replacement was critical. Jumping straight to "here's the new digital process" without that grounding would have amplified the resistance, not reduced it.</p>
+        <p class="section-body">With no direct access to the actual registrants, I did two things. First, I read the law — closely, with the agency's lawyers — to understand exactly what a valid registration had to contain and what would disqualify one. Second, I worked with the operations staff who processed submissions manually. They were the closest proxy I had to the registrant experience, and they knew every edge case in the existing paper process.</p>
 
         <div class="numbered-list">
           <div class="numbered-item">
             <div class="numbered-badge">1</div>
             <div class="numbered-content">
-              <strong>Manual process was error-prone and unscalable</strong>
-              <p>Email-and-form submissions meant no consistent data structure, frequent incomplete submissions, and no status visibility for either the company or the agency. Processing time varied significantly by submission quality.</p>
+              <strong>The legal requirements were the design requirements</strong>
+              <p>Every registration had to include every ingredient, its CAS number, and its exact ratio in the product. The platform had to cross-reference each CAS number against a database of restricted substances and automatically flag products with toxic compounds or nicotine above the legal threshold. There was no design discretion here — the law defined what was required.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">2</div>
             <div class="numbered-content">
-              <strong>Operations valued control, not just efficiency</strong>
-              <p>The operations team's hesitation wasn't irrational. They'd built expertise around manual review. Their concern was legitimate: would a portal make their judgment irrelevant? That informed a core design constraint — the system needed to enhance their oversight, not bypass it.</p>
+              <strong>The audience spanned an extreme range of sophistication</strong>
+              <p>One flow had to work for a one-person shop importing a single product and for Phillip Morris registering hundreds. Both needed to enter identical information — every ingredient, every CAS number, every ratio — but their capacity for handling a complex form was completely different. Without user research to tell us where the edges were, we had to design for the least capable user while not making it slow for the most capable one.</p>
             </div>
           </div>
           <div class="numbered-item">
@@ -170,15 +170,15 @@
           <div class="numbered-item">
             <div class="numbered-badge">4</div>
             <div class="numbered-content">
-              <strong>Sign-off was a bottleneck that threatened the whole model</strong>
-              <p>Under the manual model, operations had to personally approve every registration. At scale — with hundreds of submissions anticipated — that would collapse. Solving this without removing their involvement was the central design challenge.</p>
+              <strong>EU document upload was wanted but wasn't buildable</strong>
+              <p>Larger companies already had standardised EU registration documents and wanted to upload them directly. The technical constraints ruled it out. We needed an alternative that reduced the rework of entering similar product data repeatedly — particularly for companies registering product families that differed by one flavour component.</p>
             </div>
           </div>
         </div>
 
         <div class="surface-card-sm" style="background: rgba(39,98,65,0.05); border-left: 3px solid var(--accent); border-radius: 0 16px 16px 0;">
           <p class="section-eyebrow">Baseline going in</p>
-          <p class="section-body">Every registration arrived via email. No structured data, no validation, no status visibility, no duplicate detection. Operations were manually reviewing everything before any approval. The baseline was clear — and so was the design direction: structure, automate where safe, preserve human judgment where it matters.</p>
+          <p class="section-body">Every registration arrived via email with no consistent structure. Operations reviewed everything manually. No duplicate detection, no automated validation against the restricted-ingredient database. The design direction was clear: structured data collection, automated flagging, and a sign-off process that didn't collapse under volume or grind to a halt when one person was unavailable.</p>
         </div>
       </div>
 
@@ -198,20 +198,20 @@
 
       <div class="two-col reveal">
         <div class="grid-card">
-          <p class="grid-card-title">A hard deadline with zero flexibility</p>
-          <p class="grid-card-body">The law had already passed. The portal had to launch before the grace period expired. That meant no extended research phase, no phased rollout — a complete, compliant product had to ship on time.</p>
+          <p class="grid-card-title">No user research with the actual users</p>
+          <p class="grid-card-body">The regulatory relationship between the public health agency and the tobacco industry made it impossible to research the people who'd be registering products. Legal text and operations staff were the inputs. The soft launch — a month before the hard deadline — was the user test.</p>
         </div>
         <div class="grid-card">
-          <p class="grid-card-title">Stakeholder resistance to automation</p>
-          <p class="grid-card-body">The operations team had legitimate concerns about what automation meant for their roles. Designing around that resistance wasn't just a UX problem — it meant changing what the portal promised them.</p>
+          <p class="grid-card-title">One interface for an extreme range of users</p>
+          <p class="grid-card-body">A one-person vape shop and Phillip Morris had to complete the same registration form. No segmentation, no simplified path for small companies. The form had to be both thorough enough for regulatory compliance and usable enough for someone who'd never registered a product before.</p>
         </div>
         <div class="grid-card">
-          <p class="grid-card-title">Legally controlled language</p>
-          <p class="grid-card-body">Every piece of content — button labels, error messages, form field names — needed formal sign-off. Design had to move through legal review cycles without losing momentum.</p>
+          <p class="grid-card-title">Hard deadline with no flexibility</p>
+          <p class="grid-card-body">The law had passed. The portal had to launch before January 1st. No extended research phase, no phased rollout. Every piece of content needed legal sign-off, which had to happen in parallel with design and build — not after.</p>
         </div>
         <div class="grid-card">
-          <p class="grid-card-title">Government security requirements</p>
-          <p class="grid-card-body">Strict data security requirements constrained certain design patterns. Choices that would be simple in a consumer context needed security review — adding time and limiting flexibility on interaction design.</p>
+          <p class="grid-card-title">EU document upload wasn't buildable</p>
+          <p class="grid-card-body">Larger companies expected to upload existing EU registration documents directly. The technical constraints ruled it out. The alternative had to reduce the friction of entering similar product data repeatedly without requiring integration with external EU systems.</p>
         </div>
       </div>
     </div>
@@ -257,35 +257,35 @@
             <div class="numbered-badge">1</div>
             <div class="numbered-content">
               <strong>Step-by-step registration wizard</strong>
-              <p>Broke the legally complex registration process into clear, sequential steps with real-time validation. Companies know exactly what's required at each stage and get feedback on incomplete or incorrect submissions before they hit submit.</p>
+              <p>Broke the legally complex registration process into clear steps with real-time validation. Every ingredient, CAS number, and ratio collected in a structured form — usable by a first-time registrant and fast enough for a company registering hundreds of products.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">2</div>
             <div class="numbered-content">
-              <strong>Duplicate product registration flow</strong>
-              <p>Companies registering product variants can duplicate an existing registration and edit only what's different. Eliminated the biggest source of manual re-entry and reduced error rates for frequent submitters significantly.</p>
+              <strong>Copy-as-template for product families</strong>
+              <p>Companies can duplicate an existing registration and edit only what's different — useful for a product range that varies by a single flavour component. My idea, in direct response to the EU document upload being cut. Eliminated the biggest source of manual re-entry for large registrants.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">3</div>
             <div class="numbered-content">
-              <strong>Asynchronous sign-off protocol</strong>
-              <p>Submissions proceed automatically unless flagged. Operations staff see everything, are notified of exceptions, and retain the ability to intervene at any point — but clean submissions don't wait in a queue. This was the design decision that converted internal resistance to adoption.</p>
+              <strong>Ingredient validation with flagging</strong>
+              <p>Every CAS number checked against a database of restricted substances. Toxic compounds or out-of-range nicotine doses trigger a rejection with the specific ingredient named. Editing is allowed — to correct genuine typos — but any flagged-and-edited registration is added to a monitoring list for physical product checks in stores.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">4</div>
             <div class="numbered-content">
-              <strong>Agency staff review dashboard</strong>
-              <p>Dual-interface design — what companies see and what operations sees are different views of the same submission. Ops get structured data, flag controls, and a full submission history. Status is visible to both sides throughout.</p>
+              <strong>Agile sign-off process</strong>
+              <p>Sign-off was redesigned from waterfall to parallel: steps that don't require explicit approval proceed in the background while the approval is pending. A boss on vacation no longer freezes the entire queue. Final publication still requires sign-off — but the pipeline keeps moving.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">5</div>
             <div class="numbered-content">
-              <strong>Compliant bilingual UI</strong>
-              <p>Full Swedish and English support throughout, with all copy approved through the agency's legal and translation review. Accessible to WCAG standards. Official visual tone consistent with government product requirements.</p>
+              <strong>Asynchronous sign-off for operations</strong>
+              <p>Operations are notified of submissions, can flag any at any point, and retain full oversight — but clean submissions don't wait in a queue. This was the reframe that converted internal resistance into adoption: "you review what matters, the system handles what's clear."</p>
             </div>
           </div>
         </div>
@@ -305,7 +305,7 @@
         <h2 class="section-title">Internal walkthrough sessions with both user groups — company submitters and agency staff — tested separately</h2>
       </div>
       <div class="surface-card reveal">
-        <p class="section-body">Low-fidelity wireframes tested in feedback sessions with both the operations team and the development team, run separately. Testing two different user groups simultaneously meant scenarios had to be designed for very different mental models — "how do I register my product" versus "how do I process and approve submissions."</p>
+        <p class="section-body">Without access to actual registrants, I tested with two groups who were available: the operations team and the development team. Separate sessions, different mental models — "how do I process and approve submissions" versus "does the form collect what the law requires." It wasn't ideal. It was what was possible.</p>
         <p class="section-body"><strong>Key finding from operations sessions:</strong> the asynchronous sign-off model needed clearer language explaining what "automatic approval" actually meant in practice. Participants wanted to know exactly when they'd be notified and what level of review they were still doing. That informed a dedicated onboarding step for agency staff on first use.</p>
         <p class="section-body">The duplicate registration flow tested well — the operations team noted it would significantly reduce the back-and-forth they currently dealt with for variant products. That validated it as the right call.</p>
       </div>
@@ -334,15 +334,15 @@
           <span class="stat-label">ops workload reduced significantly without removing human oversight</span>
         </div>
         <div class="stat-card">
-          <span class="stat-number">Adopted</span>
-          <span class="stat-label">operations staff who resisted the portal became its primary advocates internally</span>
+          <span class="stat-number">Month early</span>
+          <span class="stat-label">soft launch let real users build draft registrations before the hard deadline — the only user test available</span>
         </div>
       </div>
 
       <div class="surface-card-sm reveal" style="background: var(--accent-bg);">
         <p class="section-eyebrow">What I'd do differently</p>
-        <p class="section-body"><strong>Run a lightweight operations co-design session earlier.</strong> I addressed their concerns through research and by adjusting the design — but bringing operations into the design process as contributors, not just subjects, would have accelerated the trust-building that ultimately made adoption possible. The asynchronous sign-off model was designed for them; ideally it would have been designed with them.</p>
-        <p class="section-body" style="margin-top: 12px;"><strong>Establish measurable baselines for the manual process before starting.</strong> We knew the email-and-form process was slow and error-prone — but we didn't quantify it. "Processing time dropped by X%" would have been a far more compelling outcome story than "workload reduced." The data was there to collect; I didn't capture it.</p>
+        <p class="section-body"><strong>Find a proxy user earlier.</strong> We couldn't talk to the tobacco industry, but we could have found someone who imports products in a different regulated category — food supplements, medical devices — and done one structured walkthrough of the registration form. Not perfect, but better than no registrant perspective at all before launch.</p>
+        <p class="section-body" style="margin-top: 12px;"><strong>Track draft registration activity during the soft launch.</strong> We launched a month early specifically to let real users build drafts. We didn't instrument it. Knowing how many companies started drafts, how many abandoned them, and where the drop-off was would have given us actual usage data before the hard deadline. That data would have made the outcome section of this case study significantly stronger.</p>
       </div>
     </div>
   </section>
