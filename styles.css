@@ -468,7 +468,7 @@ ul  { list-style: none; }
 }
 
 .stat-card {
-  flex: 1; min-width: max-content;
+  flex: 1; min-width: 220px;
   background: white;
   border: 1px solid var(--border);
   border-radius: 20px; padding: 28px 24px;
