@@ -85,15 +85,15 @@
     <div class="insight-strip reveal">
       <div class="insight-item">
         <span class="insight-label">Insight</span>
-        <p class="insight-text">Users weren't confused because the platforms were different — they were confused because they <strong>overlapped without clear boundaries</strong>. An IA problem, not a UI problem.</p>
+        <p class="insight-text">Users weren't worried about finding their way around. They were worried about losing what they already had — features, workflows, and the ability to build without needing expert help.</p>
       </div>
       <div class="insight-item">
         <span class="insight-label">Action</span>
-        <p class="insight-text">Reframed the brief around boundary clarity. Built a product brief from discovery that gave all three POs a shared basis for every prioritisation call that followed.</p>
+        <p class="insight-text">Ran interviews that surfaced five specific anxieties: feature parity, safe migration, cost, support, and whether novice users could still build independently. Built those into the product brief so POs had user evidence, not assumptions, to prioritise against.</p>
       </div>
       <div class="insight-item">
         <span class="insight-label">Impact</span>
-        <p class="insight-text">Three POs running separate roadmaps aligned on one document. Opinion replaced by evidence in sprint planning. The brief became the decision tool for the project.</p>
+        <p class="insight-text">Three POs aligned on a brief grounded in what users were afraid of losing — not just what they wanted to build. The prioritisation table stopped being about features and started being about user anxiety.</p>
       </div>
     </div>
   </section>
@@ -118,19 +118,11 @@
 
       <div class="reveal">
         <p class="section-body">
-          BASF had three internal developer tools: <strong>Argus</strong>, the <strong>Data Science Platform</strong>, and the <strong>AppStore</strong>. Each had grown to serve a specific need. Together they created fragmented workflows, duplicated access requests, and no clear owner for any of it.
+          BASF had three internal developer tools: <strong>Argus</strong>, the <strong>Data Science Platform</strong>, and the <strong>AppStore</strong>. Each had grown to serve a different user group. A business decision had already been made to merge them into a single platform — DevHub. What hadn't been defined was what that meant for the people who used them every day.
         </p>
         <p class="section-body" style="margin-top:16px;">
-          The users fell into three groups: developers building internal apps, data scientists running pipelines and models, and non-technical users who just needed to find and use tools that already existed. Those groups have very different needs. Designing one platform for all three was the actual problem.
+          The users fell into three groups: developers building internal apps, data scientists running pipelines and models, and non-technical users who built and consumed apps without needing to understand the infrastructure behind them. For all three groups, the consolidation announcement raised the same underlying question: <em>what am I going to lose?</em>
         </p>
-      </div>
-
-      <div class="pull-quote-wrap reveal">
-        <div class="pull-quote">
-          <p class="pull-quote-text">
-            "Consolidation wasn't a UI problem — it was an <em>information architecture problem</em>."
-          </p>
-        </div>
       </div>
 
     </div>
@@ -146,7 +138,7 @@
 
       <div class="surface-card reveal">
         <p class="section-body">
-          Before talking to anyone, I reviewed platform documentation, analytics, and tutorial videos. I wanted to understand how each platform understood <em>itself</em> before hearing how users experienced it.
+          Before talking to anyone, I reviewed platform documentation, analytics, and tutorial videos. I wanted to understand what each platform could actually do — before asking users what they were afraid of losing.
         </p>
 
         <div class="numbered-list">
@@ -167,8 +159,8 @@
           <div class="numbered-item">
             <div class="numbered-badge">3</div>
             <div class="numbered-content">
-              <strong>User interviews — developers and data scientists</strong>
-              <p>Ran interviews across multiple internal teams. The consistent finding: users weren't confused by the platforms being different. They were confused by the overlap — the same app in two places, the same workflow triggering different permissions depending on where you started.</p>
+              <strong>User interviews — developers, data scientists, novice users</strong>
+              <p>Ran interviews across all three user groups. The consistent finding wasn't confusion about which tool to use — it was anxiety about the merger itself. Five concerns came up repeatedly: feature parity, safe migration, cost, support quality, and whether novice users could still build without expert help.</p>
             </div>
           </div>
         </div>
@@ -177,10 +169,9 @@
       <!-- Research output card -->
       <div class="surface-card-sm reveal">
         <p class="section-eyebrow" style="margin-bottom:4px;">KEY FINDING</p>
-        <h3 class="section-title" style="font-size: clamp(18px, 2.2vw, 24px);">Users had stopped trusting that the right path existed — not that they couldn't find it</h3>
-        <p class="section-body">
-          <strong>What we could measure going in:</strong> Developers were switching between three tools to complete a single workflow. Novice users had no onboarding path and regularly raised support tickets. Those were the baselines.
-        </p>
+        <h3 class="section-title" style="font-size: clamp(18px, 2.2vw, 24px);">Five concerns — none of them about navigation</h3>
+        <p class="section-body">Feature parity was the biggest: <em>will the new platform do everything my current tool does?</em> Migration safety was close behind. Then cost — free tiers had existed in the legacy tools but hadn't been defined yet in DevHub. Support quality: would a merged system mean slower, less specialised help? And for novice users specifically: <em>will I still be able to build without a developer's help?</em></p>
+        <p class="section-body" style="margin-top:12px;">These weren't UX problems to be solved with better navigation. They were product questions the POs needed to answer — and the brief had to make that visible.</p>
       </div>
 
       <figure class="cs-figure reveal">
@@ -226,7 +217,7 @@
     <div class="hmw-card reveal" style="max-width: 940px; width: calc(100% - 40px);">
       <p class="section-eyebrow">HOW MIGHT WE…</p>
       <h2 class="section-title">
-        Consolidate three overlapping platforms into a single unified experience that serves developers, data scientists, and novice users — without making any of them feel like an afterthought?
+        Merge three platforms into one without developers losing capability, data scientists losing their workflows, or novice users losing the ability to build without expert help — and make the answers to those five anxieties visible in the product before anyone has to ask?
       </h2>
     </div>
   </section>
@@ -241,7 +232,7 @@
 
       <div class="surface-card reveal">
         <p class="section-body">
-          Once the brief was agreed, I started designing. Three user groups meant three main flows — app creation for developers, pipeline onboarding for data scientists, and a dashboard for novice users. I built them in parallel, keeping the structure consistent enough to feel like one product.
+          Once the brief was agreed, I moved into design. Three user groups meant three main flows — app creation for developers, pipeline onboarding for data scientists, and a guided dashboard for novice users. I built them in parallel, keeping the structure consistent enough to feel like one product, while each flow addressed the specific anxieties of the group using it.
         </p>
 
         <div class="numbered-list">
@@ -255,15 +246,15 @@
           <div class="numbered-item">
             <div class="numbered-badge">2</div>
             <div class="numbered-content">
-              <strong>Low and mid-fidelity wireframes</strong>
-              <p>Three core flows: the app creation wizard, data pipeline onboarding, and the unified app dashboard. Iterated through two rounds of feasibility-driven revision.</p>
+              <strong>Feature parity mapping</strong>
+              <p>Mapped every significant capability across Argus, the Data Science Platform, and the AppStore to confirm what DevHub would cover. This became the answer to the biggest user concern — and the basis for honest communication about what wasn't in scope for the first release.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">3</div>
             <div class="numbered-content">
               <strong>App creation wizard</strong>
-              <p>Reduced the onboarding path for novice users from a fragmented multi-platform process across three tools to a single guided flow.</p>
+              <p>Reduced the onboarding path for novice users to a single guided flow. This was the direct design response to the feature parity concern: novice users needed proof that they could build in DevHub without knowing the infrastructure behind it.</p>
             </div>
           </div>
           <div class="numbered-item">
@@ -271,6 +262,13 @@
             <div class="numbered-content">
               <strong>BASF Atoms extensions</strong>
               <p>All components built within the BASF Atoms design system. Where patterns didn't exist — primarily the app wizard step flow and unified dashboard state management — I proposed and documented extensions, keeping them aligned with the existing token structure.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">5</div>
+            <div class="numbered-content">
+              <strong>Pricing and support surface — intern project</strong>
+              <p>Free tiers had existed in the legacy tools but hadn't been defined in the unified DevHub. Under my supervision, a master's student designed how pricing tiers and support options would be surfaced within the platform — making them visible to users before they had to ask. Their output was integrated directly into the live system.</p>
             </div>
           </div>
         </div>
@@ -301,17 +299,15 @@
         </p>
       </div>
 
-      <!--
       <figure class="cs-figure reveal">
         <img class="cs-img" src="../img/basf/testing.png" alt="BASF DevHub — Figma prototype walkthrough session">
         <figcaption class="cs-caption">Walkthrough session in the Figma prototype — scenarios covered app creation, permissions, and dashboard navigation. Engineering feedback visible in the comment panel.</figcaption>
       </figure>
 
       <div class="surface-card-sm reveal" style="border-left: 3px solid var(--accent);">
-        <p class="section-eyebrow">WHAT I'D ADD NOW</p>
-        <p class="section-body">If I ran any sessions directly with data scientists or novice end-users (not just POs and engineers), those would go here. Even one or two walkthroughs counts. Format: "<em>Ran [X] user walkthroughs with internal [role] users, testing against 3 scenarios: [list them].</em>"</p>
+        <p class="section-eyebrow">WHAT I'D DO DIFFERENTLY HERE</p>
+        <p class="section-body">The walkthrough sessions were with product owners and developers — not the novice users whose concern about building without expert help was the central design question. Even two sessions with non-technical internal users would have told me whether the wizard actually answered that anxiety. It's the one gap I'd close first.</p>
       </div>
-      -->
 
     </div>
   </section>
@@ -367,10 +363,10 @@
 
       <div class="surface-card reveal">
         <p class="section-body">
-          The brief was about UI consolidation. The real problem was that nobody had defined the boundaries between the three systems. They overlapped, contradicted each other, and frustrated users — not because the interfaces were bad, but because nobody had agreed on what each one was for.
+          The brief was about UI consolidation. The real problem was that nobody had named what the merger meant for the people who had to keep using these tools every day. When a consolidation is announced without answering the questions users are actually asking — will I keep my features, can I migrate safely, will this cost more, will support get worse, can I still build without help — those questions don't disappear. They just become the friction that kills adoption.
         </p>
         <p class="section-body" style="margin-top: 16px;">
-          Reframing from UI to IA early — and getting three product owners to accept that reframing — made everything else possible. The product brief wasn't just something I handed over. It became the document everyone went back to when priorities clashed.
+          Getting the POs to accept that those five concerns were design requirements, not just comms problems, was what made the brief useful. It wasn't a roadmap. It was a translation layer between user anxiety and product decisions.
         </p>
         <p class="section-body" style="margin-top: 16px;">
           <strong>Next step:</strong> quantitative data from the wizard flow — steps-to-completion, error rates, support ticket volume before and after. That's what would turn this from a strong story into an undeniable one.

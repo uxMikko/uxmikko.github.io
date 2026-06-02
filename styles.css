@@ -538,7 +538,7 @@ ul  { list-style: none; }
   font-family: var(--font-body);
   font-size: 13px;
   color: var(--text-3);
-  text-align: center;
+  text-align: left;
   line-height: 1.5em;
 }
 
