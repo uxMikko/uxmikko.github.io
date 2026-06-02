@@ -760,6 +760,7 @@ ul  { list-style: none; }
   gap: 48px 24px;
   width: 100%;
   max-width: 1200px;
+  align-self: stretch;
 }
 
 .site .project-card {
