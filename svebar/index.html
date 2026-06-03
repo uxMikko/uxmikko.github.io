@@ -685,6 +685,7 @@
   <div id="mkkchat-header">
     <img id="mkkchat-avatar" src="/img/profile/memoji.png" alt="Mikko">
     <p id="mkkchat-title">Ask me anything</p>
+    <span id="mkkchat-admin-badge" style="font-size:11px;font-weight:700;color:#3A6B12;letter-spacing:0.05em;display:none;">ADMIN</span>
     <button id="mkkchat-close" aria-label="Close chat">×</button>
   </div>
   <div id="mkkchat-msgs">
@@ -715,8 +716,9 @@
   var input   = document.getElementById('mkkchat-input');
   var send    = document.getElementById('mkkchat-send');
   var history = [];
-  var greeted = false;
-  var busy    = false;
+  var greeted  = false;
+  var busy     = false;
+  var adminKey = null;
 
   // On GitHub Pages the Netlify function doesn't exist — show a Y/N prompt
   if (window.location.hostname === 'uxmikko.github.io') {
@@ -806,14 +808,57 @@
     if (!text || busy) return;
     input.value = '';
     setBusy(true);
-    addMsg('user', text);
     setTyping(true);
 
+    // Admin auth attempt — "admin [key]"
+    if (text.toLowerCase().startsWith('admin ')) {
+      var attemptKey = text.slice(6).trim();
+      try {
+        var ar = await fetch('/.netlify/functions/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ authAttempt: true, adminKey: attemptKey }),
+        });
+        var ad = await ar.json();
+        if (ad.authenticated) {
+          adminKey = attemptKey;
+          document.getElementById('mkkchat-admin-badge').style.display = 'inline';
+        }
+        setTyping(false);
+        addMsg('bot', ad.reply);
+      } catch (e) {
+        setTyping(false);
+        addMsg('bot', 'Connection error.');
+      }
+      setBusy(false); input.focus(); return;
+    }
+
+    // Correction command — "No. [correction]" (requires active admin session)
+    if (adminKey && text.startsWith('No. ')) {
+      addMsg('user', text);
+      try {
+        var cr = await fetch('/.netlify/functions/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text, adminKey: adminKey }),
+        });
+        var cd = await cr.json();
+        setTyping(false);
+        addMsg('bot', cd.reply);
+      } catch (e) {
+        setTyping(false);
+        addMsg('bot', 'Connection error saving that.');
+      }
+      setBusy(false); input.focus(); return;
+    }
+
+    // Normal message
+    addMsg('user', text);
     try {
       var res = await fetch('/.netlify/functions/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, history: history }),
+        body: JSON.stringify({ message: text, history: history, page: window.location.pathname }),
       });
       var data = await res.json();
       var reply = data.reply || 'Sorry, something went wrong — please try again.';
