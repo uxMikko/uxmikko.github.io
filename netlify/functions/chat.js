@@ -217,7 +217,7 @@ exports.handler = async (event) => {
     const uncertain = botIsUncertain(reply);
     if (uncertain) {
       const enc = encodeURIComponent(message);
-      reply += `\n\n[Send me this question directly →](https://uxmikko.netlify.app/#contact?q=${enc})`;
+      reply += `\n\n[Send me this question directly →](https://uxmikko.netlify.app/?q=${enc}#contact)`;
     }
 
     logQuestion(message, referrer, !uncertain);
