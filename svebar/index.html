@@ -718,16 +718,53 @@
   var greeted = false;
   var busy    = false;
 
-  // On GitHub Pages the function doesn't exist — open the widget, show a notice, then redirect
+  // On GitHub Pages the Netlify function doesn't exist — show a Y/N prompt
   if (window.location.hostname === 'uxmikko.github.io') {
     btn.addEventListener('click', function () {
       win.classList.add('open');
       greet();
       setTimeout(function () {
-        addMsg('bot', "The live chat runs on my Netlify site. Taking you there now — the chat will open automatically. ✌️");
-        setTimeout(function () {
-          window.location.href = 'https://uxmikko.netlify.app/?chat=open';
-        }, 2200);
+        // Prompt bubble with Yes / No buttons
+        var prompt = document.createElement('div');
+        prompt.className = 'mkkchat-msg bot';
+        prompt.style.cssText = 'display:flex;flex-direction:column;gap:10px;';
+
+        var txt = document.createElement('span');
+        txt.textContent = "Want to chat? I'll need to take you to the newer version of this site to make that happen.";
+        prompt.appendChild(txt);
+
+        var btns = document.createElement('div');
+        btns.style.cssText = 'display:flex;gap:8px;';
+
+        var yes = document.createElement('button');
+        yes.textContent = 'Yes, let's go';
+        yes.style.cssText = 'padding:6px 14px;border-radius:20px;border:none;background:#3A6B12;color:white;font-family:Inter,sans-serif;font-size:13px;font-weight:500;cursor:pointer;';
+
+        var no = document.createElement('button');
+        no.textContent = 'No thanks';
+        no.style.cssText = 'padding:6px 14px;border-radius:20px;border:1px solid #ddd;background:white;color:#555;font-family:Inter,sans-serif;font-size:13px;font-weight:500;cursor:pointer;';
+
+        yes.addEventListener('click', function () {
+          yes.disabled = no.disabled = true;
+          yes.textContent = 'On my way ✌️';
+          setTimeout(function () {
+            window.location.href = 'https://uxmikko.netlify.app/?chat=open';
+          }, 800);
+        });
+
+        no.addEventListener('click', function () {
+          yes.disabled = no.disabled = true;
+          btns.remove();
+          var bye = document.createElement('span');
+          bye.textContent = 'No worries — feel free to browse the case studies 👋';
+          prompt.appendChild(bye);
+        });
+
+        btns.appendChild(yes);
+        btns.appendChild(no);
+        prompt.appendChild(btns);
+        msgs.insertBefore(prompt, typing);
+        msgs.scrollTop = msgs.scrollHeight;
       }, 600);
     });
     return;
