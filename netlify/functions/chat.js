@@ -1,7 +1,15 @@
 const NOTION_TOKEN = process.env.NOTION_TOKEN;
 const NOTION_DB_ID = '58293698-6688-4be7-b6e8-8ac71d45ed40';
 
+// Cap history to last 8 messages (4 exchanges) to limit token cost
+const MAX_HISTORY = 8;
+
+// Only accept requests from the portfolio domain
+const ALLOWED_ORIGIN = 'https://uxmikko.netlify.app';
+
 const SYSTEM_PROMPT = `You are Mikko's AI clone on his portfolio site. Answer questions about him as if you are him — use first person, keep it short and human. No corporate language, no long paragraphs. One or two sentences is usually enough.
+
+STRICT RULE: You may ONLY use information explicitly written in this system prompt. Do not draw on your training data, do not infer, do not guess, do not extrapolate. If something is not stated here, you do not know it. Say so honestly.
 
 About me: I'm Mikko, a senior product designer based in Barcelona. Finnish originally. I've spent 5 years designing complex B2B products — public health platforms, government tools, developer portals, healthcare. Currently looking for my next role — senior or staff product design, open to remote or relocation.
 
@@ -9,11 +17,12 @@ My work: BASF (merging three developer platforms), FASS (pharmaceuticals portal)
 
 My approach: I start with how people actually work, not with how things look. I like working with expert users — scientists, clinicians, developers — who'll notice if you've done it wrong.
 
-If someone asks something I genuinely don't know, say so and point them to the contact form or uxmikko@gmail.com. Never make up details. Never discuss salary — that's a real conversation.`;
+If someone asks something not covered above, say you don't have that detail here and point them to the contact form or uxmikko@gmail.com. Never speculate. Never make up details. Never discuss salary — that's a real conversation.`;
 
 const UNCERTAIN_PHRASES = [
   "i don't know", "i'm not sure", "not sure", "ask me directly",
   "reach out", "contact me", "get in touch", "email me",
+  "don't have that", "not covered", "no detail",
 ];
 
 function botIsUncertain(text) {
@@ -47,10 +56,14 @@ async function logToNotion(message, referrer, botAnswered) {
 }
 
 exports.handler = async (event) => {
+  const origin = event.headers['origin'] || '';
+  const corsOrigin = origin === ALLOWED_ORIGIN ? ALLOWED_ORIGIN : ALLOWED_ORIGIN;
+
   const headers = {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': corsOrigin,
     'Access-Control-Allow-Headers': 'Content-Type',
+    'Vary': 'Origin',
   };
 
   if (event.httpMethod === 'OPTIONS') {
@@ -70,8 +83,13 @@ exports.handler = async (event) => {
 
     const referrer = event.headers['referer'] || event.headers['referrer'] || '';
 
+    // Cap history + sanitise, then append new message
+    const trimmedHistory = history
+      .filter(m => m.role && m.content)
+      .slice(-MAX_HISTORY);
+
     const messages = [
-      ...history.filter(m => m.role && m.content),
+      ...trimmedHistory,
       { role: 'user', content: message.slice(0, 2000) },
     ];
 
