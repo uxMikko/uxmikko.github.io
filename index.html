@@ -75,10 +75,56 @@
         <h2 class="section-h2">Case Studies</h2>
       </div>
 
+      <!-- FILTER SYSTEM — uncomment when 6+ case studies are live
+      <div class="filter-bar">
+        <button class="filter-toggle" id="filterToggle" aria-label="Filter case studies" aria-expanded="false">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+            <path d="M1 3.5h13M1 7.5h13M1 11.5h13" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+            <circle cx="4.5" cy="3.5" r="1.5" fill="white" stroke="currentColor" stroke-width="1.25"/>
+            <circle cx="10.5" cy="7.5" r="1.5" fill="white" stroke="currentColor" stroke-width="1.25"/>
+            <circle cx="6.5" cy="11.5" r="1.5" fill="white" stroke="currentColor" stroke-width="1.25"/>
+          </svg>
+        </button>
+      </div>
+      <div class="filter-panel" id="filterPanel" hidden>
+        <div class="filter-group">
+          <p class="filter-group-label">Context</p>
+          <div class="filter-options">
+            <button class="filter-option" data-dim="context" data-val="b2b">B2B</button>
+            <button class="filter-option" data-dim="context" data-val="b2c">B2C</button>
+            <button class="filter-option" data-dim="context" data-val="government">Government</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <p class="filter-group-label">Domain</p>
+          <div class="filter-options">
+            <button class="filter-option" data-dim="domain" data-val="healthcare">Healthcare</button>
+            <button class="filter-option" data-dim="domain" data-val="developer-tools">Developer tools</button>
+            <button class="filter-option" data-dim="domain" data-val="fintech">FinTech</button>
+            <button class="filter-option" data-dim="domain" data-val="housing">Housing</button>
+            <button class="filter-option" data-dim="domain" data-val="travel">Travel</button>
+            <button class="filter-option" data-dim="domain" data-val="regulated">Regulated</button>
+          </div>
+        </div>
+        <div class="filter-group">
+          <p class="filter-group-label">Process</p>
+          <div class="filter-options">
+            <button class="filter-option" data-dim="skills" data-val="solo">Solo end-to-end</button>
+            <button class="filter-option" data-dim="skills" data-val="workshop-facilitation">Workshop facilitation</button>
+            <button class="filter-option" data-dim="skills" data-val="data-visualisation">Data visualisation</button>
+            <button class="filter-option" data-dim="skills" data-val="design-system">Design system</button>
+          </div>
+        </div>
+        <button class="filter-reset" id="filterReset">Clear all</button>
+      </div>
+      FILTER SYSTEM END -->
+
       <div class="cards-grid">
 
         <!-- BASF -->
-        <a class="project-card card-basf reveal" href="basf/" tabindex="0">
+        <a class="project-card card-basf reveal" href="basf/" tabindex="0"
+           data-context="b2b" data-domain="developer-tools"
+           data-skills="solo,stakeholder-alignment,data-visualisation,workshop-facilitation">
           <div class="card-image">
             <img src="img/basf/card.png" alt="BASF Platform" style="width:100%; height:100%; object-fit:cover;">
           </div>
@@ -88,6 +134,10 @@
               <h3 class="card-title">Merging Developer Platforms</h3>
             </div>
             <p class="card-desc">Consolidated three overlapping internal tools into a unified experience for developers, data scientists, and novice users — reframing a UI problem as an IA problem.</p>
+            <div class="card-tags">
+              <span class="card-tag">B2B</span>
+              <span class="card-tag">Developer tools</span>
+            </div>
           </div>
         </a>
 
@@ -98,7 +148,7 @@
             <img src="img/svebar/card.png" alt="SVEBar" style="width:100%; height:100%; object-fit:cover;">
           </div>
           <div class="card-meta">
-            <span class="card-category" style="color: var(--accent-svebar);">Outbreak Monitoring · Public Health Agency of Sweden</span>
+            <span class="card-category" style="color: var(--accent-svebar);">Folkhälsomyndigheten</span>
             <div class="card-title-row">
               <h3 class="card-title">Modernizing monitoring system of multi-resistent bacteria</h3>
             </div>
@@ -108,16 +158,22 @@
         -->
 
         <!-- GENSAM -->
-        <a class="project-card card-gensam reveal" href="gensam/" tabindex="0">
+        <a class="project-card card-gensam reveal" href="gensam/" tabindex="0"
+           data-context="government" data-domain="healthcare"
+           data-skills="solo,data-visualisation">
           <div class="card-image">
             <img src="img/gensam/card.png" alt="GENSAM" style="width:100%; height:100%; object-fit:cover;">
           </div>
           <div class="card-meta">
-            <span class="card-category" style="color: var(--accent-gensam);">Pandemic Tracking · Public Health Agency of Sweden</span>
+            <span class="card-category" style="color: var(--accent-gensam);">Folkhälsomyndigheten</span>
             <div class="card-title-row">
               <h3 class="card-title">Designing a COVID sequence database</h3>
             </div>
             <p class="card-desc">Designed a national genomic sequencing platform for epidemiologists tracking COVID variants.</p>
+            <div class="card-tags">
+              <span class="card-tag">Government</span>
+              <span class="card-tag">Healthcare</span>
+            </div>
           </div>
         </a>
 
@@ -128,7 +184,7 @@
             <img src="img/fass/card.png" alt="FASS" style="width:100%; height:100%; object-fit:cover;">
           </div>
           <div class="card-meta">
-            <span class="card-category" style="color: var(--accent-fass);">Pharma Catalogue Redesign · FASS</span>
+            <span class="card-category" style="color: var(--accent-fass);">FASS</span>
             <div class="card-title-row">
               <h3 class="card-title">Modernizing Pharmacuticals catalogue</h3>
             </div>
@@ -138,39 +194,52 @@
         -->
 
         <!-- LTN -->
-        <a class="project-card card-ltn reveal" href="ltn/" tabindex="0">
+        <a class="project-card card-ltn reveal" href="ltn/" tabindex="0"
+           data-context="b2c,government" data-domain="regulated"
+           data-skills="solo,workshop-facilitation,stakeholder-alignment">
           <div class="card-image">
             <img src="img/ltn/card.png" alt="LTN" style="width:100%; height:100%; object-fit:cover;">
           </div>
           <div class="card-meta">
-            <span class="card-category" style="color: var(--accent-ltn);">Compliance Portal · Public Health Agency of Sweden</span>
+            <span class="card-category" style="color: var(--accent-ltn);">Folkhälsomyndigheten</span>
             <div class="card-title-row">
               <h3 class="card-title">Designing a registration system for nicotine products</h3>
             </div>
             <p class="card-desc">Designed and shipped a registration portal for tobacco-free nicotine products — one system for everyone from a one-person vape shop to Phillip Morris, with no user research allowed.</p>
+            <div class="card-tags">
+              <span class="card-tag">B2C</span>
+              <span class="card-tag">Government</span>
+              <span class="card-tag">Regulated</span>
+            </div>
           </div>
         </a>
 
         <!-- Riksbyggen -->
-        <a class="project-card card-riksbyggen reveal" href="riksbyggen/" tabindex="0">
+        <a class="project-card card-riksbyggen reveal" href="riksbyggen/" tabindex="0"
+           data-context="b2c" data-domain="housing"
+           data-skills="solo,workshop-facilitation">
           <div class="card-image">
-            <div class="card-image-inner" style="background: linear-gradient(135deg, #f5ddd8 0%, #e8b8aa 100%);">
-              <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="14" y="32" width="52" height="34" rx="4" stroke="currentColor" stroke-width="2.5"/>
-                <path d="M10 34L40 12l30 22" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <rect x="30" y="46" width="20" height="20" rx="2" fill="currentColor" fill-opacity="0.15" stroke="currentColor" stroke-width="2"/>
-                <path d="M36 54h8M40 50v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </div>
+            <img src="img/riksbyggen/card.png" alt="Riksbyggen" style="width:100%; height:100%; object-fit:cover;">
           </div>
           <div class="card-meta">
-            <span class="card-category" style="color: rgb(191,68,47);">Digital Consumer platform · Riksbyggen</span>
+            <span class="card-category" style="color: rgb(191,68,47);">Riksbyggen</span>
             <div class="card-title-row">
               <h3 class="card-title">Designing a subscription platform</h3>
             </div>
             <p class="card-desc">Automated subscription sales for 900 tenant organisations — 500 paying customers in under two months, six months ahead of target.</p>
+            <div class="card-tags">
+              <span class="card-tag">B2C</span>
+              <span class="card-tag">Housing</span>
+            </div>
           </div>
         </a>
+
+      <!-- FILTER NO RESULTS — part of filter system
+      <div class="cards-no-results" id="noResults">
+        <p>No case studies match those filters.</p>
+        <button onclick="document.getElementById('filterReset').click()">Clear filters</button>
+      </div>
+      FILTER NO RESULTS END -->
 
       </div><!-- /cards-grid -->
     </div><!-- /section-body -->
@@ -356,5 +425,81 @@
   }
 })();
 </script>
+
+<!-- FILTER JS — uncomment with filter HTML above
+<script>
+(function () {
+  var DIMS = ['context', 'domain', 'skills'];
+  var active = { context: [], domain: [], skills: [] };
+  var toggle   = document.getElementById('filterToggle');
+  var panel    = document.getElementById('filterPanel');
+  var resetBtn = document.getElementById('filterReset');
+  var noRes    = document.getElementById('noResults');
+  var cards    = Array.from(document.querySelectorAll('.project-card'));
+
+  toggle.addEventListener('click', function () {
+    var open = panel.hidden;
+    panel.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+
+  panel.querySelectorAll('.filter-option').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var dim = btn.dataset.dim, val = btn.dataset.val;
+      var idx = active[dim].indexOf(val);
+      if (idx === -1) { active[dim].push(val); btn.classList.add('checked'); }
+      else            { active[dim].splice(idx, 1); btn.classList.remove('checked'); }
+      applyFilters(); writeURL();
+    });
+  });
+
+  resetBtn.addEventListener('click', function () {
+    DIMS.forEach(function (d) { active[d] = []; });
+    panel.querySelectorAll('.filter-option').forEach(function (b) { b.classList.remove('checked'); });
+    applyFilters(); writeURL();
+  });
+
+  function applyFilters() {
+    var hasAny = DIMS.some(function (d) { return active[d].length > 0; });
+    toggle.classList.toggle('has-filters', hasAny);
+    var visible = 0;
+    cards.forEach(function (card) {
+      var show = !hasAny || DIMS.every(function (dim) {
+        if (!active[dim].length) return true;
+        var tags = (card.dataset[dim] || '').split(',');
+        return active[dim].some(function (v) { return tags.indexOf(v) !== -1; });
+      });
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    if (noRes) noRes.style.display = visible === 0 ? '' : 'none';
+  }
+
+  function writeURL() {
+    var params = new URLSearchParams();
+    DIMS.forEach(function (d) { if (active[d].length) params.set(d, active[d].join(',')); });
+    var qs = params.toString();
+    history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+  }
+
+  function readURL() {
+    var params = new URLSearchParams(location.search);
+    var any = false;
+    DIMS.forEach(function (dim) {
+      var val = params.get(dim);
+      if (!val) return;
+      val.split(',').forEach(function (v) {
+        var btn = panel.querySelector('.filter-option[data-dim="' + dim + '"][data-val="' + v + '"]');
+        if (btn) { btn.classList.add('checked'); active[dim].push(v); any = true; }
+      });
+    });
+    if (any) { panel.hidden = false; applyFilters(); }
+  }
+
+  readURL();
+})();
+</script>
+FILTER JS END -->
+
 </body>
 </html>
