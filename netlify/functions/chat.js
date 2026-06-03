@@ -118,6 +118,19 @@ function buildPageContext(page) {
   return `\n\nThe recruiter is currently reading the ${ctx.name} case study (${ctx.focus}). Lead with details about that project when relevant.`;
 }
 
+// ── Telegram human-in-the-loop alert ────────────────────────────────────────
+async function alertTelegram(question, sessionId) {
+  if (!process.env.TELEGRAM_TOKEN || !process.env.TELEGRAM_CHAT_ID) return;
+  const text = `💬 Live question from portfolio visitor:\n\n"${question}"\n\n[Session: ${sessionId}]\n\nReply to this message within 2 minutes to answer them directly.`;
+  try {
+    await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, text }),
+    });
+  } catch (e) { console.error('Telegram alert:', e); }
+}
+
 // ── Slim base prompt — content comes from the KB page ───────────────────────
 const SYSTEM_PROMPT = `You are Mikko's AI clone on his portfolio site. Speak as Mikko in first person. Keep it short — one or two sentences is usually enough. No corporate language. Use ONLY the information in the knowledge base below. If something isn't there, say so honestly and point to the contact form or uxmikko@gmail.com. Never discuss salary.`;
 
@@ -215,12 +228,25 @@ exports.handler = async (event) => {
     let   reply = data?.content?.[0]?.text ?? "Sorry, I didn't get a response. Try again.";
 
     const uncertain = botIsUncertain(reply);
+    logQuestion(message, referrer, !uncertain);
+
+    if (uncertain && process.env.TELEGRAM_TOKEN && process.env.TELEGRAM_CHAT_ID) {
+      // Human-in-the-loop: alert Mikko on Telegram and return waiting state
+      const sessionId = Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+      await alertTelegram(message, sessionId);
+      return { statusCode: 200, headers, body: JSON.stringify({
+        reply: "just a sec, let me check 👀",
+        waitingForHuman: true,
+        sessionId,
+      })};
+    }
+
     if (uncertain) {
+      // Telegram not configured — fall back to contact link
       const enc = encodeURIComponent(message);
       reply += `\n\n[Send me this question directly →](https://uxmikko.netlify.app/?q=${enc}#contact)`;
     }
 
-    logQuestion(message, referrer, !uncertain);
     return { statusCode: 200, headers, body: JSON.stringify({ reply }) };
 
   } catch (err) {

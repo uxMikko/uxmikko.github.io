@@ -803,6 +803,34 @@
     }
     msgs.insertBefore(el, typing);
     msgs.scrollTop = msgs.scrollHeight;
+    return el;
+  }
+
+  function updateMsg(el, text) {
+    while (el.firstChild) el.removeChild(el.firstChild);
+    text.split(/(\[[^\]]+\]\([^)]+\))/).forEach(function(part) {
+      var m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+      if (m) {
+        el.appendChild(document.createElement('br'));
+        var a = document.createElement('a');
+        a.textContent = m[1];
+        a.style.cssText = 'color:#3A6B12;font-weight:600;text-decoration:underline;display:inline-block;margin-top:6px;cursor:pointer;';
+        if (m[2].indexOf('?q=') !== -1 || m[2].indexOf('#contact') !== -1) {
+          a.href = '#contact';
+          (function(url) { a.addEventListener('click', function(e) {
+            e.preventDefault();
+            var qm = url.match(/[?&]q=([^&#]*)/);
+            if (qm) { var ta = document.getElementById('message'); if (ta) ta.value = decodeURIComponent(qm[1].replace(/\+/g,' ')); }
+            var cf = document.getElementById('contact'); if (cf) cf.scrollIntoView({behavior:'smooth'});
+            win.classList.remove('open'); saveSession();
+          }); })(m[2]);
+        } else { a.href = m[2]; a.target = '_blank'; a.rel = 'noopener'; }
+        el.appendChild(a);
+      } else {
+        el.appendChild(document.createTextNode(part));
+      }
+    });
+    msgs.scrollTop = msgs.scrollHeight;
   }
 
   function setTyping(on) {
@@ -880,6 +908,7 @@
     }
 
     // Normal message
+    var origText = text;
     addMsg('user', text);
     try {
       var res = await fetch('/.netlify/functions/chat', {
@@ -888,12 +917,39 @@
         body: JSON.stringify({ message: text, history: history, page: window.location.pathname }),
       });
       var data = await res.json();
-      var reply = data.reply || 'Sorry, something went wrong — please try again.';
-      history.push({ role: 'user', content: text });
-      history.push({ role: 'assistant', content: reply });
       setTyping(false);
-      addMsg('bot', reply);
-      saveSession();
+      if (data.waitingForHuman && data.sessionId) {
+        var waitEl = addMsg('bot', data.reply || 'just a sec, let me check 👀');
+        var pollsDone = 0;
+        var sid = data.sessionId;
+        var pid = setInterval(async function() {
+          pollsDone++;
+          try {
+            var pr = await fetch('/.netlify/functions/check-reply?sessionId=' + sid);
+            var pd = await pr.json();
+            if (pd.answered) {
+              clearInterval(pid);
+              updateMsg(waitEl, pd.reply);
+              history.push({ role: 'user', content: origText });
+              history.push({ role: 'assistant', content: pd.reply });
+              saveSession();
+            } else if (pollsDone >= 12) {
+              clearInterval(pid);
+              var enc = encodeURIComponent(origText);
+              updateMsg(waitEl, "Mikko's not around right now.\n\n[Send him this question →](https://uxmikko.netlify.app/?q=" + enc + "#contact)");
+              history.push({ role: 'user', content: origText });
+              history.push({ role: 'assistant', content: 'Not available — suggested contact form.' });
+              saveSession();
+            }
+          } catch(e) { if (pollsDone >= 12) clearInterval(pid); }
+        }, 10000);
+      } else {
+        var reply = data.reply || 'Sorry, something went wrong — please try again.';
+        history.push({ role: 'user', content: origText });
+        history.push({ role: 'assistant', content: reply });
+        addMsg('bot', reply);
+        saveSession();
+      }
     } catch (e) {
       setTyping(false);
       addMsg('bot', 'Connection error — please email uxmikko@gmail.com directly.');
