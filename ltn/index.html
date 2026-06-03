@@ -707,21 +707,24 @@
   var typing  = document.getElementById('mkkchat-typing');
   var input   = document.getElementById('mkkchat-input');
   var send    = document.getElementById('mkkchat-send');
-  var _sh      = sessionStorage.getItem('mkkChat_h');
+  var _sh      = localStorage.getItem('mkkChat_h');
   var history  = _sh ? JSON.parse(_sh) : [];
-  var greeted  = sessionStorage.getItem('mkkChat_g') === '1';
-  var wasOpen  = sessionStorage.getItem('mkkChat_o') === '1';
+  var greeted  = localStorage.getItem('mkkChat_g') === '1';
+  var wasOpen  = localStorage.getItem('mkkChat_o') === '1';
   var busy     = false;
   var adminKey = null;
 
   // On GitHub Pages the Netlify function doesn't exist — show a Y/N prompt
   if (window.location.hostname === 'uxmikko.github.io') {
-    // Restore chat from sessionStorage on page load
+    // Restore chat from localStorage on page load
   if (wasOpen && history.length) {
-    history.forEach(function(m) {
-      addMsg(m.role === 'assistant' ? 'bot' : 'user', m.content);
-    });
-    win.classList.add('open');
+    try {
+      history.forEach(function(m) {
+        if (m && m.content) addMsg(m.role === 'assistant' ? 'bot' : 'user', m.content);
+      });
+      win.classList.add('open');
+      setTimeout(function() { msgs.scrollTop = msgs.scrollHeight; }, 50);
+    } catch(e) { console.error('Chat restore error:', e); }
   }
 
   btn.addEventListener('click', function () {
@@ -848,9 +851,9 @@
   }
 
   function saveSession() {
-    sessionStorage.setItem('mkkChat_h', JSON.stringify(history));
-    sessionStorage.setItem('mkkChat_g', greeted ? '1' : '0');
-    sessionStorage.setItem('mkkChat_o', win.classList.contains('open') ? '1' : '0');
+    localStorage.setItem('mkkChat_h', JSON.stringify(history));
+    localStorage.setItem('mkkChat_g', greeted ? '1' : '0');
+    localStorage.setItem('mkkChat_o', win.classList.contains('open') ? '1' : '0');
   }
 
   function greet() {
