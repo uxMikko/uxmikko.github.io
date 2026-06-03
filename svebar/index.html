@@ -597,6 +597,10 @@
     font-size: 16px; font-weight: 600;
     color: #191d21; margin: 0;
   }
+  #mkkchat-avatar {
+    width: 30px; height: 30px;
+    border-radius: 50%; object-fit: cover; flex-shrink: 0;
+  }
   #mkkchat-close {
     background: none; border: none;
     color: #999; font-size: 22px; line-height: 1;
@@ -679,6 +683,7 @@
 
 <div id="mkkchat-window" role="dialog" aria-label="Chat">
   <div id="mkkchat-header">
+    <img id="mkkchat-avatar" src="/img/profile/memoji.png" alt="Mikko">
     <p id="mkkchat-title">Ask me anything</p>
     <button id="mkkchat-close" aria-label="Close chat">×</button>
   </div>
@@ -736,7 +741,7 @@
     if (greeted) return;
     greeted = true;
     setTimeout(function () {
-      addMsg('bot', "Hey 👋 I'm Mikko's AI clone. Ask me anything about his work, experience, or what he's looking for — I'll keep it short.");
+      addMsg('bot', "Hey 👋 I'm Mikko — or a pretty good AI version of me. Ask me anything about my work, experience, or what I'm looking for.");
     }, 240);
   }
 
