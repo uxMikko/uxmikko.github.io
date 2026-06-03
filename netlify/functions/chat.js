@@ -1,6 +1,6 @@
 const NOTION_TOKEN    = process.env.NOTION_TOKEN;
-const NOTION_DB_ID    = '58293698-6688-4be7-b6e8-8ac71d45ed40'; // question log
-const NOTION_KB_DB_ID = 'e3529e51-cfdd-47d3-8557-95b811a8fa5b'; // knowledge base
+const NOTION_DB_ID    = process.env.NOTION_DB_ID    || '58293698-6688-4be7-b6e8-8ac71d45ed40';
+const NOTION_KB_DB_ID = process.env.NOTION_KB_DB_ID;
 const CHAT_ADMIN_KEY  = process.env.CHAT_ADMIN_KEY;
 
 const MAX_HISTORY    = 8;
