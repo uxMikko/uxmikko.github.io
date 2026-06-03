@@ -707,10 +707,17 @@
   var greeted = false;
   var busy    = false;
 
-  // On GitHub Pages the function doesn't exist — send to Netlify with chat open
+  // On GitHub Pages the function doesn't exist — open the widget, show a notice, then redirect
   if (window.location.hostname === 'uxmikko.github.io') {
     btn.addEventListener('click', function () {
-      window.location.href = 'https://uxmikko.netlify.app/?chat=open';
+      win.classList.add('open');
+      greet();
+      setTimeout(function () {
+        addMsg('bot', "The live chat runs on my Netlify site. Taking you there now — the chat will open automatically. ✌️");
+        setTimeout(function () {
+          window.location.href = 'https://uxmikko.netlify.app/?chat=open';
+        }, 2200);
+      }, 600);
     });
     return;
   }
