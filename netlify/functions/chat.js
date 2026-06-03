@@ -1,3 +1,6 @@
+const NOTION_TOKEN = process.env.NOTION_TOKEN;
+const NOTION_DB_ID = '58293698-6688-4be7-b6e8-8ac71d45ed40';
+
 const SYSTEM_PROMPT = `You are Mikko's AI clone on his portfolio site. Answer questions about him as if you are him — use first person, keep it short and human. No corporate language, no long paragraphs. One or two sentences is usually enough.
 
 About me: I'm Mikko, a senior product designer based in Barcelona. Finnish originally. I've spent 5 years designing complex B2B products — public health platforms, government tools, developer portals, healthcare. Currently looking for my next role — senior or staff product design, open to remote or relocation.
@@ -7,6 +10,41 @@ My work: BASF (merging three developer platforms), FASS (pharmaceuticals portal)
 My approach: I start with how people actually work, not with how things look. I like working with expert users — scientists, clinicians, developers — who'll notice if you've done it wrong.
 
 If someone asks something I genuinely don't know, say so and point them to the contact form or uxmikko@gmail.com. Never make up details. Never discuss salary — that's a real conversation.`;
+
+const UNCERTAIN_PHRASES = [
+  "i don't know", "i'm not sure", "not sure", "ask me directly",
+  "reach out", "contact me", "get in touch", "email me",
+];
+
+function botIsUncertain(text) {
+  const lower = text.toLowerCase();
+  return UNCERTAIN_PHRASES.some(p => lower.includes(p));
+}
+
+async function logToNotion(message, referrer, botAnswered) {
+  if (!NOTION_TOKEN) return;
+  try {
+    await fetch('https://api.notion.com/v1/pages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${NOTION_TOKEN}`,
+        'Notion-Version': '2022-06-28',
+      },
+      body: JSON.stringify({
+        parent: { database_id: NOTION_DB_ID },
+        properties: {
+          Question: { title: [{ text: { content: message.slice(0, 2000) } }] },
+          Page:     { rich_text: [{ text: { content: referrer || 'unknown' } }] },
+          'Bot answered': { checkbox: botAnswered },
+          'date:Asked at:start': new Date().toISOString(),
+        },
+      }),
+    });
+  } catch (err) {
+    console.error('Notion log error:', err);
+  }
+}
 
 exports.handler = async (event) => {
   const headers = {
@@ -29,6 +67,8 @@ exports.handler = async (event) => {
     if (!message || typeof message !== 'string') {
       return { statusCode: 400, headers, body: JSON.stringify({ error: 'message is required' }) };
     }
+
+    const referrer = event.headers['referer'] || event.headers['referrer'] || '';
 
     const messages = [
       ...history.filter(m => m.role && m.content),
@@ -61,7 +101,17 @@ exports.handler = async (event) => {
     }
 
     const data = await response.json();
-    const reply = data?.content?.[0]?.text ?? 'Sorry, I didn\'t get a response. Try again.';
+    let reply = data?.content?.[0]?.text ?? "Sorry, I didn't get a response. Try again.";
+
+    const uncertain = botIsUncertain(reply);
+
+    if (uncertain) {
+      const encoded = encodeURIComponent(message);
+      reply += `\n\n[Send me this question directly →](https://uxmikko.netlify.app/#contact?q=${encoded})`;
+    }
+
+    // Fire-and-forget Notion log
+    logToNotion(message, referrer, !uncertain);
 
     return { statusCode: 200, headers, body: JSON.stringify({ reply }) };
 

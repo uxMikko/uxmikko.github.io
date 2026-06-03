@@ -710,7 +710,11 @@
   function addMsg(role, text) {
     var el = document.createElement('div');
     el.className = 'mkkchat-msg ' + role;
-    el.textContent = text;
+    // Render markdown links [text](url)
+    var linked = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function(_, t, u) {
+      return '<a href="' + u + '" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">' + t + '</a>';
+    });
+    if (linked !== text) { el.innerHTML = linked; } else { el.textContent = text; }
     msgs.insertBefore(el, typing);
     msgs.scrollTop = msgs.scrollHeight;
   }
@@ -787,5 +791,20 @@
 </script>
 <!-- END MIKKO PORTFOLIO CHATBOT WIDGET -->
 
+
+<script>
+  (function() {
+    var params = new URLSearchParams(window.location.search);
+    var q = params.get('q');
+    if (q) {
+      var textarea = document.getElementById('message');
+      if (textarea) {
+        textarea.value = q;
+        var contact = document.getElementById('contact');
+        if (contact) contact.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  })();
+</script>
 </body>
 </html>
