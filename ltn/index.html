@@ -710,6 +710,14 @@
   var greeted = false;
   var busy    = false;
 
+  // On GitHub Pages the function doesn't exist — send to Netlify with chat open
+  if (window.location.hostname === 'uxmikko.github.io') {
+    btn.addEventListener('click', function () {
+      window.location.href = 'https://uxmikko.netlify.app/?chat=open';
+    });
+    return;
+  }
+
   function addMsg(role, text) {
     var el = document.createElement('div');
     el.className = 'mkkchat-msg ' + role;
@@ -790,6 +798,11 @@
       win.classList.remove('open');
     }
   });
+
+  // Auto-open if redirected from GitHub Pages
+  if (new URLSearchParams(window.location.search).get('chat') === 'open') {
+    setTimeout(function () { btn.click(); }, 400);
+  }
 })();
 </script>
 <!-- END MIKKO PORTFOLIO CHATBOT WIDGET -->
