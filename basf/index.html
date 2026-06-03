@@ -722,14 +722,24 @@
   var typing  = document.getElementById('mkkchat-typing');
   var input   = document.getElementById('mkkchat-input');
   var send    = document.getElementById('mkkchat-send');
-  var history = [];
-  var greeted  = false;
+  var _sh      = sessionStorage.getItem('mkkChat_h');
+  var history  = _sh ? JSON.parse(_sh) : [];
+  var greeted  = sessionStorage.getItem('mkkChat_g') === '1';
+  var wasOpen  = sessionStorage.getItem('mkkChat_o') === '1';
   var busy     = false;
   var adminKey = null;
 
   // On GitHub Pages the Netlify function doesn't exist — show a Y/N prompt
   if (window.location.hostname === 'uxmikko.github.io') {
-    btn.addEventListener('click', function () {
+    // Restore chat from sessionStorage on page load
+  if (wasOpen && history.length) {
+    history.forEach(function(m) {
+      addMsg(m.role === 'assistant' ? 'bot' : 'user', m.content);
+    });
+    win.classList.add('open');
+  }
+
+  btn.addEventListener('click', function () {
       win.classList.add('open');
       greet();
       setTimeout(function () {
@@ -789,9 +799,18 @@
         if (m) {
           el.appendChild(document.createElement('br'));
           var a = document.createElement('a');
-          a.href = m[2]; a.textContent = m[1];
-          a.target = '_blank'; a.rel = 'noopener';
-          a.style.cssText = 'color:#3A6B12;font-weight:600;text-decoration:underline;display:inline-block;margin-top:6px;';
+          a.textContent = m[1];
+          a.style.cssText = 'color:#3A6B12;font-weight:600;text-decoration:underline;display:inline-block;margin-top:6px;cursor:pointer;';
+          if (m[2].indexOf('?q=') !== -1 || m[2].indexOf('#contact') !== -1) {
+            a.href = '#contact';
+            (function(url) { a.addEventListener('click', function(e) {
+              e.preventDefault();
+              var qm = url.match(/[?&]q=([^&#]*)/);
+              if (qm) { var ta = document.getElementById('message'); if (ta) ta.value = decodeURIComponent(qm[1].replace(/\+/g,' ')); }
+              var cf = document.getElementById('contact'); if (cf) cf.scrollIntoView({behavior:'smooth'});
+              win.classList.remove('open'); saveSession();
+            }); })(m[2]);
+          } else { a.href = m[2]; a.target = '_blank'; a.rel = 'noopener'; }
           el.appendChild(a);
         } else {
           el.appendChild(document.createTextNode(part));
@@ -813,6 +832,12 @@
     busy = on;
     send.disabled = on;
     input.disabled = on;
+  }
+
+  function saveSession() {
+    sessionStorage.setItem('mkkChat_h', JSON.stringify(history));
+    sessionStorage.setItem('mkkChat_g', greeted ? '1' : '0');
+    sessionStorage.setItem('mkkChat_o', win.classList.contains('open') ? '1' : '0');
   }
 
   function greet() {
@@ -886,6 +911,7 @@
       history.push({ role: 'assistant', content: reply });
       setTyping(false);
       addMsg('bot', reply);
+      saveSession();
     } catch (e) {
       setTyping(false);
       addMsg('bot', 'Connection error — please email uxmikko@gmail.com directly.');
@@ -898,10 +924,12 @@
   btn.addEventListener('click', function () {
     var open = win.classList.toggle('open');
     if (open) { greet(); input.focus(); }
+    saveSession();
   });
 
   close.addEventListener('click', function () {
     win.classList.remove('open');
+    saveSession();
   });
 
   send.addEventListener('click', submit);
