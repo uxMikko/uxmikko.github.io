@@ -767,11 +767,16 @@
   function addMsg(role, text) {
     var el = document.createElement('div');
     el.className = 'mkkchat-msg ' + role;
-    // Render markdown links [text](url)
-    var linked = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function(_, t, u) {
-      return '<a href="' + u + '" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">' + t + '</a>';
-    });
-    if (linked !== text) { el.innerHTML = linked; } else { el.textContent = text; }
+    // Render markdown links and line breaks; escape HTML first to prevent XSS
+    var safe = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    var rendered = safe
+      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, function(_, t, u) {
+        return '<br><a href="' + u + '" target="_blank" rel="noopener" '
+          + 'style="display:inline-block;margin-top:6px;color:#3A6B12;'
+          + 'font-weight:600;text-decoration:underline;">' + t + '</a>';
+      })
+      .replace(/\n/g, '<br>');
+    if (rendered !== safe) { el.innerHTML = rendered; } else { el.textContent = text; }
     msgs.insertBefore(el, typing);
     msgs.scrollTop = msgs.scrollHeight;
   }
