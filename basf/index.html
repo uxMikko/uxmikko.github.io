@@ -689,6 +689,16 @@
   }
   #mkkchat-send:hover   { background: #2d5209; }
   #mkkchat-send:disabled { background: #ccc; cursor: default; }
+  .mkkchat-linkedin {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 12px; border-radius: 8px;
+    border: 1px solid rgba(10,102,194,0.25);
+    color: #0A66C2; background: white; cursor: pointer;
+    text-decoration: none; margin-top: 8px;
+    font-weight: 500; font-size: 13px;
+    transition: background 0.15s;
+  }
+  .mkkchat-linkedin:hover { background: rgba(10,102,194,0.06); }
 </style>
 
 <button id="mkkchat-btn" aria-label="Chat with Mikko's assistant">
@@ -809,6 +819,17 @@
               var cf = document.getElementById('contact'); if (cf) cf.scrollIntoView({behavior:'smooth'});
               win.classList.remove('open'); save();
             }); })(m[2]);
+          } else if (m[2].indexOf('linkedin.com') !== -1) {
+            a.className = 'mkkchat-linkedin';
+            a.href = m[2].startsWith('http') ? m[2] : 'https://' + m[2];
+            a.target = '_blank'; a.rel = 'noopener'; a.style.cssText = '';
+            a.textContent = '';
+            var li_b = document.createElement('span');
+            li_b.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:#0A66C2;border-radius:3px;color:white;font-size:11px;font-weight:700;font-family:sans-serif;flex-shrink:0;';
+            li_b.textContent = 'in';
+            var li_n = document.createElement('span');
+            li_n.textContent = m[1].indexOf('linkedin.com') !== -1 ? 'LinkedIn Profile' : m[1];
+            a.appendChild(li_b); a.appendChild(li_n);
           } else { a.href = m[2]; a.target = '_blank'; a.rel = 'noopener'; }
           el.appendChild(a);
         } else {

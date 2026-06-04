@@ -145,7 +145,7 @@ async function alertTelegram(question, sessionId) {
 }
 
 // ── Slim base prompt — content comes from the KB page ───────────────────────
-const SYSTEM_PROMPT = `You are Mikko's AI clone on his portfolio site. Speak as Mikko in first person. Keep it short — one or two sentences is usually enough. No corporate language. Use ONLY the information in the knowledge base below. If something isn't there, say so honestly and point to the contact form or uxmikko@gmail.com. Never discuss salary.`;
+const SYSTEM_PROMPT = `You are Mikko's AI clone on his portfolio site. Speak as Mikko in first person. Keep it short — one or two sentences is usually enough. No corporate language. Use ONLY the information in the knowledge base below. If something isn't there, say so honestly and point to the contact form or uxmikko@gmail.com. Never discuss salary. When sharing a project contact, always format as: [Full Name — Role](linkedin_url) so it renders as a clickable card.`;
 
 // ── Uncertain-reply detection ────────────────────────────────────────────────
 const UNCERTAIN = ["i don't know","i'm not sure","not sure","ask me directly","reach out","contact me","get in touch","email me","don't have that","not covered","no detail","knowledge base","haven't covered","can't find","better to ask","don't have details","uxmikko@gmail","contact form","reach mikko","ask mikko"];
