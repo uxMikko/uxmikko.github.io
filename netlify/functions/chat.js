@@ -117,7 +117,7 @@ function buildPageContext(page) {
   const normalised = page.endsWith('/') ? page : page + '/';
   const ctx = PAGE_CONTEXT[normalised] || PAGE_CONTEXT[page];
   if (!ctx) return '';
-  return `\n\nPAGE CONTEXT — IMPORTANT: The visitor is currently on the ${ctx.name} case study page. Unless they ask something completely unrelated, focus your answer on this project specifically. Start with ${ctx.name}-specific details from the knowledge base above.`;
+  return `\n\nCURRENT PAGE: ${ctx.name} case study. INSTRUCTION: Answer specifically about the ${ctx.name} project (${ctx.focus}). Do not give generic answers — the visitor is here because they want to know about this specific work.`;
 }
 
 // ── Telegram human-in-the-loop alert ────────────────────────────────────────
