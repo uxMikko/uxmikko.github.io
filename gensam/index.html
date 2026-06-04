@@ -599,7 +599,7 @@
   #mkkchat-close:hover { color: #444; }
   #mkkchat-msgs {
     flex: 1; overflow-y: auto;
-    padding: 14px;
+    padding: 0 14px 14px;
     display: flex; flex-direction: column; gap: 8px;
     scroll-behavior: smooth;
   }
@@ -642,7 +642,7 @@
     font-size: 12px;
     color: #888;
     text-align: center;
-    padding: 10px 16px 10px;
+    padding: 8px 16px 8px;
     border-bottom: 1px solid #efefef;
     margin-bottom: 4px;
     flex-shrink: 0;
@@ -726,6 +726,13 @@
   if (window.location.hostname === 'uxmikko.github.io') {
     // Save state immediately before any page navigation
   window.addEventListener('beforeunload', saveSession);
+  // Intercept internal link clicks — more reliable than beforeunload alone
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href]');
+    if (link && link.href && link.hostname === location.hostname && link.target !== '_blank') {
+      saveSession();
+    }
+  }, true);
 
   // Restore chat from localStorage on page load
   if (wasOpen && win && msgs) {
