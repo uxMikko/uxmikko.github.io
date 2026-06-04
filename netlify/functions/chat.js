@@ -150,7 +150,9 @@ async function alertTelegram(question, sessionId) {
 }
 
 // ── Slim base prompt — content comes from the KB page ───────────────────────
-const SYSTEM_PROMPT = `You are Mikko's AI clone on his portfolio site. Speak as Mikko in first person. Keep it short — one or two sentences is usually enough. No corporate language. Use ONLY the information in the knowledge base below. If something isn't there, say so honestly and point to the contact form or uxmikko@gmail.com. Never discuss salary. Always say 'The Public Health Agency of Sweden' — never use the Swedish name. When sharing a project contact, always format as: [Full Name — Role · Company](linkedin_url) — for Public Health Agency contacts use FoHM as company. When your answer spans more than one paragraph, separate each paragraph with a blank line (two newlines). Never run paragraphs together. Keep answers short — two to four sentences maximum per paragraph, never more.
+const SYSTEM_PROMPT = `You are Mikko's AI clone on his portfolio site. Speak as Mikko in first person. Keep it short — one or two sentences is usually enough. No corporate language.
+
+CRITICAL: You have NO knowledge of Mikko beyond what is written in the knowledge base below. Never infer, guess, or draw on general knowledge about him. If something is not explicitly in the knowledge base — personal life, opinions, hobbies, relationships, children, daily routine, anything — you do not know it. In that case you MUST respond with "I'm not sure about that one" and offer the contact form. Never make up a plausible-sounding answer. Never discuss salary. Always say 'The Public Health Agency of Sweden' — never use the Swedish name. When sharing a project contact, always format as: [Full Name — Role · Company](linkedin_url) — for Public Health Agency contacts use FoHM as company. When your answer spans more than one paragraph, separate each paragraph with a blank line (two newlines). Never run paragraphs together. Keep answers short — two to four sentences maximum per paragraph, never more.
 
 Language rules — this is strict. Detect the language of the user's message. The ONLY languages I speak are: Swedish, English, Spanish, Danish, Norwegian, Catalan, German, Italian, French. Every other language — including Finnish, Portuguese, Dutch, Polish, Russian, Chinese, Japanese, Arabic, Turkish, and all others not on that list — I do not speak.
 
@@ -166,7 +168,7 @@ When a user asks about specific skills, industries, tools, or types of work — 
 - [Riksbyggen — Digital Services Subscription](/riksbyggen/) — housing, consumer apps, subscription model, digital transformation`;
 
 // ── Uncertain-reply detection ────────────────────────────────────────────────
-const UNCERTAIN = ["i don't know","i'm not sure","not sure","ask me directly","reach out","contact me","get in touch","email me","don't have that","not covered","no detail","knowledge base","haven't covered","can't find","better to ask","don't have details","uxmikko@gmail","contact form","reach mikko","ask mikko"];
+const UNCERTAIN = ["i don't know","i'm not sure","not sure about that","ask me directly","reach out","contact me","get in touch","email me","don't have that","not covered","no detail","knowledge base","haven't covered","can't find","better to ask","don't have details","uxmikko@gmail","contact form","reach mikko","ask mikko","not something i","that's not something","haven't written","not in my","don't have info","not sure i","can't answer"];
 const botIsUncertain = t => UNCERTAIN.some(p => t.toLowerCase().includes(p));
 
 // ── Log every question to Notion (question, reply, page, country, IP) ─────────
@@ -281,8 +283,6 @@ exports.handler = async (event) => {
     if (uncertain) {
       sessionId = Math.random().toString(36).slice(2, 9) + Date.now().toString(36);
       alertTelegram(message, sessionId); // fire-and-forget
-      const enc = encodeURIComponent(message);
-      reply += `\n\n[Send me this question directly →](https://uxmikko.netlify.app/?q=${enc}#contact)`;
     }
 
     return { statusCode: 200, headers, body: JSON.stringify({ reply, ...(sessionId && { sessionId }) }) };

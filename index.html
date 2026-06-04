@@ -883,7 +883,11 @@ FILTER JS END -->
     var myId = ++currentPollId;
     var attempts = 0;
     function poll() {
-      if (myId !== currentPollId || attempts >= 40) return;
+      if (myId !== currentPollId) return;
+      if (attempts >= 40) {
+        addMsg('bot', "I haven't heard back yet — [send me the question directly →](/#contact) and I'll get back to you.");
+        return;
+      }
       attempts++;
       fetch('/.netlify/functions/check-reply?sessionId=' + sessionId)
         .then(function(r) { return r.json(); })
