@@ -456,16 +456,16 @@
 
   // Restore chat from localStorage on page load
   if (wasOpen && win && msgs) {
-    win.classList.add('open');
-    if (history.length) {
+      win.classList.add('open');
+        if (history.length) {
       try {
         history.forEach(function(m) {
           if (m && m.content) addMsg(m.role === 'assistant' ? 'bot' : 'user', m.content);
         });
         setTimeout(function() { msgs.scrollTop = msgs.scrollHeight; }, 80);
-      } catch(e) { console.error('Chat restore error:', e); }
+            } catch(e) {}
     } else {
-      greet();
+          greet();
     }
   }
 
@@ -833,8 +833,9 @@ FILTER JS END -->
   }
 
   function saveSession() {
-    localStorage.setItem('mkkChat_h', JSON.stringify(history));
-    localStorage.setItem('mkkChat_o', win.classList.contains('open') ? '1' : '0');
+    var isOpen = win.classList.contains('open') ? '1' : '0';
+      localStorage.setItem('mkkChat_h', JSON.stringify(history));
+    localStorage.setItem('mkkChat_o', isOpen);
   }
 
   function greet() {
