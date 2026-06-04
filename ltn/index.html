@@ -645,7 +645,7 @@
     font-size: 12px;
     color: #888;
     text-align: center;
-    padding: 14px 16px 10px;
+    padding: 10px 16px 10px;
     border-bottom: 1px solid #efefef;
     margin-bottom: 4px;
     flex-shrink: 0;
@@ -941,7 +941,8 @@
       var data = await res.json();
       setTyping(false);
       if (data.waitingForHuman && data.sessionId) {
-        var waitEl = addMsg('bot', data.reply || 'just a sec, let me check 👀');
+        addMsg('bot', 'just a sec, let me check 👀');
+        setTyping(true);
         var pollsDone = 0;
         var sid = data.sessionId;
         var pid = setInterval(async function() {
@@ -951,19 +952,21 @@
             var pd = await pr.json();
             if (pd.answered) {
               clearInterval(pid);
-              updateMsg(waitEl, pd.reply);
+              setTyping(false);
+              addMsg('bot', pd.reply);
               history.push({ role: 'user', content: origText });
               history.push({ role: 'assistant', content: pd.reply });
               saveSession();
-            } else if (pollsDone >= 12) {
+            } else if (pollsDone >= 6) {
               clearInterval(pid);
+              setTyping(false);
               var enc = encodeURIComponent(origText);
-              updateMsg(waitEl, "Mikko's not around right now.\n\n[Send him this question →](https://uxmikko.netlify.app/?q=" + enc + "#contact)");
+              addMsg('bot', "Mikko's not around right now.\n\n[Send him this question →](https://uxmikko.netlify.app/?q=" + enc + "#contact)");
               history.push({ role: 'user', content: origText });
               history.push({ role: 'assistant', content: 'Not available — suggested contact form.' });
               saveSession();
             }
-          } catch(e) { if (pollsDone >= 12) clearInterval(pid); }
+          } catch(e) { if (pollsDone >= 6) { clearInterval(pid); setTyping(false); } }
         }, 10000);
       } else {
         var reply = data.reply || 'Sorry, something went wrong — please try again.';
