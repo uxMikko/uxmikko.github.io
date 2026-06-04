@@ -657,10 +657,12 @@
   }
   #mkkchat-disclosure {
     font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    color: #bbb;
+    font-size: 12px;
+    color: #888;
     text-align: center;
-    padding: 6px 16px 0;
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 4px;
     flex-shrink: 0;
   }
   #mkkchat-foot {
@@ -704,14 +706,12 @@
     <button id="mkkchat-close" aria-label="Close chat">×</button>
   </div>
   <div id="mkkchat-msgs">
+    <div id="mkkchat-disclosure">Questions may be saved and reviewed by Mikko.</div>
     <div id="mkkchat-typing">
       <span class="mkkchat-dot"></span>
       <span class="mkkchat-dot"></span>
       <span class="mkkchat-dot"></span>
     </div>
-  </div>
-  <div id="mkkchat-disclosure">
-    Questions may be saved and reviewed by Mikko.
   </div>
   <div id="mkkchat-foot">
     <input id="mkkchat-input" type="text" placeholder="Ask something…" autocomplete="off" maxlength="500">
