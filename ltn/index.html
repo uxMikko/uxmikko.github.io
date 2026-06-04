@@ -726,7 +726,11 @@
   var adminKey = null;
 
   // Save history before any navigation
-  function save() { localStorage.setItem(HKEY, JSON.stringify(history)); }
+  var OKEY = 'mkkChat_o';
+  function save() {
+    localStorage.setItem(HKEY, JSON.stringify(history));
+    localStorage.setItem(OKEY, win.classList.contains('open') ? '1' : '0');
+  }
   window.addEventListener('beforeunload', save);
   document.addEventListener('click', function(e) {
     var a = e.target.closest('a[href]');
@@ -806,6 +810,12 @@
 
   function setTyping(on) { typing.className = on ? 'show' : ''; if (on) msgs.scrollTop = msgs.scrollHeight; }
   function setBusy(on)   { busy = on; send.disabled = on; input.disabled = on; }
+
+  // Re-open window if it was open on previous page
+  if (localStorage.getItem(OKEY) === '1') {
+    win.classList.add('open');
+    openChat();
+  }
 
   // Open chat: show history or greeting
   function openChat() {

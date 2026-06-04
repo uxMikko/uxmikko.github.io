@@ -113,9 +113,11 @@ const PAGE_CONTEXT = {
 };
 
 function buildPageContext(page) {
-  const ctx = PAGE_CONTEXT[page];
+  // Handle trailing slash variations (/basf and /basf/ both match)
+  const normalised = page.endsWith('/') ? page : page + '/';
+  const ctx = PAGE_CONTEXT[normalised] || PAGE_CONTEXT[page];
   if (!ctx) return '';
-  return `\n\nThe recruiter is currently reading the ${ctx.name} case study (${ctx.focus}). Lead with details about that project when relevant.`;
+  return `\n\nPAGE CONTEXT — IMPORTANT: The visitor is currently on the ${ctx.name} case study page. Unless they ask something completely unrelated, focus your answer on this project specifically. Start with ${ctx.name}-specific details from the knowledge base above.`;
 }
 
 // ── Telegram human-in-the-loop alert ────────────────────────────────────────
