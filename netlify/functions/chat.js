@@ -120,15 +120,26 @@ function buildPageContext(page) {
 
 // ── Telegram human-in-the-loop alert ────────────────────────────────────────
 async function alertTelegram(question, sessionId) {
-  if (!process.env.TELEGRAM_TOKEN || !process.env.TELEGRAM_CHAT_ID) return;
+  const token  = process.env.TELEGRAM_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) {
+    console.log('Telegram: missing TOKEN or CHAT_ID');
+    return;
+  }
   const text = `💬 Live question from portfolio visitor:\n\n"${question}"\n\n[Session: ${sessionId}]\n\nReply to this message within 2 minutes to answer them directly.`;
   try {
-    await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
+    const res  = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: process.env.TELEGRAM_CHAT_ID, text }),
+      body: JSON.stringify({ chat_id: parseInt(chatId, 10) || chatId, text }),
     });
-  } catch (e) { console.error('Telegram alert:', e); }
+    const body = await res.json();
+    if (!res.ok) {
+      console.error('Telegram API error:', res.status, JSON.stringify(body));
+    } else {
+      console.log('Telegram sent OK, message_id:', body?.result?.message_id);
+    }
+  } catch (e) { console.error('Telegram fetch error:', e.message); }
 }
 
 // ── Slim base prompt — content comes from the KB page ───────────────────────
