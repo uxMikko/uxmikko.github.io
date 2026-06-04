@@ -723,23 +723,29 @@
   var input   = document.getElementById('mkkchat-input');
   var send    = document.getElementById('mkkchat-send');
   var _sh      = localStorage.getItem('mkkChat_h');
-  var history  = _sh ? JSON.parse(_sh) : [];
-  var greeted  = localStorage.getItem('mkkChat_g') === '1';
+  var history  = _sh ? (function(){ try{ return JSON.parse(_sh); }catch(e){ return []; } })() : [];
   var wasOpen  = localStorage.getItem('mkkChat_o') === '1';
+  var greeted  = history.length > 0; // derived — no history means not yet greeted
   var busy     = false;
   var adminKey = null;
 
   // On GitHub Pages the Netlify function doesn't exist — show a Y/N prompt
   if (window.location.hostname === 'uxmikko.github.io') {
     // Restore chat from localStorage on page load
-  if (wasOpen && history.length) {
-    try {
-      history.forEach(function(m) {
-        if (m && m.content) addMsg(m.role === 'assistant' ? 'bot' : 'user', m.content);
-      });
+  if (wasOpen) {
+    if (history.length) {
+      try {
+        history.forEach(function(m) {
+          if (m && m.content) addMsg(m.role === 'assistant' ? 'bot' : 'user', m.content);
+        });
+        setTimeout(function() { msgs.scrollTop = msgs.scrollHeight; }, 50);
+      } catch(e) { console.error('Chat restore error:', e); }
       win.classList.add('open');
-      setTimeout(function() { msgs.scrollTop = msgs.scrollHeight; }, 50);
-    } catch(e) { console.error('Chat restore error:', e); }
+    } else {
+      // Was open but no messages — open fresh with greeting
+      win.classList.add('open');
+      greet();
+    }
   }
 
   btn.addEventListener('click', function () {
@@ -809,7 +815,7 @@
             (function(url) { a.addEventListener('click', function(e) {
               e.preventDefault();
               var qm = url.match(/[?&]q=([^&#]*)/);
-              if (qm) { var ta = document.getElementById('message'); if (ta) ta.value = decodeURIComponent(qm[1].replace(/\+/g,' ')); }
+              if (qm) { var ta = document.getElementById('message'); if (ta) { ta.value = decodeURIComponent(qm[1].replace(/\+/g,' ')); setTimeout(function(){ ta.focus(); }, 400); } }
               var cf = document.getElementById('contact'); if (cf) cf.scrollIntoView({behavior:'smooth'});
               win.classList.remove('open'); saveSession();
             }); })(m[2]);
@@ -841,7 +847,7 @@
           (function(url) { a.addEventListener('click', function(e) {
             e.preventDefault();
             var qm = url.match(/[?&]q=([^&#]*)/);
-            if (qm) { var ta = document.getElementById('message'); if (ta) ta.value = decodeURIComponent(qm[1].replace(/\+/g,' ')); }
+            if (qm) { var ta = document.getElementById('message'); if (ta) { ta.value = decodeURIComponent(qm[1].replace(/\+/g,' ')); setTimeout(function(){ ta.focus(); }, 400); } }
             var cf = document.getElementById('contact'); if (cf) cf.scrollIntoView({behavior:'smooth'});
             win.classList.remove('open'); saveSession();
           }); })(m[2]);
@@ -867,7 +873,6 @@
 
   function saveSession() {
     localStorage.setItem('mkkChat_h', JSON.stringify(history));
-    localStorage.setItem('mkkChat_g', greeted ? '1' : '0');
     localStorage.setItem('mkkChat_o', win.classList.contains('open') ? '1' : '0');
   }
 
@@ -1022,6 +1027,7 @@
         textarea.value = q;
         var contact = document.getElementById('contact');
         if (contact) contact.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(function() { textarea.focus(); }, 500);
       }
     }
   })();
