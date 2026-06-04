@@ -4,6 +4,11 @@ const NOTION_KB_DB_ID  = process.env.NOTION_KB_DB_ID;    // corrections staging 
 const NOTION_KB_PAGE_ID = process.env.NOTION_KB_PAGE_ID; // primary KB page
 const CHAT_ADMIN_KEY   = process.env.CHAT_ADMIN_KEY;
 
+const VIP_IPS = {
+  '123.456.789.0': 'Hey [friend name]! 👋',
+  '987.654.321.0': 'Hi [other friend]!',
+};
+
 const MAX_HISTORY    = 8;
 const ALLOWED_ORIGIN = 'https://uxmikko.netlify.app';
 const KB_TTL         = 5 * 60 * 1000; // 5 min cache
@@ -145,14 +150,27 @@ async function alertTelegram(question, sessionId) {
 }
 
 // ── Slim base prompt — content comes from the KB page ───────────────────────
-const SYSTEM_PROMPT = `You are Mikko's AI clone on his portfolio site. Speak as Mikko in first person. Keep it short — one or two sentences is usually enough. No corporate language. Use ONLY the information in the knowledge base below. If something isn't there, say so honestly and point to the contact form or uxmikko@gmail.com. Never discuss salary. When sharing a project contact, always format as: [Full Name — Role](linkedin_url) so it renders as a clickable card.`;
+const SYSTEM_PROMPT = `You are Mikko's AI clone on his portfolio site. Speak as Mikko in first person. Keep it short — one or two sentences is usually enough. No corporate language. Use ONLY the information in the knowledge base below. If something isn't there, say so honestly and point to the contact form or uxmikko@gmail.com. Never discuss salary. Always say 'The Public Health Agency of Sweden' — never use the Swedish name. When sharing a project contact, always format as: [Full Name — Role · Company](linkedin_url) — for Public Health Agency contacts use FoHM as company. When your answer spans more than one paragraph, separate each paragraph with a blank line (two newlines). Never run paragraphs together. Keep answers short — two to four sentences maximum per paragraph, never more.
+
+Language rules — this is strict. Detect the language of the user's message. The ONLY languages I speak are: Swedish, English, Spanish, Danish, Norwegian, Catalan, German, Italian, French. Every other language — including Finnish, Portuguese, Dutch, Polish, Russian, Chinese, Japanese, Arabic, Turkish, and all others not on that list — I do not speak.
+
+- Swedish, English, Spanish: answer fully in that language
+- Danish, Norwegian, Catalan: answer in that language, add one brief note that it is not my strongest
+- German, Italian, French: answer in that language, note briefly that my [language] is pretty basic
+- Any language NOT in the list above: your entire response must be ONE sentence only in that language saying you don't speak it. Do not answer the question. Do not write anything in English. Do not add explanations. One sentence, that language, nothing else. Finnish is NOT on the list. Portuguese is NOT on the list. Dutch is NOT on the list.
+
+When a user asks about specific skills, industries, tools, or types of work — or asks what other case studies exist — suggest the relevant ones using this exact markdown format: [Title — one-line descriptor](/path/). Only suggest case studies that are currently published (listed below). Never link to SVEBar or FASS — those are real projects but I haven't published a case study for them yet. If someone asks about them specifically, acknowledge the work exists but say I haven't written it up as a case study yet. Published case studies:
+- [BASF — Merging Three Developer Platforms](/basf/) — enterprise UX, B2B SaaS, platform consolidation, developer tools, complex systems
+- [GENSAM — COVID Sequencing Data Platform](/gensam/) — healthcare, genomics, bioinformatics, data-heavy workflows, public health
+- [LTN — Nicotine Product Registration Portal](/ltn/) — government, public health, regulatory compliance, form design
+- [Riksbyggen — Digital Services Subscription](/riksbyggen/) — housing, consumer apps, subscription model, digital transformation`;
 
 // ── Uncertain-reply detection ────────────────────────────────────────────────
 const UNCERTAIN = ["i don't know","i'm not sure","not sure","ask me directly","reach out","contact me","get in touch","email me","don't have that","not covered","no detail","knowledge base","haven't covered","can't find","better to ask","don't have details","uxmikko@gmail","contact form","reach mikko","ask mikko"];
 const botIsUncertain = t => UNCERTAIN.some(p => t.toLowerCase().includes(p));
 
-// ── Log question to Notion ───────────────────────────────────────────────────
-async function logQuestion(message, referrer, botAnswered) {
+// ── Log every question to Notion (question, reply, page, country, IP) ─────────
+async function logQuestion(message, reply, referrer, country, ip, botAnswered) {
   if (!NOTION_TOKEN || !NOTION_QL_ID) return;
   try {
     await fetch('https://api.notion.com/v1/pages', {
@@ -161,9 +179,12 @@ async function logQuestion(message, referrer, botAnswered) {
       body: JSON.stringify({
         parent: { database_id: NOTION_QL_ID },
         properties: {
-          Question:       { title: [{ text: { content: message.slice(0, 2000) } }] },
-          Page:           { rich_text: [{ text: { content: referrer || 'unknown' } }] },
-          'Bot answered': { checkbox: botAnswered },
+          Question:            { title:     [{ text: { content: message.slice(0, 2000) } }] },
+          Reply:               { rich_text: [{ text: { content: (reply || '').slice(0, 2000) } }] },
+          Page:                { rich_text: [{ text: { content: referrer || 'unknown' } }] },
+          Country:             { rich_text: [{ text: { content: country  || 'unknown' } }] },
+          IP:                  { rich_text: [{ text: { content: ip       || 'unknown' } }] },
+          'Bot answered':      { checkbox: botAnswered },
           'date:Asked at:start': new Date().toISOString(),
         },
       }),
@@ -177,6 +198,7 @@ exports.handler = async (event) => {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': ALLOWED_ORIGIN,
     'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Vary': 'Origin',
   };
 
@@ -187,6 +209,12 @@ exports.handler = async (event) => {
     const body = JSON.parse(event.body || '{}');
     const { message, history = [], authAttempt, adminKey: clientKey, page } = body;
     const referrer = event.headers['referer'] || event.headers['referrer'] || page || '';
+
+    // Visitor metadata
+    const forwarded   = event.headers['x-forwarded-for'] || '';
+    const clientIP    = forwarded.split(',')[0].trim();
+    const country     = event.headers['x-country'] || event.headers['cf-ipcountry'] || 'unknown';
+    const vipGreeting = VIP_IPS[clientIP] || null;
 
     // Admin auth
     if (authAttempt) {
@@ -240,20 +268,24 @@ exports.handler = async (event) => {
     const data  = await res.json();
     let   reply = data?.content?.[0]?.text ?? "Sorry, I didn't get a response. Try again.";
 
-    const uncertain = botIsUncertain(reply);
-    logQuestion(message, referrer, !uncertain);
+    // Prepend VIP greeting on the first message of the session
+    if (vipGreeting && history.length === 0) {
+      reply = vipGreeting + ' ' + reply;
+    }
 
+    const uncertain = botIsUncertain(reply);
+    // Log every conversation — question, reply, page, country, IP
+    logQuestion(message, reply, referrer, country, clientIP, !uncertain);
+
+    let sessionId = null;
     if (uncertain) {
-      // Silently notify Mikko on Telegram (fire-and-forget, no waiting UX)
-      if (process.env.TELEGRAM_TOKEN && process.env.TELEGRAM_CHAT_ID) {
-        alertTelegram(message, Date.now().toString(36));
-      }
-      // Show contact link immediately
+      sessionId = Math.random().toString(36).slice(2, 9) + Date.now().toString(36);
+      alertTelegram(message, sessionId); // fire-and-forget
       const enc = encodeURIComponent(message);
       reply += `\n\n[Send me this question directly →](https://uxmikko.netlify.app/?q=${enc}#contact)`;
     }
 
-    return { statusCode: 200, headers, body: JSON.stringify({ reply }) };
+    return { statusCode: 200, headers, body: JSON.stringify({ reply, ...(sessionId && { sessionId }) }) };
 
   } catch (err) {
     console.error('Handler error:', err);

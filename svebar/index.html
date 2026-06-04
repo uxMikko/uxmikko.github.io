@@ -43,7 +43,7 @@
             <h1 class="hero-title">SVEBar — Monitoring Multiresistant Bacteria</h1>
           </div>
           <p class="hero-desc">
-            Microbiologists and epidemiologists across Sweden used a decades-old platform to monitor national bacterial outbreaks. Trust in the system had collapsed. Users had stopped relying on alerts and were manually cross-checking data every day. The problem wasn't the interface — it was opacity.
+            Microbiologists and epidemiologists across Sweden relied on a decades-old platform to monitor national bacterial outbreaks. Every day, hours were lost cleaning and categorising lab report data that should have been automatable. The early warning system was reliable — but too blunt to act on without manual interpretation.
           </p>
           <!--  
           <a href="mailto:UxMikko@gmail.com" class="hero-btn">Request full case study →</a>
@@ -52,7 +52,7 @@
         <div class="hero-details">
           <div class="detail-row">
             <p class="detail-label">Client</p>
-            <p class="detail-value">Folkhälsomyndigheten</p>
+            <p class="detail-value">The Public Health Agency of Sweden</p>
           </div>
           <div class="detail-row">
             <p class="detail-label">Role</p>
@@ -82,15 +82,15 @@
     <div class="insight-strip reveal">
       <div class="insight-item">
         <p class="insight-label">Insight</p>
-        <p class="insight-text">Users weren't struggling with the interface — they had stopped trusting its outputs. Monitoring rules set weeks ago were invisible. Alerts fired with no context for why.</p>
+        <p class="insight-text">Enormous time was lost every day to manual data cleaning — typos, misfielded entries, wrong terminology. The platform had no automation for work that was almost entirely mechanical. The early warning system fired reliably, but alarm conditions couldn't be combined, so every alert still required manual comparison and interpretation.</p>
       </div>
       <div class="insight-item">
         <p class="insight-label">Action</p>
-        <p class="insight-text">Restructured the entire architecture around the monitoring mental model: what's active, when it was configured, what triggered it — all visible without navigating into settings.</p>
+        <p class="insight-text">Redesigned the synonym matching flow to make data categorisation fast enough to stop being a bottleneck. Built a configurable alarm system that lets scientists combine conditions — so alerts are specific enough to act on directly.</p>
       </div>
       <div class="insight-item">
         <p class="insight-label">Impact</p>
-        <p class="insight-text">Epidemiologists could verify configurations at a glance. Alert context eliminated the daily manual cross-checking that had become their workaround.</p>
+        <p class="insight-text">The daily data cleaning task went from slow manual labour to a guided, near-automated flow. Alarms could be tuned to meaningful thresholds — less noise, less interpretation required.</p>
       </div>
     </div>
   </section>
@@ -99,7 +99,7 @@
   <section class="section" style="padding-top: 0;">
     <div class="callout-card reveal">
       <p class="section-eyebrow">The Problem</p>
-      <h2 class="section-title">Microbiologists and epidemiologists were monitoring national bacterial outbreaks using a system decades past its design date — and it was making their job slower and more error-prone.</h2>
+      <h2 class="section-title">Microbiologists and epidemiologists were monitoring national bacterial outbreaks using a system decades past its design date — and it was eating their time on work a computer should be doing.</h2>
     </div>
   </section>
 
@@ -108,12 +108,12 @@
     <div class="section-inner">
       <div class="section-header reveal">
         <p class="section-eyebrow">Background</p>
-        <h2 class="section-title">A national surveillance platform where broken trust had real public health consequences</h2>
+        <h2 class="section-title">A national surveillance platform where manual bottlenecks had real public health consequences</h2>
       </div>
       <div class="surface-card reveal">
         <p class="section-body">SVEBar is the national platform used by microbiologists and epidemiologists across Sweden to monitor and report multiresistant bacteria. Early outbreak detection depends on this system working well.</p>
-        <p class="section-body">The existing platform was fragmented and deeply inconsistent. Monitoring configurations were buried in nested menus. Notifications weren't trusted. Users had started manually cross-checking data rather than relying on what the system told them.</p>
-        <p class="section-body"><strong>This wasn't a cosmetic problem.</strong> Lack of trust in alerts means slower response to potential outbreaks.</p>
+        <p class="section-body">The existing platform was decades old and showed it. The interface had no coherent UX. Incoming lab reports arrived with typos, misfielded data, and inconsistent terminology — and cleaning them was almost entirely manual. The early warning system fired when it was supposed to, but the conditions it could check were too simple. Alerts were a signal that still required expert interpretation before anyone could act.</p>
+        <p class="section-body"><strong>This wasn't a cosmetic problem.</strong> Time spent on manual data work is time not spent on surveillance.</p>
       </div>
     </div>
   </section>
@@ -126,7 +126,7 @@
         <h2 class="section-title">Solo designer embedded with the Public Health Agency team for the full engagement</h2>
       </div>
       <div class="surface-card reveal">
-        <p class="section-body">UX/UI Designer at LH+P, working embedded with the Folkhälsomyndigheten team. I was the only designer across the full engagement — running research, running workshops, building and testing wireframes, and handing off a design system aligned to public sector standards.</p>
+        <p class="section-body">UX/UI Designer at LH+P, working embedded with the The Public Health Agency of Sweden team. I was the only designer across the full engagement — running research, running workshops, building and testing wireframes, and handing off a design system aligned to public sector standards.</p>
         <p class="section-body">I had direct access to the epidemiologists and microbiologists who used the system. No researcher in between. What I observed went straight into design decisions.</p>
       </div>
     </div>
@@ -147,15 +147,15 @@
           <div class="numbered-item">
             <div class="numbered-badge">1</div>
             <div class="numbered-content">
-              <strong>The interface wasn't the problem — opacity was</strong>
-              <p>The biggest usability problem was that the monitoring configuration logic was invisible. Users had set up rules weeks or months earlier and couldn't recall what they'd done. The system gave no persistent feedback about what was configured or why.</p>
+              <strong>Data quality work was consuming expert time every day</strong>
+              <p>Incoming lab reports regularly contained typos, entries in the wrong field, and free-text terminology that didn't match the system's database. Fixing and categorising this was manual, repetitive, and unavoidable — scientists with deep domain expertise were spending hours on work that should have been automated.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">2</div>
             <div class="numbered-content">
-              <strong>Notifications weren't trusted — and users had workarounds</strong>
-              <p>Several users had stopped relying on alerts entirely because alerts had fired incorrectly in the past. They were manually checking data daily. The system's primary value proposition wasn't functioning.</p>
+              <strong>Alarms were reliable — but too blunt to act on directly</strong>
+              <p>The early warning system worked as designed, but it could only check simple conditions. Configuring combinations — e.g. a specific bacteria, above a threshold, in a specific region — wasn't possible. Every alert that came in had to be compared and interpreted manually before anyone could decide whether it meant something.</p>
             </div>
           </div>
           <div class="numbered-item">
@@ -169,14 +169,14 @@
             <div class="numbered-badge">4</div>
             <div class="numbered-content">
               <strong>Synonym matching was a daily manual labour task</strong>
-              <p>Lab submissions included free-text bacteria identification. Because terminology wasn't standardised, scientists had to manually reconcile terms against a synonym database constantly. The database existed — working with it was painstakingly slow.</p>
+              <p>Lab submissions used free-text bacteria identification. Because terminology wasn't standardised across labs, scientists had to manually reconcile terms against a synonym database constantly. The database existed — working with it was painstakingly slow.</p>
             </div>
           </div>
         </div>
 
         <div class="surface-card-sm reveal" style="background: rgba(54,107,116,0.05); border-left: 3px solid var(--accent); border-radius: 0 16px 16px 0;">
           <p class="section-eyebrow">Baseline going in</p>
-          <p class="section-body">The clearest signal was the workarounds. Epidemiologists with decades of domain knowledge had stopped trusting the alert system and were manually checking data every day. The redesign target was straightforward: restore trust in notifications, and make configuration visible enough that users knew what they'd set up.</p>
+          <p class="section-body">The clearest signal was time. Scientists with deep domain expertise were spending meaningful parts of their day on mechanical data work — not because they lacked skill, but because the platform gave them no alternative. The redesign target was straightforward: automate what could be automated, and make the alarm system expressive enough that it could do more of the interpretation work for them.</p>
         </div>
       </div>
 
@@ -191,7 +191,7 @@
     <div class="section-inner">
       <div class="section-header reveal">
         <p class="section-eyebrow">The Hard Part</p>
-        <h2 class="section-title">A regulated environment, expert users who couldn't describe their needs, and a trust problem that design alone couldn't fully fix</h2>
+        <h2 class="section-title">A regulated environment, expert users who couldn't describe their needs, and alarm logic that had to be powerful without becoming a configuration burden</h2>
       </div>
 
       <div class="two-col reveal">
@@ -204,8 +204,8 @@
           <p class="grid-card-body">The users knew exactly what they needed. They just couldn't always describe it in UX terms. Ethnographic observation became the research method — not surveys or questionnaires.</p>
         </div>
         <div class="grid-card">
-          <p class="grid-card-title">A backend trust gap design couldn't close alone</p>
-          <p class="grid-card-body">Users had stopped trusting alerts partly because alerts had actually misfired — a backend problem, not a design one. I had to design for the future state where the system was reliable while being honest about what design alone could achieve.</p>
+          <p class="grid-card-title">Designing alarm combinations without creating complexity</p>
+          <p class="grid-card-body">The value of combined alarm conditions only materialises if scientists can actually build them without needing technical help. The design had to make a genuinely complex feature feel approachable to users who are experts in bacteriology, not software.</p>
         </div>
         <div class="grid-card">
           <p class="grid-card-title">Slow-moving institutional approvals</p>
@@ -223,9 +223,9 @@
         <h2 class="section-title">The navigation structure didn't match the monitoring mental model — so I restructured around how the work actually happens</h2>
       </div>
       <div class="surface-card reveal">
-        <p class="section-body">Once I understood the real workflow end-to-end, the interface problems became obvious. You don't think "configure a rule, then check a dashboard" — you think "I want to know if something unusual is happening with this bacteria in this region." The architecture needed to reflect that logic.</p>
-        <p class="section-body">For the notification trust issue: I designed transparent alert states with explicit configuration summaries. Users could see exactly what rule had fired and why. That's a design contribution to trust restoration, even if the full fix required backend work too.</p>
-        <p class="section-body">For synonym management: I proposed a redesigned flow that replaced a slow database interface with a guided matching process — turning a task scientists dreaded into one they could move through quickly.</p>
+        <p class="section-body">Once I understood the real workflow end-to-end, the priorities became clear. The synonym matching problem was the most tractable: the database was already there, the bottleneck was the interface for working with it. A guided matching flow — where the system suggests likely matches as you type and you confirm or correct — could cut a slow daily task to almost nothing.</p>
+        <p class="section-body">For the alarm system, the challenge was designing combinations that experts could build themselves. I worked through the real monitoring scenarios with the scientists — what conditions they actually wanted to watch for — and used those to define a condition builder that was expressive but not intimidating. The mental model was: add a filter, see the scope narrow, add another.</p>
+        <p class="section-body">Underneath both of those: rebuilding the navigation around the monitoring workflow rather than the system's internal data model. Routine tasks should be reachable in two steps, not five.</p>
       </div>
     </div>
   </section>
@@ -234,7 +234,7 @@
   <section class="section" style="padding-top: 0;">
     <div class="callout-card reveal">
       <p class="section-eyebrow">How Might We</p>
-      <h2 class="section-title">Make monitoring configurations permanently visible — so users can trust what the system is doing without navigating back through settings to check?</h2>
+      <h2 class="section-title">Make the alarm system expressive enough to do more of the interpretation work — so an alert is something you act on, not something you still have to manually assess?</h2>
     </div>
   </section>
 
@@ -243,46 +243,46 @@
     <div class="section-inner">
       <div class="section-header reveal">
         <p class="section-eyebrow">Design</p>
-        <h2 class="section-title">Dashboard-first architecture, alert transparency, and a synonym flow redesigned from scratch</h2>
+        <h2 class="section-title">Dashboard-first architecture, a configurable alarm condition builder, and a synonym flow redesigned from scratch</h2>
       </div>
 
       <div class="surface-card reveal">
-        <p class="section-body">With the architecture reframed around how monitoring actually works, I started designing. I built the dashboard, configuration flows, and alert system in parallel — making sure the system felt coherent at every level of access.</p>
+        <p class="section-body">With the architecture reframed around how monitoring actually works, I started designing. I built the dashboard, alarm configuration, and synonym flow in parallel — making sure the system felt coherent at every level of access.</p>
 
         <div class="numbered-list">
           <div class="numbered-item">
             <div class="numbered-badge">1</div>
             <div class="numbered-content">
               <strong>Dashboard-based architecture</strong>
-              <p>Replaced the deeply nested menu system. Primary view shows monitored bacteria, current status, and active alerts in one place — matching the real monitoring mental model.</p>
+              <p>Replaced the deeply nested menu system. Primary view shows monitored bacteria, current status, and active alarms in one place — matching the real monitoring mental model rather than the system's internal data structure.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">2</div>
             <div class="numbered-content">
-              <strong>Step-based configuration flows</strong>
-              <p>For monitoring rules, with persistent state feedback. Users can see what's configured and when it was set up — addressing the core "I don't know what I've set up" problem directly.</p>
+              <strong>Configurable alarm condition builder</strong>
+              <p>Step-based flow for building multi-condition alarms — bacteria type, threshold, region, time window, and more in combination. Designed so scientists could build meaningful, specific alerts without technical help. The more specific the alarm, the less manual interpretation needed when it fires.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">3</div>
             <div class="numbered-content">
-              <strong>Visual alert system with rule summaries</strong>
-              <p>Each alert shows which rule triggered it, with prioritisation logic. The first real alert transparency the platform had — users could finally understand why an alert had fired.</p>
+              <strong>Visual alarm overview with condition summaries</strong>
+              <p>Active alarms display their configured conditions at a glance. Scientists can see exactly what each alarm is watching for without navigating back into settings — and can quickly judge whether an active alarm is relevant to act on.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">4</div>
             <div class="numbered-content">
               <strong>Synonym management redesign</strong>
-              <p>Replaced a slow, difficult database interface with a guided matching flow for mapping incoming lab terms to known organisms. Turned a task scientists dreaded into a one-click confirmation workflow.</p>
+              <p>Replaced a slow, difficult database interface with a guided matching flow for mapping incoming lab terms to known organisms. The system suggests the most likely match as you type — you confirm or correct. Turned a task scientists dreaded into a one-click confirmation workflow.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">5</div>
             <div class="numbered-content">
               <strong>Design system aligned to Swedish public sector standards</strong>
-              <p>Where the standards didn't cover specific patterns — alert priority logic, configuration summary states — I documented proposed extensions with rationale, keeping them alignable with existing standards.</p>
+              <p>Where the standards didn't cover specific patterns — alarm priority logic, condition builder states — I documented proposed extensions with rationale, keeping them alignable with existing standards.</p>
             </div>
           </div>
         </div>
@@ -302,8 +302,8 @@
         <h2 class="section-title">Walkthrough sessions structured around the three biggest pain points identified in research</h2>
       </div>
       <div class="surface-card reveal">
-        <p class="section-body">Wireframe walkthroughs with lab users and regional infection unit staff. Scenarios were built around the three highest-anxiety moments: setting up a new monitoring rule, interpreting an active alert, and updating an existing configuration.</p>
-        <p class="section-body"><strong>Key validation:</strong> Users found the dashboard structure immediately legible. The configuration flow — particularly the persistent state summary — addressed the "I don't know what I've set up" problem directly. One participant noted they could for the first time quickly verify their configurations without navigating back through the settings tree.</p>
+        <p class="section-body">Wireframe walkthroughs with lab users and regional infection unit staff. Scenarios were built around the highest-friction moments identified in research: categorising an incoming lab report, setting up a multi-condition alarm, and acting on an active alarm.</p>
+        <p class="section-body"><strong>Key validation:</strong> The synonym matching flow was the clearest win — participants moved through the guided flow significantly faster than the existing interface. The alarm condition builder was understood quickly once scientists saw how the scope narrowed with each condition added. The dashboard structure was immediately legible to everyone who tested it.</p>
       </div>
     </div>
   </section>
@@ -313,21 +313,21 @@
     <div class="section-inner">
       <div class="section-header reveal">
         <p class="section-eyebrow">Results</p>
-        <h2 class="section-title">Configuration visibility restored — and the daily manual workaround eliminated</h2>
+        <h2 class="section-title">Manual data work dramatically reduced — and alarms refined enough to mean something</h2>
       </div>
 
       <div class="stats-row reveal">
         <div class="stat-card">
-          <span class="stat-number">Rebuilt</span>
-          <span class="stat-label">trust in alerts through explicit rule summaries and transparent trigger logic</span>
+          <span class="stat-number">↓ daily</span>
+          <span class="stat-label">data cleaning time — synonym matching redesigned from slow manual lookup to guided one-click confirmation</span>
         </div>
         <div class="stat-card">
           <span class="stat-number">0 nesting</span>
           <span class="stat-label">to reach monitoring status — dashboard replaced multi-level navigation</span>
         </div>
         <div class="stat-card">
-          <span class="stat-number">↓ manual</span>
-          <span class="stat-label">cross-checking eliminated by configuration visibility and alert transparency</span>
+          <span class="stat-number">Multi</span>
+          <span class="stat-label">condition alarms — scientists can now combine bacteria type, threshold, region and time window without technical help</span>
         </div>
         <div class="stat-card">
           <span class="stat-number">1 handoff</span>
@@ -337,8 +337,7 @@
 
       <div class="surface-card-sm reveal" style="background: var(--accent-bg);">
         <p class="section-eyebrow">What I'd do differently</p>
-        <p class="section-body"><strong>Establish a quantitative baseline at the start.</strong> We knew users were doing manual workarounds, but we didn't track how often or how long. A simple baseline — even just "how many times a week do you manually check data that the system should surface automatically" — would have made this outcomes section significantly stronger.</p>
-        <p class="section-body" style="margin-top: 12px;"><strong>Push harder on the alert trust issue as a product problem, not just a design problem.</strong> The backend logic gap was known early. Getting it flagged formally as a product requirement — rather than a future improvement — would have led to a more complete fix.</p>
+        <p class="section-body"><strong>Establish a quantitative baseline at the start.</strong> We knew the synonym matching and data cleaning work was eating time, but we didn't measure how much. A simple baseline — time-on-task for a typical daily report batch — would have made the before/after comparison concrete instead of qualitative.</p>
       </div>
     </div>
   </section>
@@ -587,7 +586,7 @@
     display: flex; opacity: 1; transform: scale(1);
   }
   #mkkchat-header {
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex; align-items: center; gap: 12px;
     padding: 14px 18px;
     border-bottom: 1px solid #f0f0f0;
     flex-shrink: 0;
@@ -596,6 +595,7 @@
     font-family: 'Bricolage Grotesque', sans-serif;
     font-size: 16px; font-weight: 600;
     color: #191d21; margin: 0;
+    flex: 1; text-align: left;
   }
   #mkkchat-avatar {
     width: 30px; height: 30px;
@@ -612,7 +612,6 @@
     flex: 1; overflow-y: auto;
     padding: 0 14px 14px;
     display: flex; flex-direction: column; gap: 8px;
-    scroll-behavior: smooth;
   }
   .mkkchat-msg {
     max-width: 82%; padding: 10px 14px;
@@ -687,11 +686,21 @@
     padding: 10px 14px; border-radius: 10px;
     border: 1px solid rgba(10,102,194,0.25);
     color: #0A66C2; background: white; cursor: pointer;
-    text-decoration: none; margin-top: 8px;
+    text-decoration: none;
     font-weight: 500; font-size: 13px;
     transition: background 0.15s; width: 100%; box-sizing: border-box;
   }
   .mkkchat-linkedin:hover { background: rgba(10,102,194,0.06); }
+  .mkkchat-casestudy {
+    display:flex; align-items:flex-start; gap:10px;
+    padding:10px 14px; border-radius:10px;
+    border:1px solid rgba(58,107,18,0.3);
+    color:#3A6B12; background:white; cursor:pointer;
+    text-decoration:none;
+    font-weight:500; font-size:13px;
+    transition:background 0.15s; width:100%; box-sizing:border-box;
+  }
+  .mkkchat-casestudy:hover { background:rgba(58,107,18,0.06); }
 </style>
 
 <button id="mkkchat-btn" aria-label="Chat with Mikko's assistant">
@@ -704,7 +713,7 @@
 <div id="mkkchat-window" role="dialog" aria-label="Chat">
   <div id="mkkchat-header">
     <img id="mkkchat-avatar" src="/img/profile/memoji.png" alt="Mikko">
-    <p id="mkkchat-title">Ask about SVEBar</p>
+    <p id="mkkchat-title">Ask me about SVEBar</p>
     <span id="mkkchat-admin-badge" style="font-size:11px;font-weight:700;color:#3A6B12;letter-spacing:0.05em;display:none;">ADMIN</span>
     <button id="mkkchat-close" aria-label="Close chat">×</button>
   </div>
@@ -742,6 +751,7 @@
   var busy    = false;
   var opened  = false;
   var adminKey = null;
+  var currentPollId = 0;
 
   // Save history before any navigation
   var OKEY = 'mkkChat_o';
@@ -795,48 +805,33 @@
   function addMsg(role, text) {
     var el = document.createElement('div');
     el.className = 'mkkchat-msg ' + role;
+    var linkedinCards = [];
+    var caseStudyCards = [];
     if (role === 'bot') {
       text.split(/(\[[^\]]+\]\([^)]+\))/).forEach(function(part) {
         var m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
         if (m) {
-          el.appendChild(document.createElement('br'));
-          var a = document.createElement('a');
-          a.textContent = m[1];
-          a.style.cssText = 'color:#3A6B12;font-weight:600;text-decoration:underline;display:inline-block;margin-top:6px;cursor:pointer;';
-          if (m[2].indexOf('?q=') !== -1 || m[2].indexOf('#contact') !== -1) {
-            a.href = '#contact';
-            (function(url){ a.addEventListener('click', function(e) {
-              e.preventDefault();
-              var qm = url.match(/[?&]q=([^&#]*)/);
-              if (qm) { var ta = document.getElementById('message'); if (ta) { ta.value = decodeURIComponent(qm[1].replace(/\+/g,' ')); setTimeout(function(){ ta.focus(); }, 400); } }
-              var cf = document.getElementById('contact'); if (cf) cf.scrollIntoView({behavior:'smooth'});
-              win.classList.remove('open'); save();
-            }); })(m[2]);
-          } else if (m[2].indexOf('linkedin.com') !== -1) {
-            a.className = 'mkkchat-linkedin';
-            a.href = m[2].startsWith('http') ? m[2] : 'https://' + m[2];
-            a.target = '_blank'; a.rel = 'noopener'; a.style.cssText = '';
-            a.textContent = '';
-            var li_b = document.createElement('span');
-            li_b.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:#0A66C2;border-radius:3px;color:white;font-size:11px;font-weight:700;font-family:sans-serif;flex-shrink:0;margin-top:2px;';
-            li_b.textContent = 'in';
-            var raw = m[1].indexOf('linkedin.com') !== -1 ? 'LinkedIn Profile' : m[1];
-            var parts = raw.split(' — ');
-            var li_info = document.createElement('span');
-            li_info.style.cssText = 'display:flex;flex-direction:column;gap:2px;';
-            var li_name = document.createElement('span');
-            li_name.textContent = parts[0];
-            li_name.style.cssText = 'color:#0A66C2;font-weight:600;line-height:1.3;';
-            li_info.appendChild(li_name);
-            if (parts[1]) {
-              var li_role = document.createElement('span');
-              li_role.textContent = parts[1];
-              li_role.style.cssText = 'color:#888;font-size:12px;font-weight:400;line-height:1.3;';
-              li_info.appendChild(li_role);
-            }
-            a.appendChild(li_b); a.appendChild(li_info);
-          } else { a.href = m[2]; a.target = '_blank'; a.rel = 'noopener'; }
-          el.appendChild(a);
+          if (m[2].indexOf('linkedin.com') !== -1) {
+            linkedinCards.push(m);
+          } else if ((m[2].match(/^\/[a-z]/) || m[2].match(/uxmikko\.(netlify\.app|github\.io)\//)) && m[2].indexOf('?q=') === -1 && m[2].indexOf('#contact') === -1) {
+            caseStudyCards.push(m);
+          } else {
+            var a = document.createElement('a');
+            a.textContent = m[1];
+            a.style.cssText = 'color:#3A6B12;font-weight:600;text-decoration:underline;display:inline-block;margin-top:6px;cursor:pointer;';
+            if (m[2].indexOf('?q=') !== -1 || m[2].indexOf('#contact') !== -1) {
+              a.href = '#contact';
+              (function(url){ a.addEventListener('click', function(e) {
+                e.preventDefault();
+                var qm = url.match(/[?&]q=([^&#]*)/);
+                if (qm) { var ta = document.getElementById('message'); if (ta) { ta.value = decodeURIComponent(qm[1].replace(/\+/g,' ')); setTimeout(function(){ ta.focus(); }, 400); } }
+                var cf = document.getElementById('contact'); if (cf) cf.scrollIntoView({behavior:'smooth'});
+                win.classList.remove('open'); save();
+              }); })(m[2]);
+            } else { a.href = m[2]; a.target = '_blank'; a.rel = 'noopener'; }
+            el.appendChild(document.createElement('br'));
+            el.appendChild(a);
+          }
         } else {
           el.appendChild(document.createTextNode(part));
         }
@@ -844,9 +839,88 @@
     } else {
       el.textContent = text;
     }
-    msgs.insertBefore(el, typing);
+    if (el.textContent.trim().length > 0) {
+      msgs.insertBefore(el, typing);
+    }
+    linkedinCards.forEach(function(m) {
+      var card = document.createElement('div');
+      card.className = 'mkkchat-msg bot';
+      var a = document.createElement('a');
+      a.className = 'mkkchat-linkedin';
+      a.href = m[2].startsWith('http') ? m[2] : 'https://' + m[2];
+      a.target = '_blank'; a.rel = 'noopener';
+      var li_b = document.createElement('span');
+      li_b.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:#0A66C2;border-radius:3px;color:white;font-size:11px;font-weight:700;font-family:sans-serif;flex-shrink:0;margin-top:2px;';
+      li_b.textContent = 'in';
+      var raw = m[1].indexOf('linkedin.com') !== -1 ? 'LinkedIn Profile' : m[1];
+      var pts = raw.split(' — ');
+      var li_info = document.createElement('span');
+      li_info.style.cssText = 'display:flex;flex-direction:column;gap:2px;';
+      var li_name = document.createElement('span');
+      li_name.textContent = pts[0];
+      li_name.style.cssText = 'color:#0A66C2;font-weight:600;line-height:1.3;';
+      li_info.appendChild(li_name);
+      if (pts[1]) {
+        var li_role = document.createElement('span');
+        li_role.textContent = pts[1];
+        li_role.style.cssText = 'color:#888;font-size:12px;font-weight:400;line-height:1.3;';
+        li_info.appendChild(li_role);
+      }
+      a.appendChild(li_b); a.appendChild(li_info);
+      card.appendChild(a);
+      msgs.insertBefore(card, typing);
+    });
+    caseStudyCards.forEach(function(m) {
+      var card = document.createElement('div');
+      card.className = 'mkkchat-msg bot';
+      var a = document.createElement('a');
+      a.className = 'mkkchat-casestudy';
+      var href = m[2];
+      if (href.match(/uxmikko\.(netlify\.app|github\.io)/)) { try { href = new URL(href).pathname; } catch(e) {} }
+      a.href = href;
+      var cs_b = document.createElement('span');
+      cs_b.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:#3A6B12;border-radius:3px;color:white;font-size:10px;font-weight:700;font-family:sans-serif;flex-shrink:0;margin-top:2px;';
+      cs_b.textContent = '→';
+      var pts = m[1].split(' — ');
+      var cs_info = document.createElement('span');
+      cs_info.style.cssText = 'display:flex;flex-direction:column;gap:2px;';
+      var cs_name = document.createElement('span');
+      cs_name.textContent = pts[0];
+      cs_name.style.cssText = 'color:#3A6B12;font-weight:600;line-height:1.3;';
+      cs_info.appendChild(cs_name);
+      if (pts[1]) {
+        var cs_desc = document.createElement('span');
+        cs_desc.textContent = pts[1];
+        cs_desc.style.cssText = 'color:#888;font-size:12px;font-weight:400;line-height:1.3;';
+        cs_info.appendChild(cs_desc);
+      }
+      a.appendChild(cs_b); a.appendChild(cs_info);
+      card.appendChild(a);
+      msgs.insertBefore(card, typing);
+    });
     msgs.scrollTop = msgs.scrollHeight;
     return el;
+  }
+
+  function startPolling(sessionId) {
+    var myId = ++currentPollId;
+    var attempts = 0;
+    function poll() {
+      if (myId !== currentPollId || attempts >= 40) return;
+      attempts++;
+      fetch('/.netlify/functions/check-reply?sessionId=' + sessionId)
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          if (myId !== currentPollId) return;
+          if (d.answered && d.reply) {
+            addMsg('bot', d.reply);
+            history.push({role:'assistant', content: d.reply});
+            save();
+          } else { setTimeout(poll, 3000); }
+        })
+        .catch(function() { if (myId === currentPollId) setTimeout(poll, 3000); });
+    }
+    setTimeout(poll, 3000);
   }
 
   function setTyping(on) { typing.className = on ? 'show' : ''; if (on) msgs.scrollTop = msgs.scrollHeight; }
@@ -876,6 +950,7 @@
   async function submit() {
     var text = input.value.trim();
     if (!text || busy) return;
+    currentPollId++; // cancel any active poll
     input.value = '';
     setBusy(true);
     var origText = text;
@@ -909,14 +984,31 @@
     addMsg('user', text);
     setTyping(true);
     try {
+      var t0 = Date.now();
       var res = await fetch('/.netlify/functions/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({message:text, history:history, page:location.pathname}) });
       var data = await res.json();
       var reply = data.reply || 'Something went wrong — please try again.';
+      // Split on paragraph breaks — deliver as sequential bubbles
+      var parts = reply.split(/\n\n+/).map(function(p){ return p.trim(); }).filter(Boolean);
+      if (!parts.length) parts = [reply];
+      // First part: delay based on its length, minus time API already spent
+      var natural = Math.min(Math.max(parts[0].length * 40, 800), 8000);
+      var wait    = Math.max(0, natural - (Date.now() - t0));
+      if (wait > 0) await new Promise(function(r){ setTimeout(r, wait); });
+      setTyping(false);
+      addMsg('bot', parts[0]);
+      // Each subsequent part: typing indicator + per-part delay
+      for (var pi = 1; pi < parts.length; pi++) {
+        setTyping(true);
+        var partDelay = Math.min(Math.max(parts[pi].length * 40, 600), 5000);
+        await new Promise(function(r){ setTimeout(r, partDelay); });
+        setTyping(false);
+        addMsg('bot', parts[pi]);
+      }
       history.push({role:'user', content:origText});
       history.push({role:'assistant', content:reply});
       save();
-      setTyping(false);
-      addMsg('bot', reply);
+      if (data.sessionId) startPolling(data.sessionId);
     } catch(e) {
       setTyping(false);
       addMsg('bot','Connection error — please email uxmikko@gmail.com.');

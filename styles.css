@@ -96,7 +96,7 @@ ul  { list-style: none; }
   justify-content: space-between;
   height: 84px;
   padding: 8px 48px;
-  background: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.82);
   backdrop-filter: blur(12px) saturate(160%);
   -webkit-backdrop-filter: blur(12px) saturate(160%);
   border-bottom-left-radius:  24px;
@@ -105,6 +105,8 @@ ul  { list-style: none; }
     0px 0.6px 1.3px -1.5px rgba(0,0,0,0.19),
     0px 2.3px 5px   -3px   rgba(0,0,0,0.16),
     0px 10px  22px  -4.5px rgba(0,0,0,0.02);
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 .nav-logo {
@@ -1204,3 +1206,78 @@ body.riksbyggen {
   --accent-border: rgba(191, 68, 47, 0.2);
 }
 body.riksbyggen .hero-card { background: linear-gradient(180deg, rgb(250,238,234) 0%, white 100%); }
+
+/* =============================================================================
+   NEXT READS — "A similar project / Something different"
+   ============================================================================= */
+.next-reads {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.next-read-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #e8e8e8;
+  background: white;
+  transition: transform 0.22s cubic-bezier(0.22,1,0.36,1), box-shadow 0.22s;
+}
+.next-read-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.1);
+}
+.next-read-image {
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.next-read-image img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.next-read-card:hover .next-read-image img {
+  transform: scale(1.04);
+}
+.next-read-meta {
+  padding: 16px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+.next-read-prompt {
+  font-size: 11px;
+  font-weight: 700;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 2px;
+}
+.next-read-client {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.next-read-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #191d21;
+  line-height: 1.3;
+  margin: 2px 0 6px;
+}
+.next-read-why {
+  font-size: 13px;
+  color: #777;
+  line-height: 1.55;
+}
+@media (max-width: 620px) {
+  .next-reads { grid-template-columns: 1fr; }
+}
+
+.img-placeholder { display: none; }

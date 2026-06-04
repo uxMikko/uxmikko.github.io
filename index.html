@@ -148,7 +148,7 @@
             <img src="img/svebar/card.png" alt="SVEBar" style="width:100%; height:100%; object-fit:cover;">
           </div>
           <div class="card-meta">
-            <span class="card-category" style="color: var(--accent-svebar);">Folkhälsomyndigheten</span>
+            <span class="card-category" style="color: var(--accent-svebar);">The Public Health Agency of Sweden</span>
             <div class="card-title-row">
               <h3 class="card-title">Modernizing monitoring system of multi-resistent bacteria</h3>
             </div>
@@ -165,7 +165,7 @@
             <img src="img/gensam/card.png" alt="GENSAM" style="width:100%; height:100%; object-fit:cover;">
           </div>
           <div class="card-meta">
-            <span class="card-category" style="color: var(--accent-gensam);">Folkhälsomyndigheten</span>
+            <span class="card-category" style="color: var(--accent-gensam);">The Public Health Agency of Sweden</span>
             <div class="card-title-row">
               <h3 class="card-title">Designing a COVID sequence database</h3>
             </div>
@@ -201,7 +201,7 @@
             <img src="img/ltn/card.png" alt="LTN" style="width:100%; height:100%; object-fit:cover;">
           </div>
           <div class="card-meta">
-            <span class="card-category" style="color: var(--accent-ltn);">Folkhälsomyndigheten</span>
+            <span class="card-category" style="color: var(--accent-ltn);">The Public Health Agency of Sweden</span>
             <div class="card-title-row">
               <h3 class="card-title">Designing a registration system for nicotine products</h3>
             </div>
@@ -563,7 +563,7 @@ FILTER JS END -->
     display: flex; opacity: 1; transform: scale(1);
   }
   #mkkchat-header {
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex; align-items: center; gap: 12px;
     padding: 14px 18px;
     border-bottom: 1px solid #f0f0f0;
     flex-shrink: 0;
@@ -572,6 +572,7 @@ FILTER JS END -->
     font-family: 'Bricolage Grotesque', sans-serif;
     font-size: 16px; font-weight: 600;
     color: #191d21; margin: 0;
+    flex: 1; text-align: left;
   }
   #mkkchat-avatar {
     width: 30px; height: 30px;
@@ -588,7 +589,6 @@ FILTER JS END -->
     flex: 1; overflow-y: auto;
     padding: 0 14px 14px;
     display: flex; flex-direction: column; gap: 8px;
-    scroll-behavior: smooth;
   }
   .mkkchat-msg {
     max-width: 82%; padding: 10px 14px;
@@ -663,11 +663,21 @@ FILTER JS END -->
     padding: 10px 14px; border-radius: 10px;
     border: 1px solid rgba(10,102,194,0.25);
     color: #0A66C2; background: white; cursor: pointer;
-    text-decoration: none; margin-top: 8px;
+    text-decoration: none;
     font-weight: 500; font-size: 13px;
     transition: background 0.15s; width: 100%; box-sizing: border-box;
   }
   .mkkchat-linkedin:hover { background: rgba(10,102,194,0.06); }
+  .mkkchat-casestudy {
+    display:flex; align-items:flex-start; gap:10px;
+    padding:10px 14px; border-radius:10px;
+    border:1px solid rgba(58,107,18,0.3);
+    color:#3A6B12; background:white; cursor:pointer;
+    text-decoration:none;
+    font-weight:500; font-size:13px;
+    transition:background 0.15s; width:100%; box-sizing:border-box;
+  }
+  .mkkchat-casestudy:hover { background:rgba(58,107,18,0.06); }
 </style>
 
 <button id="mkkchat-btn" aria-label="Chat with Mikko's assistant">
@@ -718,6 +728,7 @@ FILTER JS END -->
   var busy    = false;
   var opened  = false;
   var adminKey = null;
+  var currentPollId = 0;
 
   // Save history before any navigation
   var OKEY = 'mkkChat_o';
@@ -771,48 +782,33 @@ FILTER JS END -->
   function addMsg(role, text) {
     var el = document.createElement('div');
     el.className = 'mkkchat-msg ' + role;
+    var linkedinCards = [];
+    var caseStudyCards = [];
     if (role === 'bot') {
       text.split(/(\[[^\]]+\]\([^)]+\))/).forEach(function(part) {
         var m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
         if (m) {
-          el.appendChild(document.createElement('br'));
-          var a = document.createElement('a');
-          a.textContent = m[1];
-          a.style.cssText = 'color:#3A6B12;font-weight:600;text-decoration:underline;display:inline-block;margin-top:6px;cursor:pointer;';
-          if (m[2].indexOf('?q=') !== -1 || m[2].indexOf('#contact') !== -1) {
-            a.href = '#contact';
-            (function(url){ a.addEventListener('click', function(e) {
-              e.preventDefault();
-              var qm = url.match(/[?&]q=([^&#]*)/);
-              if (qm) { var ta = document.getElementById('message'); if (ta) { ta.value = decodeURIComponent(qm[1].replace(/\+/g,' ')); setTimeout(function(){ ta.focus(); }, 400); } }
-              var cf = document.getElementById('contact'); if (cf) cf.scrollIntoView({behavior:'smooth'});
-              win.classList.remove('open'); save();
-            }); })(m[2]);
-          } else if (m[2].indexOf('linkedin.com') !== -1) {
-            a.className = 'mkkchat-linkedin';
-            a.href = m[2].startsWith('http') ? m[2] : 'https://' + m[2];
-            a.target = '_blank'; a.rel = 'noopener'; a.style.cssText = '';
-            a.textContent = '';
-            var li_b = document.createElement('span');
-            li_b.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:#0A66C2;border-radius:3px;color:white;font-size:11px;font-weight:700;font-family:sans-serif;flex-shrink:0;margin-top:2px;';
-            li_b.textContent = 'in';
-            var raw = m[1].indexOf('linkedin.com') !== -1 ? 'LinkedIn Profile' : m[1];
-            var parts = raw.split(' — ');
-            var li_info = document.createElement('span');
-            li_info.style.cssText = 'display:flex;flex-direction:column;gap:2px;';
-            var li_name = document.createElement('span');
-            li_name.textContent = parts[0];
-            li_name.style.cssText = 'color:#0A66C2;font-weight:600;line-height:1.3;';
-            li_info.appendChild(li_name);
-            if (parts[1]) {
-              var li_role = document.createElement('span');
-              li_role.textContent = parts[1];
-              li_role.style.cssText = 'color:#888;font-size:12px;font-weight:400;line-height:1.3;';
-              li_info.appendChild(li_role);
-            }
-            a.appendChild(li_b); a.appendChild(li_info);
-          } else { a.href = m[2]; a.target = '_blank'; a.rel = 'noopener'; }
-          el.appendChild(a);
+          if (m[2].indexOf('linkedin.com') !== -1) {
+            linkedinCards.push(m);
+          } else if ((m[2].match(/^\/[a-z]/) || m[2].match(/uxmikko\.(netlify\.app|github\.io)\//)) && m[2].indexOf('?q=') === -1 && m[2].indexOf('#contact') === -1) {
+            caseStudyCards.push(m);
+          } else {
+            var a = document.createElement('a');
+            a.textContent = m[1];
+            a.style.cssText = 'color:#3A6B12;font-weight:600;text-decoration:underline;display:inline-block;margin-top:6px;cursor:pointer;';
+            if (m[2].indexOf('?q=') !== -1 || m[2].indexOf('#contact') !== -1) {
+              a.href = '#contact';
+              (function(url){ a.addEventListener('click', function(e) {
+                e.preventDefault();
+                var qm = url.match(/[?&]q=([^&#]*)/);
+                if (qm) { var ta = document.getElementById('message'); if (ta) { ta.value = decodeURIComponent(qm[1].replace(/\+/g,' ')); setTimeout(function(){ ta.focus(); }, 400); } }
+                var cf = document.getElementById('contact'); if (cf) cf.scrollIntoView({behavior:'smooth'});
+                win.classList.remove('open'); save();
+              }); })(m[2]);
+            } else { a.href = m[2]; a.target = '_blank'; a.rel = 'noopener'; }
+            el.appendChild(document.createElement('br'));
+            el.appendChild(a);
+          }
         } else {
           el.appendChild(document.createTextNode(part));
         }
@@ -820,9 +816,88 @@ FILTER JS END -->
     } else {
       el.textContent = text;
     }
-    msgs.insertBefore(el, typing);
+    if (el.textContent.trim().length > 0) {
+      msgs.insertBefore(el, typing);
+    }
+    linkedinCards.forEach(function(m) {
+      var card = document.createElement('div');
+      card.className = 'mkkchat-msg bot';
+      var a = document.createElement('a');
+      a.className = 'mkkchat-linkedin';
+      a.href = m[2].startsWith('http') ? m[2] : 'https://' + m[2];
+      a.target = '_blank'; a.rel = 'noopener';
+      var li_b = document.createElement('span');
+      li_b.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:#0A66C2;border-radius:3px;color:white;font-size:11px;font-weight:700;font-family:sans-serif;flex-shrink:0;margin-top:2px;';
+      li_b.textContent = 'in';
+      var raw = m[1].indexOf('linkedin.com') !== -1 ? 'LinkedIn Profile' : m[1];
+      var pts = raw.split(' — ');
+      var li_info = document.createElement('span');
+      li_info.style.cssText = 'display:flex;flex-direction:column;gap:2px;';
+      var li_name = document.createElement('span');
+      li_name.textContent = pts[0];
+      li_name.style.cssText = 'color:#0A66C2;font-weight:600;line-height:1.3;';
+      li_info.appendChild(li_name);
+      if (pts[1]) {
+        var li_role = document.createElement('span');
+        li_role.textContent = pts[1];
+        li_role.style.cssText = 'color:#888;font-size:12px;font-weight:400;line-height:1.3;';
+        li_info.appendChild(li_role);
+      }
+      a.appendChild(li_b); a.appendChild(li_info);
+      card.appendChild(a);
+      msgs.insertBefore(card, typing);
+    });
+    caseStudyCards.forEach(function(m) {
+      var card = document.createElement('div');
+      card.className = 'mkkchat-msg bot';
+      var a = document.createElement('a');
+      a.className = 'mkkchat-casestudy';
+      var href = m[2];
+      if (href.match(/uxmikko\.(netlify\.app|github\.io)/)) { try { href = new URL(href).pathname; } catch(e) {} }
+      a.href = href;
+      var cs_b = document.createElement('span');
+      cs_b.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:#3A6B12;border-radius:3px;color:white;font-size:10px;font-weight:700;font-family:sans-serif;flex-shrink:0;margin-top:2px;';
+      cs_b.textContent = '→';
+      var pts = m[1].split(' — ');
+      var cs_info = document.createElement('span');
+      cs_info.style.cssText = 'display:flex;flex-direction:column;gap:2px;';
+      var cs_name = document.createElement('span');
+      cs_name.textContent = pts[0];
+      cs_name.style.cssText = 'color:#3A6B12;font-weight:600;line-height:1.3;';
+      cs_info.appendChild(cs_name);
+      if (pts[1]) {
+        var cs_desc = document.createElement('span');
+        cs_desc.textContent = pts[1];
+        cs_desc.style.cssText = 'color:#888;font-size:12px;font-weight:400;line-height:1.3;';
+        cs_info.appendChild(cs_desc);
+      }
+      a.appendChild(cs_b); a.appendChild(cs_info);
+      card.appendChild(a);
+      msgs.insertBefore(card, typing);
+    });
     msgs.scrollTop = msgs.scrollHeight;
     return el;
+  }
+
+  function startPolling(sessionId) {
+    var myId = ++currentPollId;
+    var attempts = 0;
+    function poll() {
+      if (myId !== currentPollId || attempts >= 40) return;
+      attempts++;
+      fetch('/.netlify/functions/check-reply?sessionId=' + sessionId)
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          if (myId !== currentPollId) return;
+          if (d.answered && d.reply) {
+            addMsg('bot', d.reply);
+            history.push({role:'assistant', content: d.reply});
+            save();
+          } else { setTimeout(poll, 3000); }
+        })
+        .catch(function() { if (myId === currentPollId) setTimeout(poll, 3000); });
+    }
+    setTimeout(poll, 3000);
   }
 
   function setTyping(on) { typing.className = on ? 'show' : ''; if (on) msgs.scrollTop = msgs.scrollHeight; }
@@ -852,6 +927,7 @@ FILTER JS END -->
   async function submit() {
     var text = input.value.trim();
     if (!text || busy) return;
+    currentPollId++; // cancel any active poll
     input.value = '';
     setBusy(true);
     var origText = text;
@@ -885,14 +961,31 @@ FILTER JS END -->
     addMsg('user', text);
     setTyping(true);
     try {
+      var t0 = Date.now();
       var res = await fetch('/.netlify/functions/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({message:text, history:history, page:location.pathname}) });
       var data = await res.json();
       var reply = data.reply || 'Something went wrong — please try again.';
+      // Split on paragraph breaks — deliver as sequential bubbles
+      var parts = reply.split(/\n\n+/).map(function(p){ return p.trim(); }).filter(Boolean);
+      if (!parts.length) parts = [reply];
+      // First part: delay based on its length, minus time API already spent
+      var natural = Math.min(Math.max(parts[0].length * 40, 800), 8000);
+      var wait    = Math.max(0, natural - (Date.now() - t0));
+      if (wait > 0) await new Promise(function(r){ setTimeout(r, wait); });
+      setTyping(false);
+      addMsg('bot', parts[0]);
+      // Each subsequent part: typing indicator + per-part delay
+      for (var pi = 1; pi < parts.length; pi++) {
+        setTyping(true);
+        var partDelay = Math.min(Math.max(parts[pi].length * 40, 600), 5000);
+        await new Promise(function(r){ setTimeout(r, partDelay); });
+        setTyping(false);
+        addMsg('bot', parts[pi]);
+      }
       history.push({role:'user', content:origText});
       history.push({role:'assistant', content:reply});
       save();
-      setTyping(false);
-      addMsg('bot', reply);
+      if (data.sessionId) startPolling(data.sessionId);
     } catch(e) {
       setTyping(false);
       addMsg('bot','Connection error — please email uxmikko@gmail.com.');
