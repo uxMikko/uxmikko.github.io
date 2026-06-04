@@ -745,16 +745,18 @@
     }
   }, true);
 
-  // Restore chat from localStorage on page load
-  if (wasOpen && win && msgs) {
-    win.classList.add('open');
-    if (history.length) {
-      try {
-        history.forEach(function(m) {
-          if (m && m.content) addMsg(m.role === 'assistant' ? 'bot' : 'user', m.content);
-        });
-        setTimeout(function() { msgs.scrollTop = msgs.scrollHeight; }, 80);
-      } catch(e) { console.error('Chat restore error:', e); }
+  // Restore history on open rather than auto-opening each page
+  var messagesRestored = false;
+  function restoreMessages() {
+    if (messagesRestored || !history.length) return;
+    messagesRestored = true;
+    try {
+      history.forEach(function(m) {
+        if (m && m.content) addMsg(m.role === 'assistant' ? 'bot' : 'user', m.content);
+      });
+      setTimeout(function() { msgs.scrollTop = msgs.scrollHeight; }, 80);
+    } catch(e) {}
+  }
     } else {
       greet();
     }
@@ -1002,7 +1004,11 @@
 
   btn.addEventListener('click', function () {
     var open = win.classList.toggle('open');
-    if (open) { greet(); input.focus(); }
+    if (open) {
+      restoreMessages();
+      if (!messagesRestored || !history.length) greet();
+      setTimeout(function() { input.focus(); }, 50);
+    }
     saveSession();
   });
 
