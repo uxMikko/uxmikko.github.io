@@ -241,19 +241,12 @@ exports.handler = async (event) => {
     const uncertain = botIsUncertain(reply);
     logQuestion(message, referrer, !uncertain);
 
-    if (uncertain && process.env.TELEGRAM_TOKEN && process.env.TELEGRAM_CHAT_ID) {
-      // Human-in-the-loop: alert Mikko on Telegram and return waiting state
-      const sessionId = Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-      await alertTelegram(message, sessionId);
-      return { statusCode: 200, headers, body: JSON.stringify({
-        reply: "just a sec, let me check 👀",
-        waitingForHuman: true,
-        sessionId,
-      })};
-    }
-
     if (uncertain) {
-      // Telegram not configured — fall back to contact link
+      // Silently notify Mikko on Telegram (fire-and-forget, no waiting UX)
+      if (process.env.TELEGRAM_TOKEN && process.env.TELEGRAM_CHAT_ID) {
+        alertTelegram(message, Date.now().toString(36));
+      }
+      // Show contact link immediately
       const enc = encodeURIComponent(message);
       reply += `\n\n[Send me this question directly →](https://uxmikko.netlify.app/?q=${enc}#contact)`;
     }

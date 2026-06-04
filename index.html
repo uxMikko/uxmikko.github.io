@@ -695,78 +695,70 @@ FILTER JS END -->
 
 <script>
 (function () {
-  var btn     = document.getElementById('mkkchat-btn');
-  var win     = document.getElementById('mkkchat-window');
-  var close   = document.getElementById('mkkchat-close');
-  var msgs    = document.getElementById('mkkchat-msgs');
-  var typing  = document.getElementById('mkkchat-typing');
-  var input   = document.getElementById('mkkchat-input');
-  var send    = document.getElementById('mkkchat-send');
-  var _sh      = localStorage.getItem('mkkChat_h');
-  var history  = _sh ? (function(){ try{ return JSON.parse(_sh); }catch(e){ return []; } })() : [];
-  var wasOpen  = localStorage.getItem('mkkChat_o') === '1';
-  var greeted  = history.length > 0; // derived — no history means not yet greeted
-  var busy     = false;
+  var btn    = document.getElementById('mkkchat-btn');
+  var win    = document.getElementById('mkkchat-window');
+  var cls    = document.getElementById('mkkchat-close');
+  var msgs   = document.getElementById('mkkchat-msgs');
+  var typing = document.getElementById('mkkchat-typing');
+  var input  = document.getElementById('mkkchat-input');
+  var send   = document.getElementById('mkkchat-send');
+
+  var HKEY   = 'mkkChat_h';
+  var history = (function(){ try{ return JSON.parse(localStorage.getItem(HKEY)||'[]'); }catch(e){ return []; } })();
+  var busy    = false;
+  var opened  = false;
   var adminKey = null;
 
-  // On GitHub Pages the Netlify function doesn't exist — show a Y/N prompt
-  if (window.location.hostname === 'uxmikko.github.io') {
+  // Save history before any navigation
+  function save() { localStorage.setItem(HKEY, JSON.stringify(history)); }
+  window.addEventListener('beforeunload', save);
+  document.addEventListener('click', function(e) {
+    var a = e.target.closest('a[href]');
+    if (a && a.hostname === location.hostname && a.target !== '_blank') save();
+  }, true);
+
+  // GitHub Pages — show Y/N redirect prompt
+  if (location.hostname === 'uxmikko.github.io') {
     btn.addEventListener('click', function () {
       win.classList.add('open');
-      greet();
       setTimeout(function () {
-        // Prompt bubble with Yes / No buttons
-        var prompt = document.createElement('div');
-        prompt.className = 'mkkchat-msg bot';
-        prompt.style.cssText = 'display:flex;flex-direction:column;gap:10px;';
-
-        var txt = document.createElement('span');
-        txt.textContent = "Want to chat? I'll need to take you to the newer version of this site to make that happen.";
-        prompt.appendChild(txt);
-
-        var btns = document.createElement('div');
-        btns.style.cssText = 'display:flex;gap:8px;';
-
+        var p = document.createElement('div');
+        p.className = 'mkkchat-msg bot';
+        p.style.cssText = 'display:flex;flex-direction:column;gap:10px;';
+        var t = document.createElement('span');
+        t.textContent = "Want to chat? I'll need to take you to the newer version of this site.";
+        p.appendChild(t);
+        var row = document.createElement('div');
+        row.style.cssText = 'display:flex;gap:8px;';
         var yes = document.createElement('button');
         yes.textContent = "Yes, let's go";
         yes.style.cssText = 'padding:6px 14px;border-radius:20px;border:none;background:#3A6B12;color:white;font-family:Inter,sans-serif;font-size:13px;font-weight:500;cursor:pointer;';
-
         var no = document.createElement('button');
         no.textContent = 'No thanks';
         no.style.cssText = 'padding:6px 14px;border-radius:20px;border:1px solid #ddd;background:white;color:#555;font-family:Inter,sans-serif;font-size:13px;font-weight:500;cursor:pointer;';
-
         yes.addEventListener('click', function () {
-          yes.disabled = no.disabled = true;
-          yes.textContent = 'On my way ✌️';
-          setTimeout(function () {
-            window.location.href = 'https://uxmikko.netlify.app/?chat=open';
-          }, 800);
+          yes.disabled = no.disabled = true; yes.textContent = 'On my way ✌️';
+          setTimeout(function () { location.href = 'https://uxmikko.netlify.app/?chat=open'; }, 800);
         });
-
         no.addEventListener('click', function () {
-          yes.disabled = no.disabled = true;
-          btns.remove();
+          yes.disabled = no.disabled = true; row.remove();
           var bye = document.createElement('span');
           bye.textContent = 'No worries — feel free to browse the case studies 👋';
-          prompt.appendChild(bye);
+          p.appendChild(bye);
         });
-
-        btns.appendChild(yes);
-        btns.appendChild(no);
-        prompt.appendChild(btns);
-        msgs.insertBefore(prompt, typing);
-        msgs.scrollTop = msgs.scrollHeight;
+        row.appendChild(yes); row.appendChild(no); p.appendChild(row);
+        msgs.insertBefore(p, typing); msgs.scrollTop = msgs.scrollHeight;
       }, 600);
     });
     return;
   }
 
+  // Render a message bubble
   function addMsg(role, text) {
     var el = document.createElement('div');
     el.className = 'mkkchat-msg ' + role;
-    // Render bot messages: split on markdown links, build DOM nodes (no innerHTML)
     if (role === 'bot') {
-      text.split(/(\[[^\]]+\]\([^)]+\))/).forEach(function (part) {
+      text.split(/(\[[^\]]+\]\([^)]+\))/).forEach(function(part) {
         var m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
         if (m) {
           el.appendChild(document.createElement('br'));
@@ -775,12 +767,12 @@ FILTER JS END -->
           a.style.cssText = 'color:#3A6B12;font-weight:600;text-decoration:underline;display:inline-block;margin-top:6px;cursor:pointer;';
           if (m[2].indexOf('?q=') !== -1 || m[2].indexOf('#contact') !== -1) {
             a.href = '#contact';
-            (function(url) { a.addEventListener('click', function(e) {
+            (function(url){ a.addEventListener('click', function(e) {
               e.preventDefault();
               var qm = url.match(/[?&]q=([^&#]*)/);
               if (qm) { var ta = document.getElementById('message'); if (ta) { ta.value = decodeURIComponent(qm[1].replace(/\+/g,' ')); setTimeout(function(){ ta.focus(); }, 400); } }
               var cf = document.getElementById('contact'); if (cf) cf.scrollIntoView({behavior:'smooth'});
-              win.classList.remove('open'); saveSession();
+              win.classList.remove('open'); save();
             }); })(m[2]);
           } else { a.href = m[2]; a.target = '_blank'; a.rel = 'noopener'; }
           el.appendChild(a);
@@ -796,56 +788,22 @@ FILTER JS END -->
     return el;
   }
 
-  function updateMsg(el, text) {
-    while (el.firstChild) el.removeChild(el.firstChild);
-    text.split(/(\[[^\]]+\]\([^)]+\))/).forEach(function(part) {
-      var m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
-      if (m) {
-        el.appendChild(document.createElement('br'));
-        var a = document.createElement('a');
-        a.textContent = m[1];
-        a.style.cssText = 'color:#3A6B12;font-weight:600;text-decoration:underline;display:inline-block;margin-top:6px;cursor:pointer;';
-        if (m[2].indexOf('?q=') !== -1 || m[2].indexOf('#contact') !== -1) {
-          a.href = '#contact';
-          (function(url) { a.addEventListener('click', function(e) {
-            e.preventDefault();
-            var qm = url.match(/[?&]q=([^&#]*)/);
-            if (qm) { var ta = document.getElementById('message'); if (ta) { ta.value = decodeURIComponent(qm[1].replace(/\+/g,' ')); setTimeout(function(){ ta.focus(); }, 400); } }
-            var cf = document.getElementById('contact'); if (cf) cf.scrollIntoView({behavior:'smooth'});
-            win.classList.remove('open'); saveSession();
-          }); })(m[2]);
-        } else { a.href = m[2]; a.target = '_blank'; a.rel = 'noopener'; }
-        el.appendChild(a);
+  function setTyping(on) { typing.className = on ? 'show' : ''; if (on) msgs.scrollTop = msgs.scrollHeight; }
+  function setBusy(on)   { busy = on; send.disabled = on; input.disabled = on; }
+
+  // Open chat: show history or greeting
+  function openChat() {
+    if (!opened) {
+      opened = true;
+      if (history.length) {
+        history.forEach(function(m) { if (m && m.content) addMsg(m.role === 'assistant' ? 'bot' : 'user', m.content); });
+        setTimeout(function() { msgs.scrollTop = msgs.scrollHeight; }, 80);
       } else {
-        el.appendChild(document.createTextNode(part));
+        setTimeout(function() {
+          addMsg('bot', "Hey 👋 I'm Mikko — or a pretty good AI version of me. Ask me anything about my work, experience, or what I'm looking for.");
+        }, 240);
       }
-    });
-    msgs.scrollTop = msgs.scrollHeight;
-  }
-
-  function setTyping(on) {
-    typing.className = on ? 'show' : '';
-    if (on) msgs.scrollTop = msgs.scrollHeight;
-  }
-
-  function setBusy(on) {
-    busy = on;
-    send.disabled = on;
-    input.disabled = on;
-  }
-
-  function saveSession() {
-    var isOpen = win.classList.contains('open') ? '1' : '0';
-      localStorage.setItem('mkkChat_h', JSON.stringify(history));
-    localStorage.setItem('mkkChat_o', isOpen);
-  }
-
-  function greet() {
-    if (greeted) return;
-    greeted = true;
-    setTimeout(function () {
-      addMsg('bot', "Hey 👋 I'm Mikko — or a pretty good AI version of me. Ask me anything about my work, experience, or what I'm looking for.");
-    }, 240);
+    }
   }
 
   async function submit() {
@@ -853,137 +811,69 @@ FILTER JS END -->
     if (!text || busy) return;
     input.value = '';
     setBusy(true);
-    setTyping(true);
+    var origText = text;
 
-    // Admin auth attempt — "admin [key]"
+    // Admin auth
     if (text.toLowerCase().startsWith('admin ')) {
-      var attemptKey = text.slice(6).trim();
+      var k = text.slice(6).trim();
+      setTyping(true);
       try {
-        var ar = await fetch('/.netlify/functions/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ authAttempt: true, adminKey: attemptKey }),
-        });
+        var ar = await fetch('/.netlify/functions/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({authAttempt:true, adminKey:k}) });
         var ad = await ar.json();
-        if (ad.authenticated) {
-          adminKey = attemptKey;
-          document.getElementById('mkkchat-admin-badge').style.display = 'inline';
-        }
-        setTyping(false);
-        addMsg('bot', ad.reply);
-      } catch (e) {
-        setTyping(false);
-        addMsg('bot', 'Connection error.');
-      }
+        if (ad.authenticated) { adminKey = k; document.getElementById('mkkchat-admin-badge').style.display='inline'; }
+        setTyping(false); addMsg('bot', ad.reply);
+      } catch(e) { setTyping(false); addMsg('bot','Connection error.'); }
       setBusy(false); input.focus(); return;
     }
 
-    // Correction command — "No. [correction]" (requires active admin session)
+    // Correction
     if (adminKey && text.startsWith('No. ')) {
       addMsg('user', text);
+      setTyping(true);
       try {
-        var cr = await fetch('/.netlify/functions/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: text, adminKey: adminKey }),
-        });
+        var cr = await fetch('/.netlify/functions/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({message:text, adminKey:adminKey}) });
         var cd = await cr.json();
-        setTyping(false);
-        addMsg('bot', cd.reply);
-      } catch (e) {
-        setTyping(false);
-        addMsg('bot', 'Connection error saving that.');
-      }
+        setTyping(false); addMsg('bot', cd.reply);
+      } catch(e) { setTyping(false); addMsg('bot','Error saving.'); }
       setBusy(false); input.focus(); return;
     }
 
     // Normal message
-    var origText = text;
     addMsg('user', text);
+    setTyping(true);
     try {
-      var res = await fetch('/.netlify/functions/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, history: history, page: window.location.pathname }),
-      });
+      var res = await fetch('/.netlify/functions/chat', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({message:text, history:history, page:location.pathname}) });
       var data = await res.json();
+      var reply = data.reply || 'Something went wrong — please try again.';
+      history.push({role:'user', content:origText});
+      history.push({role:'assistant', content:reply});
+      save();
       setTyping(false);
-      if (data.waitingForHuman && data.sessionId) {
-        addMsg('bot', 'just a sec, let me check 👀');
-        setTyping(true);
-        var pollsDone = 0;
-        var sid = data.sessionId;
-        var pid = setInterval(async function() {
-          pollsDone++;
-          try {
-            var pr = await fetch('/.netlify/functions/check-reply?sessionId=' + sid);
-            var pd = await pr.json();
-            if (pd.answered) {
-              clearInterval(pid);
-              setTyping(false);
-              addMsg('bot', pd.reply);
-              history.push({ role: 'user', content: origText });
-              history.push({ role: 'assistant', content: pd.reply });
-              saveSession();
-            } else if (pollsDone >= 6) {
-              clearInterval(pid);
-              setTyping(false);
-              var enc = encodeURIComponent(origText);
-              addMsg('bot', "Mikko's not around right now.\n\n[Send him this question →](https://uxmikko.netlify.app/?q=" + enc + "#contact)");
-              history.push({ role: 'user', content: origText });
-              history.push({ role: 'assistant', content: 'Not available — suggested contact form.' });
-              saveSession();
-            }
-          } catch(e) { if (pollsDone >= 6) { clearInterval(pid); setTyping(false); } }
-        }, 10000);
-      } else {
-        var reply = data.reply || 'Sorry, something went wrong — please try again.';
-        history.push({ role: 'user', content: origText });
-        history.push({ role: 'assistant', content: reply });
-        addMsg('bot', reply);
-        saveSession();
-      }
-    } catch (e) {
+      addMsg('bot', reply);
+    } catch(e) {
       setTyping(false);
-      addMsg('bot', 'Connection error — please email uxmikko@gmail.com directly.');
+      addMsg('bot','Connection error — please email uxmikko@gmail.com.');
     }
-
-    setBusy(false);
-    input.focus();
+    setBusy(false); input.focus();
   }
 
-  btn.addEventListener('click', function () {
-    var open = win.classList.toggle('open');
-    if (open) {
-      restoreMessages();
-      if (!messagesRestored || !history.length) greet();
-      setTimeout(function() { input.focus(); }, 50);
-    }
-    saveSession();
+  // Event listeners
+  btn.addEventListener('click', function() {
+    var isOpen = win.classList.toggle('open');
+    if (isOpen) { openChat(); setTimeout(function(){ input.focus(); }, 50); }
+    save();
   });
-
-  close.addEventListener('click', function () {
-    win.classList.remove('open');
-    saveSession();
-  });
-
+  cls.addEventListener('click', function() { win.classList.remove('open'); save(); });
   send.addEventListener('click', submit);
-
-  input.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(); }
-  });
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && win.classList.contains('open')) {
-      win.classList.remove('open');
-    }
-  });
+  input.addEventListener('keydown', function(e) { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); submit(); } });
+  document.addEventListener('keydown', function(e) { if (e.key==='Escape' && win.classList.contains('open')) win.classList.remove('open'); });
 
   // Auto-open if redirected from GitHub Pages
-  if (new URLSearchParams(window.location.search).get('chat') === 'open') {
-    setTimeout(function () { btn.click(); }, 400);
+  if (new URLSearchParams(location.search).get('chat') === 'open') {
+    setTimeout(function() { btn.click(); }, 400);
   }
 })();
+
 </script>
 <!-- END MIKKO PORTFOLIO CHATBOT WIDGET -->
 
