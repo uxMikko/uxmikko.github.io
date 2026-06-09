@@ -277,12 +277,12 @@ exports.handler = async (event) => {
 
     const uncertain = botIsUncertain(reply);
     // Log every conversation — question, reply, page, country, IP
-    logQuestion(message, reply, referrer, country, clientIP, !uncertain);
+    await logQuestion(message, reply, referrer, country, clientIP, !uncertain);
 
     let sessionId = null;
     if (uncertain) {
       sessionId = Math.random().toString(36).slice(2, 9) + Date.now().toString(36);
-      alertTelegram(message, sessionId); // fire-and-forget
+      await alertTelegram(message, sessionId);
     }
 
     return { statusCode: 200, headers, body: JSON.stringify({ reply, ...(sessionId && { sessionId }) }) };

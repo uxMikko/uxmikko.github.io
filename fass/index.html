@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>if(location.hostname==="uxmikko.github.io"){location.replace("https://uxmikko.com"+location.pathname+location.search+location.hash)}</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>try{if(localStorage.getItem("theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
   <link rel="icon" href="/favicon.ico">
   <link rel="icon" type="image/png" href="/img/favicon.png">
   <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
@@ -29,6 +31,7 @@
           Back to work
         </a>
         <a href="#contact" class="nav-link nav-link-cta">Get in touch</a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode"><svg class="theme-icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><svg class="theme-icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
       </div>
     </div>
   </nav>
@@ -429,7 +432,7 @@
     v = v.trim();
     if (!v) return 'Please enter your email address.';
     var re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-    return re.test(v) ? '' : 'Please enter a valid email (e.g. you@example.com).';
+    return re.test(v) ? '' : 'Please enter a valid email (e.g. you@example.uxmikko\.(netlify\.app|github\.io|com)|uxmikko\.(netlify\.app|github\.io|com)|uxmikko\.(netlify\.app|github\.io|com)\/.';
   }
 
   function validate(el, checker) {
@@ -586,11 +589,11 @@
   }
   #mkkchat-close {
     background: none; border: none;
-    color: #999; font-size: 22px; line-height: 1;
-    cursor: pointer; padding: 0 2px;
+    color: #aaa; cursor: pointer; padding: 4px;
     display: flex; align-items: center; justify-content: center;
+    border-radius: 6px; transition: background 0.15s, color 0.15s;
   }
-  #mkkchat-close:hover { color: #444; }
+  #mkkchat-close:hover { color: #444; background: rgba(0,0,0,0.05); }
   #mkkchat-msgs {
     flex: 1; overflow-y: auto;
     padding: 0 14px 14px;
@@ -632,13 +635,11 @@
   }
   #mkkchat-disclosure {
     font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    color: #888;
-    text-align: center;
-    padding: 8px 16px 8px;
-    border-bottom: 1px solid #efefef;
-    margin-bottom: 4px;
-    flex-shrink: 0;
+    font-size: 12px; color: #7a6010; line-height: 1.5;
+    padding: 10px 14px;
+    background: #fffbea; border-bottom: 1px solid #f0dc80;
+    margin-bottom: 4px; flex-shrink: 0;
+    display: flex; align-items: flex-start; gap: 8px;
   }
   #mkkchat-foot {
     display: flex; gap: 8px;
@@ -684,6 +685,38 @@
     transition:background 0.15s; width:100%; box-sizing:border-box;
   }
   .mkkchat-casestudy:hover { background:rgba(58,107,18,0.06); }
+  #mkkchat-end {
+    background: none; border: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px; font-weight: 500; color: #3A6B12;
+    cursor: pointer; padding: 4px 0 12px;
+    text-align: center; width: 100%; display: block;
+    transition: opacity 0.15s;
+  }
+  #mkkchat-end:hover { opacity: 0.7; }
+  #mkkchat-confirm {
+    position: absolute; inset: 0;
+    background: rgba(255,255,255,0.97);
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 14px; padding: 32px 24px; text-align: center;
+    border-radius: 20px; z-index: 10;
+  }
+  #mkkchat-confirm.show { display: flex; }
+  @media (max-width: 640px) {
+    #mkkchat-window {
+      top: 0 !important; left: 0 !important;
+      right: 0 !important; bottom: 0 !important;
+      width: 100% !important; height: 100dvh !important;
+      border-radius: 0;
+    }
+    #mkkchat-confirm { border-radius: 0; }
+    #mkkchat-close {
+      background: #3A6B12 !important; color: white !important;
+      width: 36px; height: 36px; border-radius: 10px; padding: 6px;
+    }
+    #mkkchat-close:hover { background: #2d5209 !important; color: white !important; }
+  }
 </style>
 
 <button id="mkkchat-btn" aria-label="Chat with Mikko's assistant">
@@ -698,10 +731,10 @@
     <img id="mkkchat-avatar" src="/img/profile/memoji.png" alt="Mikko">
     <p id="mkkchat-title">Ask me about FASS</p>
     <span id="mkkchat-admin-badge" style="font-size:11px;font-weight:700;color:#3A6B12;letter-spacing:0.05em;display:none;">ADMIN</span>
-    <button id="mkkchat-close" aria-label="Close chat">×</button>
+    <button id="mkkchat-close" aria-label="Minimise chat"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
   <div id="mkkchat-msgs">
-    <div id="mkkchat-disclosure">Questions may be saved and reviewed by Mikko.</div>
+    <div id="mkkchat-disclosure"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0;margin-top:1px;"><circle cx="7" cy="7" r="6" stroke="#b08000" stroke-width="1.2"/><path d="M7 6v3.5M7 4v.5" stroke="#b08000" stroke-width="1.2" stroke-linecap="round"/></svg><span>Questions are logged so Mikko can review and improve answers. Nothing personal is stored beyond what you type.</span></div>
     <div id="mkkchat-typing">
       <span class="mkkchat-dot"></span>
       <span class="mkkchat-dot"></span>
@@ -717,17 +750,30 @@
       </svg>
     </button>
   </div>
+  <button id="mkkchat-end">End chat</button>
+  <div id="mkkchat-confirm">
+    <p style="font-family:'Bricolage Grotesque',sans-serif;font-size:17px;font-weight:700;color:#191d21;margin:0;">End this chat?</p>
+    <p style="font-family:'Inter',sans-serif;font-size:13px;color:#777;line-height:1.55;margin:0;">This will clear your conversation history and can't be undone.</p>
+    <div style="display:flex;gap:10px;margin-top:4px;">
+      <button id="mkkchat-confirm-no" style="padding:10px 18px;border-radius:10px;border:1px solid #e4e4e4;background:white;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;cursor:pointer;color:#555;">Keep chatting</button>
+      <button id="mkkchat-confirm-yes" style="padding:10px 18px;border-radius:10px;border:none;background:#191d21;color:white;font-family:'Inter',sans-serif;font-size:14px;font-weight:500;cursor:pointer;">End chat</button>
+    </div>
+  </div>
 </div>
 
 <script>
 (function () {
-  var btn    = document.getElementById('mkkchat-btn');
-  var win    = document.getElementById('mkkchat-window');
-  var cls    = document.getElementById('mkkchat-close');
-  var msgs   = document.getElementById('mkkchat-msgs');
-  var typing = document.getElementById('mkkchat-typing');
-  var input  = document.getElementById('mkkchat-input');
-  var send   = document.getElementById('mkkchat-send');
+  var btn        = document.getElementById('mkkchat-btn');
+  var win        = document.getElementById('mkkchat-window');
+  var cls        = document.getElementById('mkkchat-close');
+  var msgs       = document.getElementById('mkkchat-msgs');
+  var typing     = document.getElementById('mkkchat-typing');
+  var input      = document.getElementById('mkkchat-input');
+  var send       = document.getElementById('mkkchat-send');
+  var endBtn     = document.getElementById('mkkchat-end');
+  var confirmEl  = document.getElementById('mkkchat-confirm');
+  var confirmYes = document.getElementById('mkkchat-confirm-yes');
+  var confirmNo  = document.getElementById('mkkchat-confirm-no');
 
   var HKEY   = 'mkkChat_h';
   var history = (function(){ try{ return JSON.parse(localStorage.getItem(HKEY)||'[]'); }catch(e){ return []; } })();
@@ -769,7 +815,7 @@
         no.style.cssText = 'padding:6px 14px;border-radius:20px;border:1px solid #ddd;background:white;color:#555;font-family:Inter,sans-serif;font-size:13px;font-weight:500;cursor:pointer;';
         yes.addEventListener('click', function () {
           yes.disabled = no.disabled = true; yes.textContent = 'On my way ✌️';
-          setTimeout(function () { location.href = 'https://uxmikko.netlify.app/?chat=open'; }, 800);
+          setTimeout(function () { location.href = 'https://uxmikko.com/?chat=open'; }, 800);
         });
         no.addEventListener('click', function () {
           yes.disabled = no.disabled = true; row.remove();
@@ -796,13 +842,13 @@
         if (m) {
           if (m[2].indexOf('linkedin.com') !== -1) {
             linkedinCards.push(m);
-          } else if ((m[2].match(/^\/[a-z]/) || m[2].match(/uxmikko\.(netlify\.app|github\.io)\//)) && m[2].indexOf('?q=') === -1 && m[2].indexOf('#contact') === -1) {
+          } else if ((m[2].match(/^\/[a-z]/) || m[2].match(/uxmikko\.(netlify\.app|github\.io|com)\//)) && m[2].indexOf('?q=') === -1 && m[2].indexOf('#contact') === -1 && !m[2].match(/\/contact\/?$/)) {
             caseStudyCards.push(m);
           } else {
             var a = document.createElement('a');
             a.textContent = m[1];
             a.style.cssText = 'color:#3A6B12;font-weight:600;text-decoration:underline;display:inline-block;margin-top:6px;cursor:pointer;';
-            if (m[2].indexOf('?q=') !== -1 || m[2].indexOf('#contact') !== -1) {
+            if (m[2].indexOf('?q=') !== -1 || m[2].indexOf('#contact') !== -1 || m[2].match(/\/contact\/?$/)) {
               a.href = '#contact';
               (function(url){ a.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -859,7 +905,7 @@
       var a = document.createElement('a');
       a.className = 'mkkchat-casestudy';
       var href = m[2];
-      if (href.match(/uxmikko\.(netlify\.app|github\.io)/)) { try { href = new URL(href).pathname; } catch(e) {} }
+      if (href.match(/uxmikko\.(netlify\.app|github\.io|com)/)) { try { href = new URL(href).pathname; } catch(e) {} }
       a.href = href;
       var cs_b = document.createElement('span');
       cs_b.style.cssText = 'display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;background:#3A6B12;border-radius:3px;color:white;font-size:10px;font-weight:700;font-family:sans-serif;flex-shrink:0;margin-top:2px;';
@@ -916,6 +962,7 @@
   // Re-open window if it was open on previous page
   if (localStorage.getItem(OKEY) === '1') {
     win.classList.add('open');
+    if (window.innerWidth <= 640) btn.style.display = 'none';
     openChat();
   }
 
@@ -1006,13 +1053,30 @@
   // Event listeners
   btn.addEventListener('click', function() {
     var isOpen = win.classList.toggle('open');
-    if (isOpen) { openChat(); setTimeout(function(){ input.focus(); }, 50); }
+    if (isOpen) {
+      if (window.innerWidth <= 640) btn.style.display = 'none';
+      openChat(); setTimeout(function(){ input.focus(); }, 50);
+    } else {
+      btn.style.display = '';
+    }
     save();
   });
-  cls.addEventListener('click', function() { win.classList.remove('open'); save(); });
+  cls.addEventListener('click', function() { win.classList.remove('open'); btn.style.display = ''; save(); });
+  endBtn.addEventListener('click', function() { confirmEl.classList.add('show'); });
+  confirmNo.addEventListener('click', function() { confirmEl.classList.remove('show'); });
+  confirmYes.addEventListener('click', function() {
+    confirmEl.classList.remove('show');
+    addMsg('bot', "Bye! Come back any time. 👋");
+    setTimeout(function() {
+      history = []; adminKey = null; currentPollId++; opened = false;
+      localStorage.removeItem(HKEY); localStorage.setItem(OKEY, '0');
+      Array.from(msgs.querySelectorAll('.mkkchat-msg')).forEach(function(el) { el.remove(); });
+      win.classList.remove('open'); btn.style.display = '';
+    }, 1200);
+  });
   send.addEventListener('click', submit);
   input.addEventListener('keydown', function(e) { if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); submit(); } });
-  document.addEventListener('keydown', function(e) { if (e.key==='Escape' && win.classList.contains('open')) win.classList.remove('open'); });
+  document.addEventListener('keydown', function(e) { if (e.key==='Escape' && win.classList.contains('open')) { win.classList.remove('open'); btn.style.display = ''; } });
 
   // Auto-open if redirected from GitHub Pages
   if (new URLSearchParams(location.search).get('chat') === 'open') {
@@ -1038,6 +1102,17 @@
       }
     }
   })();
+</script>
+<script>
+(function() {
+  var btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  btn.addEventListener('click', function() {
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  });
+})();
 </script>
 </body>
 </html>

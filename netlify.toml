@@ -9,6 +9,12 @@
 [build.environment]
   NODE_VERSION = "18"
 
+[[redirects]]
+  from = "/*"
+  to = "https://uxmikko.com/:splat"
+  status = 301
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]
