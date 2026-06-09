@@ -10,7 +10,7 @@
   NODE_VERSION = "18"
 
 [[redirects]]
-  from = "/*"
+  from = "https://uxmikko.netlify.app/*"
   to = "https://uxmikko.com/:splat"
   status = 301
   force = true
