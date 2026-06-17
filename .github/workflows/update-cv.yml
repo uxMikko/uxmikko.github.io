@@ -1,0 +1,39 @@
+name: Update CV page from PDF
+
+on:
+  schedule:
+    # Every Monday at 09:00 UTC — change to your liking
+    - cron: '0 9 * * 1'
+  workflow_dispatch:  # also lets you trigger it manually from GitHub
+
+permissions:
+  contents: write
+
+jobs:
+  update-cv:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Update CV page
+        env:
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+        run: node scripts/update-cv.js
+
+      - name: Commit changes if any
+        run: |
+          git config user.name  "cv-auto-update[bot]"
+          git config user.email "cv-auto-update[bot]@users.noreply.github.com"
+          git add cv/index.html
+          git diff --staged --quiet || (
+            git commit -m "chore: auto-update CV page from PDF" &&
+            git push
+          )

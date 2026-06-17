@@ -1,0 +1,11 @@
+{
+  "name": "uxmikko-site",
+  "private": true,
+  "scripts": {
+    "update-cv": "node scripts/update-cv.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "pdf-parse": "^1.1.1"
+  }
+}

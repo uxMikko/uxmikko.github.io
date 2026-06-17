@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(location.hostname==="uxmikko.github.io"){location.replace("https://uxmikko.com"+location.pathname+location.search+location.hash)}</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>try{if(localStorage.getItem("theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
+  <title>CV — Mikko Sillanpää · Senior UX Designer</title>
+  <meta name="description" content="CV of Mikko Sillanpää, Senior UX / Product Designer with 5+ years in B2B, enterprise platforms, and regulated industries.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Inter:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* ── Brand green accent ── */
+    body.cv {
+      --accent:        rgb(58, 107, 18);
+      --accent-bg:     rgba(58, 107, 18, 0.07);
+      --accent-border: rgba(58, 107, 18, 0.20);
+    }
+    body.cv .hero-card {
+      background: linear-gradient(180deg, rgb(232,245,215) 0%, white 100%);
+      padding: 84px 60px;
+    }
+
+    /* Hero subtitle (job title under name) */
+    .cv-hero-subtitle {
+      font-family: var(--font-body);
+      font-size: clamp(17px, 2vw, 22px);
+      font-weight: 400;
+      color: var(--text-2);
+      margin-top: -20px;
+    }
+
+    /* ── Experience entries ── */
+    .cv-entry {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cv-entry:first-child { padding-top: 0; }
+    .cv-entry:last-child  { border-bottom: none; padding-bottom: 0; }
+
+    .cv-entry-header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .cv-entry-logo-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      align-items: flex-start;
+    }
+
+    .cv-entry-logo-bg {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .cv-entry-logo {
+      display: inline-block;
+      height: 36px;
+      width: 200px;
+      background-color: #3A6B12;
+      -webkit-mask-image: var(--lm);
+      -webkit-mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: left center;
+      mask-image: var(--lm);
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: left center;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    .cv-entry-logo-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-3);
+      padding-left: 2px;
+    }
+
+    .cv-entry-meta {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .cv-entry-role {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-1);
+    }
+
+    .cv-entry-date {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-3);
+    }
+
+    .cv-entry-date::before {
+      content: "·";
+      margin-right: 4px;
+    }
+
+    [data-theme="dark"] .cv-entry-logo {
+      background-color: #D6EBC0;
+    }
+    [data-theme="dark"] .cv-entry-logo-label { color: rgba(255,255,255,0.38); }
+    [data-theme="dark"] .cv-entry-role       { color: rgba(255,255,255,0.87); }
+    [data-theme="dark"] .cv-entry-date       { color: rgba(255,255,255,0.38); }
+
+    .cv-bullets {
+      list-style: none;
+      margin: 0; padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .cv-bullets li {
+      display: flex;
+      gap: 12px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.65em;
+      color: var(--text-2);
+    }
+
+    .cv-bullets li::before {
+      content: "—";
+      color: var(--text-3);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Skill tags ── */
+    .cv-tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .cv-tag {
+      padding: 5px 12px;
+      border-radius: 100px;
+      background: var(--surface-2);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-2);
+    }
+
+    /* ── Language grid ── */
+    .cv-lang-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px 12px;
+    }
+
+    .cv-lang-item { display: flex; flex-direction: column; gap: 3px; }
+
+    .cv-lang-name {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-1);
+    }
+
+    .cv-lang-level {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--text-3);
+    }
+
+    /* ── Education entries ── */
+    .cv-edu-entry {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cv-edu-entry:first-child { padding-top: 0; }
+    .cv-edu-entry:last-child  { border-bottom: none; padding-bottom: 0; }
+
+    .cv-edu-degree {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-1);
+    }
+
+    .cv-edu-school {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--accent);
+    }
+
+    .cv-edu-years {
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--text-3);
+    }
+
+    /* ── Dark mode — CV-specific elements ── */
+    [data-theme="dark"] .cv-entry      { border-bottom-color: rgba(255,255,255,0.08); }
+    [data-theme="dark"] .cv-entry-org  { color: rgba(255,255,255,0.87); }
+    [data-theme="dark"] .cv-entry-role { color: rgba(255,255,255,0.87); }
+    [data-theme="dark"] .cv-entry-date { color: rgba(255,255,255,0.38); }
+    [data-theme="dark"] .cv-bullets li { color: rgba(255,255,255,0.60); }
+    [data-theme="dark"] .cv-bullets li::before { color: rgba(255,255,255,0.25); }
+    [data-theme="dark"] .cv-tag        { background: #252525; color: rgba(255,255,255,0.60); }
+    [data-theme="dark"] .cv-lang-name  { color: rgba(255,255,255,0.87); }
+    [data-theme="dark"] .cv-lang-level { color: rgba(255,255,255,0.38); }
+    [data-theme="dark"] .cv-edu-entry  { border-bottom-color: rgba(255,255,255,0.08); }
+    [data-theme="dark"] .cv-edu-degree { color: rgba(255,255,255,0.87); }
+    [data-theme="dark"] .cv-edu-years  { color: rgba(255,255,255,0.38); }
+    [data-theme="dark"] .cv-hero-subtitle { color: rgba(255,255,255,0.60); }
+
+    /* ── Download dropdown ── */
+    .cv-download-wrap {
+      position: relative;
+      width: fit-content;
+    }
+
+    .cv-download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 24px;
+    }
+
+    .cv-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      min-width: 100%;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+      z-index: 200;
+    }
+    .cv-dropdown.open { display: flex; }
+
+    .cv-dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-1);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.12s;
+    }
+    .cv-dropdown-item:hover { background: var(--surface-2); }
+    .cv-dropdown-item + .cv-dropdown-item { border-top: 1px solid var(--border); }
+
+    [data-theme="dark"] .cv-dropdown {
+      background: #252525;
+      border-color: rgba(255,255,255,0.10);
+    }
+    [data-theme="dark"] .cv-dropdown-item { color: rgba(255,255,255,0.87); }
+    [data-theme="dark"] .cv-dropdown-item:hover { background: rgba(255,255,255,0.06); }
+    [data-theme="dark"] .cv-dropdown-item + .cv-dropdown-item { border-top-color: rgba(255,255,255,0.08); }
+
+    /* ── CV two-column body layout ── */
+    .cv-body {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 40px;
+      width: 100%;
+      max-width: 1200px;
+      align-items: start;
+    }
+
+    .cv-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .cv-sidebar-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Narrower column needs 2-col language grid, not 3 */
+    .cv-sidebar .cv-lang-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 680px) {
+      .cv-body { grid-template-columns: 1fr; }
+      .cv-lang-grid { grid-template-columns: repeat(2, 1fr); }
+      .cv-entry-date { width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .cv-lang-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body class="cv">
+<div class="page">
+
+  <!-- ==================== NAV ==================== -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <img src="/img/logo.svg" alt="" style="height: 52px; width: auto;">
+        UxMikko
+      </a>
+      <div class="nav-links">
+        <a href="/" class="nav-back">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back to work
+        </a>
+        <a href="#contact" class="nav-link nav-link-cta">Get in touch</a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+          <svg class="theme-icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="theme-icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero">
+    <div class="hero-card">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;">
+        <span class="label-category">Curriculum Vitae</span>
+        <h1 class="hero-title">Mikko Sillanpää</h1>
+        <p class="cv-hero-subtitle">Senior UX / Product Designer</p>
+        <div class="cv-download-wrap">
+          <a id="cv-dl-btn" href="/cv/download" download="Mikko_Sillanpaa_CV.pdf" class="btn-primary cv-download-btn">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M8 2v9M4 8l4 4 4-4M2 13h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Download CV (PDF)
+          </a>
+          <div id="cv-dropdown" class="cv-dropdown" role="menu"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CV BODY ==================== -->
+  <section class="section" style="padding-top:40px;padding-bottom:120px;">
+    <div class="cv-body">
+
+      <!-- ── SIDEBAR ── -->
+      <aside class="cv-sidebar">
+
+        <div>
+          <p class="section-eyebrow" style="margin-bottom:16px;">Skills &amp; Expertise</p>
+          <div class="cv-sidebar-cards reveal">
+            <!-- CV-AUTO:skills -->
+        <div class="grid-card">
+          <p class="grid-card-title">Design</p>
+          <div class="cv-tag-cloud">
+            <span class="cv-tag">End-to-end product design</span>
+            <span class="cv-tag">Information Architecture</span>
+            <span class="cv-tag">User Flows</span>
+            <span class="cv-tag">Wireframing</span>
+            <span class="cv-tag">Prototyping</span>
+            <span class="cv-tag">Interaction Design</span>
+            <span class="cv-tag">Usability Testing</span>
+            <span class="cv-tag">Design Systems</span>
+            <span class="cv-tag">Design Tokens</span>
+          </div>
+        </div>
+        <div class="grid-card">
+          <p class="grid-card-title">Research</p>
+          <div class="cv-tag-cloud">
+            <span class="cv-tag">Qualitative &amp; Quantitative Methods</span>
+            <span class="cv-tag">User Interviews</span>
+            <span class="cv-tag">Contextual Inquiry</span>
+            <span class="cv-tag">Discovery</span>
+            <span class="cv-tag">Problem Framing</span>
+            <span class="cv-tag">Data-driven Decision Making</span>
+          </div>
+        </div>
+        <div class="grid-card">
+          <p class="grid-card-title">Tools &amp; Technical</p>
+          <div class="cv-tag-cloud">
+            <span class="cv-tag">Figma (expert)</span>
+            <span class="cv-tag">Miro</span>
+            <span class="cv-tag">Jira</span>
+            <span class="cv-tag">Confluence</span>
+            <span class="cv-tag">Adobe CC</span>
+            <span class="cv-tag">Sketch</span>
+            <span class="cv-tag">Frontend Awareness (HTML/CSS)</span>
+            <span class="cv-tag">AI-assisted design workflows</span>
+            <span class="cv-tag">Agile Development</span>
+          </div>
+        </div>
+        <div class="grid-card">
+          <p class="grid-card-title">Domains</p>
+          <div class="cv-tag-cloud">
+            <span class="cv-tag">B2B SaaS</span>
+            <span class="cv-tag">Enterprise Platforms</span>
+            <span class="cv-tag">Public Health &amp; Regulated Industries</span>
+            <span class="cv-tag">Healthcare</span>
+            <span class="cv-tag">Subscription &amp; Consumer Platforms</span>
+            <span class="cv-tag">Data-heavy Interfaces</span>
+            <span class="cv-tag">Developer Tooling</span>
+          </div>
+        </div>
+          <!-- /CV-AUTO:skills -->
+          </div>
+        </div>
+
+        <div class="surface-card-sm reveal" style="gap:20px;">
+          <p class="section-eyebrow" style="margin-bottom:4px;">Languages</p>
+          <!-- CV-AUTO:languages -->
+          <div class="cv-lang-grid">
+            <div class="cv-lang-item">
+              <span class="cv-lang-name">🇬🇧 English</span>
+              <span class="cv-lang-level">Bilingual</span>
+            </div>
+            <div class="cv-lang-item">
+              <span class="cv-lang-name">🇸🇪 Swedish</span>
+              <span class="cv-lang-level">Native</span>
+            </div>
+            <div class="cv-lang-item">
+              <span class="cv-lang-name">🇪🇸 Spanish</span>
+              <span class="cv-lang-level">Full professional</span>
+            </div>
+            <div class="cv-lang-item">
+              <span class="cv-lang-name">🇳🇴 Norwegian</span>
+              <span class="cv-lang-level">Full professional</span>
+            </div>
+            <div class="cv-lang-item">
+              <span class="cv-lang-name">🇩🇰 Danish</span>
+              <span class="cv-lang-level">Professional working</span>
+            </div>
+            <div class="cv-lang-item">
+              <span class="cv-lang-name">🌐 Catalan</span>
+              <span class="cv-lang-level">Professional working</span>
+            </div>
+            <div class="cv-lang-item">
+              <span class="cv-lang-name">🇩🇪 German</span>
+              <span class="cv-lang-level">Limited working</span>
+            </div>
+            <div class="cv-lang-item">
+              <span class="cv-lang-name">🇮🇹 Italian</span>
+              <span class="cv-lang-level">Basic</span>
+            </div>
+            <div class="cv-lang-item">
+              <span class="cv-lang-name">French</span>
+              <span class="cv-lang-level">Basic</span>
+            </div>
+          </div>
+          <!-- /CV-AUTO:languages -->
+        </div>
+
+        <div class="surface-card-sm reveal" style="gap:20px;">
+          <p class="section-eyebrow" style="margin-bottom:4px;">Education</p>
+          <!-- CV-AUTO:education -->
+          <div class="cv-edu-entry">
+            <span class="cv-edu-degree">Bachelor's Degree in Interaction Design</span>
+            <span class="cv-edu-school">Linnaeus University</span>
+            <span class="cv-edu-years">2015–2018</span>
+          </div>
+          <div class="cv-edu-entry">
+            <span class="cv-edu-degree">Associate's Degree in Construction Management</span>
+            <span class="cv-edu-school">KTH Royal Institute of Technology</span>
+            <span class="cv-edu-years">2010–2012</span>
+          </div>
+          <!-- /CV-AUTO:education -->
+        </div>
+
+      </aside>
+
+      <!-- ── MAIN ── -->
+      <div class="cv-main">
+        <p class="section-eyebrow" style="margin-bottom:16px;">Work History</p>
+        <div class="surface-card reveal">
+          <!-- CV-AUTO:experience -->
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <div class="cv-entry-logo-wrap">
+              <div class="cv-entry-logo-bg"><span class="cv-entry-logo" role="img" aria-label="BASF" style="--lm:url('/img/logos/BASF.svg')"></span></div>
+            </div>
+            <div class="cv-entry-meta">
+              <span class="cv-entry-role">Senior UX Designer</span>
+              <span class="cv-entry-date">Oct 2024 – Mar 2026</span>
+            </div>
+          </div>
+          <ul class="cv-bullets">
+              <li>Led end-to-end UX design for a consolidation of three internal developer platforms into one unified product, serving data scientists, engineers, and novice users.</li>
+              <li>Ran product discovery: user research, problem framing, prioritization, and roadmap shaping alongside Product Owners and engineering.</li>
+              <li>Designed information architecture, user flows, and interaction patterns across a complex multi-persona product.</li>
+              <li>Built the design handoff workflow from scratch and maintained the design system throughout delivery.</li>
+              <li>Mentored a master's student through an internship project.</li>
+          </ul>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <div class="cv-entry-logo-wrap">
+              <div class="cv-entry-logo-bg"><span class="cv-entry-logo" role="img" aria-label="FASS" style="--lm:url('/img/logos/Fass.svg')"></span></div>
+            </div>
+            <div class="cv-entry-meta">
+              <span class="cv-entry-role">UX Designer</span>
+              <span class="cv-entry-date">Dec 2023 – Sep 2024</span>
+            </div>
+          </div>
+          <ul class="cv-bullets">
+              <li>Led UX and UI design for FASS, Sweden's national pharmaceutical reference portal used daily by doctors, pharmacists, and nurses. Rebuilt the component library and redesigned information architecture across the platform.</li>
+              <li>Conducted exploratory user research for ReadSpeaker, translating findings into design recommendations for the product team.</li>
+          </ul>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <div class="cv-entry-logo-wrap">
+              <div class="cv-entry-logo-bg"><span class="cv-entry-logo" role="img" aria-label="Folkhälsomyndigheten" style="--lm:url('/img/logos/Folkhalsomyndigheten.svg')"></span></div>
+              <span class="cv-entry-logo-label">The Public Health Agency of Sweden</span>
+            </div>
+            <div class="cv-entry-meta">
+              <span class="cv-entry-role">UX Designer</span>
+              <span class="cv-entry-date">Sep 2022 – Mar 2024</span>
+            </div>
+          </div>
+          <ul class="cv-bullets">
+              <li>Led UX across three platforms: SVEBar (antibiotic-resistant bacteria monitoring), GENSAM (national COVID genomic sequencing platform), and a nicotine product compliance registry — two running simultaneously with the same team.</li>
+              <li>Designed for expert users including microbiologists, epidemiologists, and public health officials.</li>
+              <li>Conducted user research, usability testing, and delivered data-heavy interface designs.</li>
+              <li>Shipped the compliance registry against a hard government deadline. Designed draft-saving and async sign-off flows that made large-scale registration manageable at launch.</li>
+          </ul>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <div class="cv-entry-logo-wrap">
+              <div class="cv-entry-logo-bg"><span class="cv-entry-logo" role="img" aria-label="Riksbyggen" style="--lm:url('/img/logos/Riksbyggen.svg')"></span></div>
+            </div>
+            <div class="cv-entry-meta">
+              <span class="cv-entry-role">UX Designer</span>
+              <span class="cv-entry-date">Jan 2022 – Jun 2022</span>
+            </div>
+          </div>
+          <ul class="cv-bullets">
+              <li>Designed a subscription platform for Homeowner Associations from scratch, covering acquisition, onboarding, and activation flows.</li>
+              <li>Hit 500+ sign-ups in the first month against a six-month target.</li>
+          </ul>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <div class="cv-entry-logo-wrap">
+              <div class="cv-entry-logo-bg"><span class="cv-entry-logo" role="img" aria-label="Innorbis" style="--lm:url('/img/logos/Innorbis.svg')"></span></div>
+            </div>
+            <div class="cv-entry-meta">
+              <span class="cv-entry-role">UX Designer</span>
+              <span class="cv-entry-date">Feb 2021 – Sep 2021</span>
+            </div>
+          </div>
+          <ul class="cv-bullets">
+              <li>Designed data visualizations and user flows for a sustainable finance platform, making complex financial data actionable for non-specialist users.</li>
+          </ul>
+        </div>
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <div class="cv-entry-logo-wrap">
+              <div class="cv-entry-logo-bg"><span class="cv-entry-logo" role="img" aria-label="Avoy" style="--lm:url('/img/logos/Avoy.svg')"></span></div>
+            </div>
+            <div class="cv-entry-meta">
+              <span class="cv-entry-role">UX/UI Designer</span>
+              <span class="cv-entry-date">Jun 2019 – Jan 2020</span>
+            </div>
+          </div>
+          <ul class="cv-bullets">
+              <li>Conducted user research, usability audits, and high-fidelity mobile prototyping for a consumer travel app.</li>
+              <li>Worked closely with developers to ensure feasibility of design solutions across iOS and Android.</li>
+          </ul>
+        </div>
+          <!-- /CV-AUTO:experience -->
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER / CONTACT FORM ==================== -->
+  <div class="footer-section" id="contact">
+    <div class="footer-card">
+      <div class="footer-form-wrap reveal">
+        <p class="footer-eyebrow">Like what you see?</p>
+        <h2 class="footer-heading">Let's Connect!</h2>
+        <form class="footer-form" id="cv-contact-form" onsubmit="cvHandleSubmit(event)">
+          <div class="form-group">
+            <label class="form-label" for="cv-name">Name</label>
+            <input class="form-input" id="cv-name" type="text" name="name" placeholder="Your name">
+            <span class="form-error"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cv-email">Email</label>
+            <input class="form-input" id="cv-email" type="email" name="email" placeholder="your@email.com">
+            <span class="form-error"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cv-message">Message</label>
+            <textarea class="form-textarea" id="cv-message" name="message" placeholder="What's on your mind?"></textarea>
+            <span class="form-error"></span>
+          </div>
+          <button class="form-submit" type="submit">Send message</button>
+          <span class="form-error form-submit-error"></span>
+        </form>
+      </div>
+      <p class="footer-copy">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="0.75"/>
+          <path d="M7.5 7C7.5 7.552 7.052 8 6.5 8H6C5.534 8 5.301 8 5.117 7.924C4.872 7.823 4.677 7.628 4.576 7.383C4.5 7.199 4.5 6.966 4.5 6.5V5.5C4.5 5.034 4.5 4.801 4.576 4.618C4.677 4.372 4.872 4.177 5.117 4.076C5.301 4 5.534 4 6 4H6.5C7.052 4 7.5 4.448 7.5 5" stroke="currentColor" stroke-width="0.75" stroke-linecap="round"/>
+        </svg>
+        2026 UxMikko
+      </p>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<!-- Toast notification -->
+<div id="cv-toast" style="
+  position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:#D6EAC0;border:1px solid #9dc86e;color:#27500A;
+  padding:14px 20px;border-radius:14px;
+  display:flex;align-items:center;gap:12px;
+  font-family:'Inter',sans-serif;font-size:15px;font-weight:500;
+  opacity:0;transition:all 0.4s cubic-bezier(0.22,1,0.36,1);
+  pointer-events:none;z-index:999;
+">
+  <span style="width:20px;height:20px;background:#3A6B12;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+    <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M2 5.5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </span>
+  <span>
+    Message sent — thank you!
+    <span style="display:block;font-size:13px;font-weight:400;color:#3B6D11;margin-top:2px;">I'll get back to you soon.</span>
+  </span>
+</div>
+
+<script>
+// Download button: single file = direct download, multiple files = dropdown
+(function() {
+  var btn      = document.getElementById('cv-dl-btn');
+  var dropdown = document.getElementById('cv-dropdown');
+  if (!btn || !dropdown) return;
+
+  fetch('/assets/cv/manifest.json')
+    .then(function(r) { return r.json(); })
+    .then(function(manifest) {
+      var files = (manifest.files || []).filter(function(f) { return /\.pdf$/i.test(f); });
+      if (files.length <= 1) return; // single file — button works as a normal link
+
+      // Multiple files: turn button into a dropdown trigger
+      btn.removeAttribute('download');
+      btn.removeAttribute('href');
+      btn.setAttribute('role', 'button');
+      btn.style.cursor = 'pointer';
+
+      // Add chevron
+      var chevron = document.createElement('svg');
+      chevron.setAttribute('width', '12');
+      chevron.setAttribute('height', '12');
+      chevron.setAttribute('viewBox', '0 0 12 12');
+      chevron.setAttribute('fill', 'none');
+      chevron.setAttribute('aria-hidden', 'true');
+      chevron.style.marginLeft = '2px';
+      chevron.innerHTML = '<path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>';
+      btn.appendChild(chevron);
+
+      // Build dropdown items
+      files.forEach(function(filename) {
+        var label = filename.replace(/\.pdf$/i, '').replace(/[_-]/g, ' ');
+        var item = document.createElement('a');
+        item.className = 'cv-dropdown-item';
+        item.href = '/assets/cv/' + encodeURIComponent(filename);
+        item.setAttribute('download', filename);
+        item.setAttribute('role', 'menuitem');
+        item.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v9M4 8l4 4 4-4M2 13h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' + label;
+        dropdown.appendChild(item);
+      });
+
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        dropdown.classList.toggle('open');
+      });
+
+      document.addEventListener('click', function(e) {
+        if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
+          dropdown.classList.remove('open');
+        }
+      });
+    })
+    .catch(function() {}); // silently fall back to normal link behaviour
+})();
+</script>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+<script>
+(function() {
+  var re = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function blurEmail(v) {
+    v = v.trim();
+    if (!v) return '';
+    return re.test(v) ? '' : 'Please enter a valid email address.';
+  }
+  function submitName(v)  { return v.trim() ? '' : 'Please enter your name.'; }
+  function submitMsg(v)   { return v.trim() ? '' : 'Please enter a message.'; }
+  function submitEmail(v) {
+    v = v.trim();
+    if (!v) return 'Please enter your email address.';
+    return re.test(v) ? '' : 'Please enter a valid email address.';
+  }
+
+  function validate(el, checker) {
+    var msg  = checker(el.value);
+    var grp  = el.closest('.form-group');
+    var span = grp ? grp.querySelector('.form-error') : null;
+    el.classList.toggle('error', !!msg);
+    if (span) span.textContent = msg;
+    return !msg;
+  }
+
+  var form = document.getElementById('cv-contact-form');
+  if (form) {
+    var fields = [
+      { id: 'cv-name',    blur: null,       submit: submitName  },
+      { id: 'cv-email',   blur: blurEmail,  submit: submitEmail },
+      { id: 'cv-message', blur: null,       submit: submitMsg   },
+    ];
+    fields.forEach(function(f) {
+      var el = form.querySelector('#' + f.id);
+      if (!el) return;
+      if (f.blur) el.addEventListener('blur', function() { validate(el, f.blur); });
+      el.addEventListener('input', function() {
+        if (!el.value.trim()) {
+          el.classList.remove('error');
+          var grp = el.closest('.form-group');
+          var span = grp ? grp.querySelector('.form-error') : null;
+          if (span) span.textContent = '';
+        } else if (el.classList.contains('error')) {
+          validate(el, f.submit);
+        }
+      });
+    });
+  }
+
+  window.cvHandleSubmit = async function(e) {
+    e.preventDefault();
+    var form      = e.target;
+    var nameEl    = form.querySelector('#cv-name');
+    var emailEl   = form.querySelector('#cv-email');
+    var msgEl     = form.querySelector('#cv-message');
+    var submitErr = form.querySelector('.form-submit-error');
+
+    var ok = [
+      validate(nameEl,  submitName),
+      validate(emailEl, submitEmail),
+      validate(msgEl,   submitMsg),
+    ].every(Boolean);
+    if (!ok) return;
+
+    var btn = form.querySelector('.form-submit');
+    if (submitErr) submitErr.textContent = '';
+    btn.textContent = 'Sending…';
+    btn.disabled    = true;
+
+    try {
+      var res = await fetch('https://formspree.io/f/xykngwry', {
+        method:  'POST',
+        body:    new FormData(form),
+        headers: { 'Accept': 'application/json' },
+      });
+      if (!res.ok) throw new Error();
+      form.reset();
+      form.querySelectorAll('.form-error').forEach(function(s) { s.textContent = ''; });
+      form.querySelectorAll('.error').forEach(function(el) { el.classList.remove('error'); });
+      showToast();
+    } catch(err) {
+      if (submitErr) submitErr.textContent = 'Something went wrong — please email me directly.';
+    } finally {
+      btn.textContent = 'Send message';
+      btn.disabled    = false;
+    }
+  };
+
+  function showToast() {
+    var t = document.getElementById('cv-toast');
+    if (!t) return;
+    t.style.opacity   = '1';
+    t.style.transform = 'translateX(-50%) translateY(0)';
+    setTimeout(function() {
+      t.style.opacity   = '0';
+      t.style.transform = 'translateX(-50%) translateY(80px)';
+    }, 4000);
+  }
+})();
+</script>
+
+
+<script>
+(function() {
+  function swapLogo(dark) {
+    var img = document.querySelector('.nav-logo img');
+    if (img) img.src = dark ? '/img/logo-dark.svg' : '/img/logo.svg';
+  }
+  swapLogo(document.documentElement.getAttribute('data-theme') === 'dark');
+  var btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  btn.addEventListener('click', function() {
+    var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+    swapLogo(!isDark);
+  });
+})();
+</script>
+
+<script src="/chatbot.js" data-title="Ask me anything"></script>
+</body>
+</html>
