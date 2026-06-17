@@ -1,5 +1,5 @@
 [build]
-  command = "npm install --prefix netlify/functions"
+  command = "node scripts/cv-redirect.js && npm install --prefix netlify/functions"
   publish = "."
 
 [functions]
@@ -14,6 +14,7 @@
   to = "https://uxmikko.com/:splat"
   status = 301
   force = true
+
 
 [[headers]]
   for = "/*"
