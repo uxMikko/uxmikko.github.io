@@ -7,3 +7,9 @@
 
 # Node
 node_modules/
+
+# Case study source material — interview notes, not for public repo
+_notes/
+
+# Local Netlify CLI / Deno edge functions artifact
+deno.lock
