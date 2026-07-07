@@ -2,7 +2,8 @@
   "name": "uxmikko-site",
   "private": true,
   "scripts": {
-    "update-cv": "node scripts/update-cv.js"
+    "update-cv": "node scripts/update-cv.js",
+    "build-partials": "node scripts/build-partials.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
