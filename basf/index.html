@@ -1,18 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>if(location.hostname==="uxmikko.github.io"){location.replace("https://uxmikko.com"+location.pathname+location.search+location.hash)}</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script>try{if(localStorage.getItem("theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
   <link rel="icon" href="/favicon.ico">
   <link rel="icon" type="image/png" href="/img/favicon.png">
   <link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
-  <title>BASF — Merging Three Developer Platforms · UxMikko</title>
+  <title>BASF 2.0 — Three Developer Platforms, Zero Visibility Between Them · UxMikko</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700;800&family=Inter:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../styles.css">
+
+  <!-- Case-study diagram components -->
+  <style>
+    .diagram-card {
+      background: var(--surface-1);
+      border-radius: 24px; padding: 40px 32px;
+      box-shadow: var(--shadow-card);
+      width: 100%; box-sizing: border-box;
+    }
+    .diagram-caption {
+      font-family: var(--font-body); font-size: 13px; color: var(--text-3);
+      text-align: center; margin-top: 20px;
+    }
+    .icon-circle {
+      width: 40px; height: 40px; border-radius: 100px;
+      background: var(--accent-bg); border: 1px solid var(--accent-border);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; color: var(--accent);
+    }
+    .mini-grid { display: grid; gap: 16px; }
+    .mini-grid-5 { grid-template-columns: repeat(5, 1fr); }
+    .mini-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .mini-card {
+      background: var(--surface-2); border-radius: 16px; padding: 20px 16px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      text-align: center;
+    }
+    .mini-card-label {
+      font-family: var(--font-body); font-size: 13px; font-weight: 700; color: var(--text-1);
+    }
+    .mini-card-sub {
+      font-family: var(--font-body); font-size: 12px; color: var(--text-3); line-height: 1.4em;
+    }
+    .flow-label {
+      font-family: var(--font-body); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3);
+      margin-bottom: 10px;
+    }
+    .flow-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .flow-step {
+      background: var(--surface-2); border-radius: 10px; padding: 10px 14px;
+      font-family: var(--font-body); font-size: 13px; color: var(--text-1);
+      white-space: nowrap;
+    }
+    .flow-step.accent { background: var(--accent-bg); border: 1px solid var(--accent-border); color: var(--accent); font-weight: 700; }
+    .flow-arrow { color: var(--text-3); flex-shrink: 0; }
+    .bar-chart-row { display: flex; align-items: flex-end; gap: 20px; height: 160px; }
+    .bar-col { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; gap:8px; }
+    .bar { width: 100%; max-width: 64px; border-radius: 8px 8px 0 0; background: var(--accent); opacity: 0.35; }
+    .bar.total { opacity: 1; }
+    .bar-col-label { font-family: var(--font-body); font-size: 12px; color: var(--text-2); text-align:center; }
+    @media (max-width: 640px) {
+      .mini-grid-5 { grid-template-columns: repeat(2, 1fr); }
+      .mini-grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body class="basf">
 
@@ -45,23 +100,17 @@
   <section class="hero">
     <div class="hero-card">
 
-      <!-- Text + Details card -->
       <div class="hero-top">
         <div class="hero-text">
           <div class="hero-labels">
             <span class="label-category">BASF · Enterprise Platform</span>
-            <h1 class="hero-title">Merging Three Developer Platforms into One Unified Experience</h1>
+            <h1 class="hero-title">Collaboration That Doesn't End at the Coffee Machine</h1>
           </div>
           <p class="hero-desc">
-            Three internal tools, three overlapping user groups, and a mandate to consolidate — with no shared definition of what that meant. I spent the first weeks figuring out the real problem before anyone designed anything.
+            Three platforms, with three support systems, three development teams, too much overlap, and no cross-platform clarity or collaboration. I helped merge them into one to save on support and development, to foster collaboration between all their 2000+ users, beyond the colleagues at the coffee machine.
           </p>
-          <!-- 
-          <a class="hero-btn" href="https://www.figma.com" target="_blank" rel="noopener">
-            View Figma File ↗
-          </a> -->
         </div>
 
-        <!-- Floating project details card -->
         <div class="hero-details">
           <div class="detail-row">
             <span class="detail-label">Client</span>
@@ -69,7 +118,7 @@
           </div>
           <div class="detail-row">
             <span class="detail-label">Duration</span>
-            <span class="detail-value">Oct 2024 – May 2026</span>
+            <span class="detail-value">Oct 2024 – Feb 2026</span>
           </div>
           <div class="detail-row">
             <span class="detail-label">Role</span>
@@ -77,13 +126,14 @@
           </div>
           <div class="detail-row">
             <span class="detail-label">Tools</span>
-            <span class="detail-value">Figma · Backstage · GitHub</span>
+            <span class="detail-value">Figma · GitHub</span>
           </div>
         </div>
       </div>
 
-      <!-- Hero image -->
-      <img src="../img/basf/hero.png" alt="BASF Platform" style="width:100%; border-radius:48px;">
+      <div class="diagram-card reveal" style="border-radius: 48px; padding: 0; overflow: hidden;">
+        <img src="../img/basf/hero-v2.png" alt="DevHub landing page — three platforms (Argus, AppStore, Data Science Platform) converging into one unified developer platform" style="width:100%; height:auto; display:block;">
+      </div>
 
     </div>
   </section>
@@ -93,15 +143,19 @@
     <div class="insight-strip reveal">
       <div class="insight-item">
         <span class="insight-label">Insight</span>
-        <p class="insight-text">Users weren't worried about finding their way around. They were worried about losing what they already had — features, workflows, and the ability to build without needing expert help.</p>
+        <p class="insight-text">Three platforms, three support teams, three dev teams — each solving the same problems <strong>alone</strong>, invisible to the other two. Merging them meant every improvement could finally reach <strong>everyone</strong>, not just whoever happened to be on the right platform.</p>
       </div>
       <div class="insight-item">
         <span class="insight-label">Action</span>
-        <p class="insight-text">Ran interviews that surfaced five specific anxieties: feature parity, safe migration, cost, support, and whether novice users could still build independently. Built those into the product brief so POs had user evidence, not assumptions, to prioritise against.</p>
+        <ul class="insight-text" style="margin:0; padding-left:18px; display:flex; flex-direction:column; gap:8px;">
+          <li><strong>Reused what was familiar.</strong> Based the new product overview on patterns the least technical, most disruption-averse group already knew.</li>
+          <li><strong>Split editing from adding.</strong> Batching them into one cart implied a risk that wasn't there.</li>
+          <li><strong>Set safe defaults everywhere.</strong> The automated flow kept working without anyone needing to understand the new options it exposed.</li>
+        </ul>
       </div>
       <div class="insight-item">
         <span class="insight-label">Impact</span>
-        <p class="insight-text">Three POs aligned on a brief grounded in what users were afraid of losing — not just what they wanted to build. The prioritisation table stopped being about features and started being about user anxiety.</p>
+        <p class="insight-text"><strong>Three separate budgets</strong> that used to fund three aging platforms now fund one. Improvements that used to help whichever team happened to build them now reach <strong>everyone</strong> — the handoff flow I built moved the conversation from messy static Github threads to contextually <strong>dynamic Figma prototypes</strong>.</p>
       </div>
     </div>
   </section>
@@ -111,28 +165,31 @@
     <div class="callout-card reveal">
       <p class="section-eyebrow" style="text-align:center;">The Problem</p>
       <h2 class="section-title" style="text-align:center; margin:0 auto; max-width:680px;">
-        Three internal platforms, three overlapping user groups, no shared language — and a mandate to consolidate already decided.
+        How do you merge three developer platforms, used by ~2k people, without breaking feature parity, interrupting anyone's work, or alienating the users who'd never had to think about any of this before?
       </h2>
     </div>
   </section>
 
-  <!-- ============================== CONTEXT ============================== -->
+  <!-- ============================== BACKGROUND ============================== -->
   <section class="section" style="padding-top: 0;">
     <div class="section-inner">
       <div class="section-header reveal">
         <p class="section-eyebrow">Background</p>
-        <h2 class="section-title">A consolidation brief without a shared definition of the problem</h2>
+        <h2 class="section-title">Developers and Data scientists in need of easier collaboration</h2>
       </div>
 
       <div class="reveal">
         <p class="section-body">
-          BASF had three internal developer tools: <strong>Argus</strong>, the <strong>Data Science Platform</strong>, and the <strong>AppStore</strong>. Each had grown to serve a different user group. A business decision had already been made to merge them into a single platform — DevHub. What hadn't been defined was what that meant for the people who used them every day.
+          BASF developers, data scientists and business analysts had three platforms to build solutions to their problems: <strong>Argus</strong>, the <strong>Data Science Platform</strong>, and the <strong>AppStore</strong>. They all worked but in isolation from one another, without a clear use case differentiation, and with very different ways of working.
         </p>
         <p class="section-body" style="margin-top:16px;">
-          The users fell into three groups: developers building internal apps, data scientists running pipelines and models, and non-technical users who built and consumed apps without needing to understand the infrastructure behind them. For all three groups, the consolidation announcement raised the same underlying question: <em>what am I going to lose?</em>
+          Collaboration between the users building solutions on each of the platforms didn't really exist, and collaboration only stretched as far as whoever you happened to run into at the coffee machine. One example of what these platforms made possible when the idea worked: PlantGPT, a generative-AI co-pilot built for plant operators to supply important documentation at a moments notice.
+        </p>
+        <p class="section-body" style="margin-top:16px;">
+          BASF decided to merge all three into one platform, DevHub, not just to consolidate tools, but to bring real design to systems that were lacking, and to make collaboration reach past the coffee machine.
         </p>
       </div>
-
+      
     </div>
   </section>
 
@@ -141,12 +198,12 @@
     <div class="section-inner">
       <div class="section-header reveal">
         <p class="section-eyebrow">Discovery</p>
-        <h2 class="section-title">Understanding the platforms before asking users about them</h2>
+        <h2 class="section-title">Auditing the platforms before asking users about them</h2>
       </div>
 
       <div class="surface-card reveal">
         <p class="section-body">
-          Before talking to anyone, I reviewed platform documentation, analytics, and tutorial videos. I wanted to understand what each platform could actually do — before asking users what they were afraid of losing.
+          I audited all three platforms first — documentation, analytics, tutorial videos — before talking to anyone. Then I interviewed all three Product Owners, then users across every group: developers, data scientists, non-technical builders, including students and interns.
         </p>
 
         <div class="numbered-list">
@@ -154,67 +211,190 @@
             <div class="numbered-badge">1</div>
             <div class="numbered-content">
               <strong>Platform audit</strong>
-              <p>Reviewed Argus, Data Science Platform, and AppStore documentation, analytics, and video walkthroughs independently before any interviews.</p>
+              <p>Reviewed Argus, Data Science Platform, and AppStore documentation, analytics, and video walkthroughs independently before any interviews. Confirmed what I expected: functionally solid systems that had never had design attention.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">2</div>
             <div class="numbered-content">
               <strong>Stakeholder interviews — all three Product Owners</strong>
-              <p>Mapped ownership, priorities, and where they disagreed. Three POs meant three roadmaps and three definitions of done — understanding the fault lines early was essential.</p>
+              <p>Mapped where their roadmaps actually disagreed. Three POs meant three roadmaps and three definitions of done.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">3</div>
             <div class="numbered-content">
               <strong>User interviews — developers, data scientists, novice users</strong>
-              <p>Ran interviews across all three user groups. The consistent finding wasn't confusion about which tool to use — it was anxiety about the merger itself. Five concerns came up repeatedly: feature parity, safe migration, cost, support quality, and whether novice users could still build without expert help.</p>
+              <p>Five concerns came up repeatedly: feature parity, migration safety, cost, support quality, and whether novice users could still build without expert help. These became the brief's evidence base instead of the POs' assumptions.</p>
+            </div>
+          </div>
+          <div class="numbered-item">
+            <div class="numbered-badge">4</div>
+            <div class="numbered-content">
+              <strong>Synthesis — ranking the five concerns</strong>
+              <p>Ranked by how often each came up, not by instinct. Feature parity led by a wide margin, tightly coupled to independence — the same "will I lose something" anxiety showed up whether the question was about a missing capability or about building without expert help. Migration safety, support, and cost followed, in that order. Underneath all five: the three platforms weren't duplicating each other's work at the team level, they were converging on the same needs with no visibility between them — so similar solutions got built more than once, not from carelessness but because nothing showed anyone what already existed.</p>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Research output card -->
-      <div class="surface-card-sm reveal">
-        <p class="section-eyebrow" style="margin-bottom:4px;">Key Finding</p>
-        <h3 class="section-title" style="font-size: clamp(18px, 2.2vw, 24px);">Five concerns — none of them about navigation</h3>
-        <p class="section-body">Feature parity was the biggest: <em>will the new platform do everything my current tool does?</em> Migration safety was close behind. Then cost — free tiers had existed in the legacy tools but hadn't been defined yet in DevHub. Support quality: would a merged system mean slower, less specialised help? And for novice users specifically: <em>will I still be able to build without a developer's help?</em></p>
-        <p class="section-body" style="margin-top:12px;">These weren't UX problems to be solved with better navigation. They were product questions the POs needed to answer — and the brief had to make that visible.</p>
+      <div class="diagram-card reveal">
+        <p class="flow-label" style="margin-bottom:20px;">Five concerns, ranked by how often they came up</p>
+        <div class="mini-grid mini-grid-5">
+          <div class="mini-card" style="background: var(--accent-bg); border: 1px solid var(--accent-border);">
+            <div class="icon-circle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="mini-card-label" style="color: var(--accent);">Parity</span>
+            <span class="mini-card-sub">Losing capability in the merge</span>
+          </div>
+          <div class="mini-card">
+            <div class="icon-circle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="mini-card-label">Independence</span>
+            <span class="mini-card-sub">Building without expert help</span>
+          </div>
+          <div class="mini-card">
+            <div class="icon-circle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M16 3h5v5M8 21H3v-5M21 3l-7 7M3 21l7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="mini-card-label">Migration</span>
+            <span class="mini-card-sub">Safety of the move itself</span>
+          </div>
+          <div class="mini-card">
+            <div class="icon-circle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 18v-6a9 9 0 0 1 18 0v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="mini-card-label">Support</span>
+            <span class="mini-card-sub">Quality after the merge</span>
+          </div>
+          <div class="mini-card">
+            <div class="icon-circle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="mini-card-label">Cost</span>
+            <span class="mini-card-sub">Who pays, and how much</span>
+          </div>
+        </div>
+        <p class="diagram-caption">Ranked by mention frequency across interviews, not gut feel.</p>
       </div>
-
-      <figure class="cs-figure reveal">
-        <img class="cs-img" src="../img/basf/story-map.png" alt="Story map — Lifecycle Management of Workloads">
-        <figcaption class="cs-caption">Story map for the Lifecycle Management of Workloads flow — used to align three Product Owners on scope and user journey steps before any design work started.</figcaption>
-      </figure>
 
     </div>
   </section>
 
-  <!-- ============================== THE HARD PART ============================== -->
+  <!-- ============================== KEY DECISIONS ============================== -->
   <section class="section" style="padding-top: 0;">
     <div class="section-inner">
       <div class="section-header reveal">
-        <p class="section-eyebrow">The Hard Part</p>
-        <h2 class="section-title">Three POs, a hackathon forcing function, and technical constraints that weren't visible until mid-discovery</h2>
+        <p class="section-eyebrow">Key Decisions</p>
+        <h2 class="section-title">Three starting points, one overview</h2>
       </div>
 
-      <div class="two-col">
-        <div class="surface-card-sm reveal">
-          <p class="section-eyebrow" style="margin-bottom:4px;">Stakeholder alignment</p>
-          <p class="section-body">Three product owners, three roadmaps, three definitions of done. When priorities clashed, I built a scoring table — impact, effort, technical feasibility — and put it in front of everyone. It moved arguments about features into conversations about user problems.</p>
+      <div class="surface-card reveal">
+        <p class="section-body">
+          <strong>Designing one overview for three very different starting points.</strong> DevHub had to work for three groups who'd never used anything alike. DSP users had no self service, or interface at all. They set up products over a phone call with an operator, walking through the options manually. Argus users were technical and experienced, working with a platform built on a large, well-established open-source platform framework. Customizing it to match our designs ended up costing far more dev time than planned, with more problems surfacing the deeper the team went. The AppStore users were in general the least technical, by far the largest group, and were working with a fairly well-designed platform.
+        </p>
+        <p class="section-body" style="margin-top:16px;">
+          I decided to base DevHub's main feature the product overview on AppStore's structure, so its users, the largest, least technical group would recognize themselves and navigate the way they always had. For Argus, this was a straightforward improvement regardless of where the pattern came from as it was an improvement to their old overview. For DSP, replacing a manual, operator-led setup call with an automated flow was an huge step forward.
+        </p>
+        <p class="section-body" style="margin-top:16px;">
+         The AppStore users were met with more configuration options than they had had before, because DevHub now exposed capability that used to live only in Argus and DSP. We worked hard to make sure we could give every resource a default setting so the guided product creation wizard still worked without everyone needing to understand everything to get started building. The platform merging also meant listing contacts and a payment account before building anything. A deliberate governance improvement, curbing the kind of frivolous, unaccounted-for resource creation that the old AppStore allowed. The trade-off: that upfront commitment made experimentation feel less casual than it used to.
+        </p>
+      </div>
+
+      <div class="diagram-card reveal">
+        <p class="flow-label" style="margin-bottom:20px;">Three starting points, one anchored overview</p>
+        <div class="mini-grid mini-grid-3">
+          <div class="mini-card" style="align-items:flex-start; text-align:left;">
+            <span class="mini-card-label">DSP</span>
+            <span class="mini-card-sub">No interface. Setup by phone call with an operator.</span>
+          </div>
+          <div class="mini-card" style="align-items:flex-start; text-align:left;">
+            <span class="mini-card-label">Argus</span>
+            <span class="mini-card-sub">Technical, experienced users, but customization kept costing more dev time.</span>
+          </div>
+          <div class="mini-card" style="align-items:flex-start; text-align:left; background: var(--accent-bg); border: 1px solid var(--accent-border);">
+            <span class="mini-card-label" style="color: var(--accent);">AppStore</span>
+            <span class="mini-card-sub">Least technical, largest group. Best-designed of the three — anchor for DevHub's overview.</span>
+          </div>
         </div>
-        <div class="surface-card-sm reveal">
-          <p class="section-eyebrow" style="margin-bottom:4px;">Technical constraints</p>
-          <p class="section-body">Engineering was building on <strong>Backstage</strong>. Some constraints only became clear mid-discovery — things users needed that couldn't be built in this phase. I had to design for what was actually buildable while being honest about what would come later.</p>
+      </div>
+
+      <div class="diagram-card reveal" style="margin-top: 24px;">
+        <p class="flow-label" style="margin-bottom:20px;">Argus and AppStore's actual overview screens — DSP had no interface to show</p>
+        <div class="screenshot-carousel">
+          <figure class="screenshot-slide">
+            <img src="../img/basf/argus-overview.png" alt="Argus platform overview — technical catalog view with a resource dependency graph and cost overview in the sidebar">
+            <figcaption>Argus — a technical, developer-facing catalog view.</figcaption>
+          </figure>
+          <figure class="screenshot-slide">
+            <img src="../img/basf/appstore-overview.png" alt="AppStore Portal — product detail page with launch, archive, delete, and contributor info">
+            <figcaption>AppStore Portal — the pattern DevHub's overview was anchored on.</figcaption>
+          </figure>
         </div>
-        <div class="surface-card-sm reveal">
-          <p class="section-eyebrow" style="margin-bottom:4px;">Hackathon forcing function</p>
-          <p class="section-body">An internal hackathon forced a prioritisation call ahead of schedule. I drafted a brief that reframed the decision — not "which feature do we want" but <strong>"which user problem is most urgent."</strong> That shift gave the POs a shared basis for the call.</p>
+      </div>
+
+      <div class="surface-card reveal" style="margin-top: 24px;">
+        <p class="section-body">
+          <strong>Trading visual polish for dev time, on a bet that didn't pay off.</strong> Early Argus screens shipped with the platform framework's own generic components instead of BASF-styled ones — a call I signed off on along with the team. Hand-styling everything early looked like wasted effort if an upcoming update to the BASF design system landed on schedule and made those components pick up that styling almost automatically. It didn't land in time. The manual styling work had to happen anyway, later and under more pressure — one more way that framework cost time instead of saving it.
+        </p>
+      </div>
+
+      <div class="surface-card reveal" style="margin-top: 24px;">
+        <p class="section-body">
+          <strong>Edit/cart redesign.</strong> Every create and update action triggered a ~45-minute pipeline run. The UI had to batch changes. A first version was built where clicking "Modify resources" moved every existing resource into what resembled edit mode in a cart, before anything was touched. The same screen also surfaced every resource available to add, whether the user had asked for it or not. What should have been a short list of intended changes became the full catalog of everything that existed and everything that could be added, all at once — implying change had already started and burying whatever the user actually came to do. I made sure there was a clear distinction between the product's existing resources and the resources actually being changed or deleted, and reserved carts for new additions only. Edits to existing resources happened in place, in the background. A tag — added, updated, deleted — appeared only on resources actually touched. Other users could be viewing the same live state in separate sessions, so an explicit editing mode had to exist to account for that.
+        </p>
+        <p class="section-body" style="margin-top:16px;">
+          The pre-launch scenario test surfaced exactly this gap: people lost the pipeline once they left the confirmation screen. The fix I designed — a persistent, collapsible cart that tracks the run itself, wherever you are in DevHub — never shipped. Leaving the confirmation screen when hitting "create product" still loses the way back to build status; the real 45-minute run only shows via a GitHub link on that one screen.
+        </p>
+      </div>
+
+      <figure class="cs-figure reveal">
+        <img class="cs-img" src="../img/basf/wizard-5-deployment-idea.png" alt="Proposed design — a collapsible product deployment panel tracking pipeline run status">
+        <figcaption class="cs-caption">The unshipped fix — a collapsible panel tracking the pipeline run, meant to stay reachable past the confirmation screen.</figcaption>
+      </figure>
+
+      <div class="diagram-card reveal">
+        <p class="flow-label">Other team's version</p>
+        <div class="flow-row" style="margin-bottom:28px;">
+          <span class="flow-step">Click "Modify resources"</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Every existing resource dumped into cart</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Every available resource listed too, unasked</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Implies change already started</span>
         </div>
-        <div class="surface-card-sm reveal">
-          <p class="section-eyebrow" style="margin-bottom:4px;">Handoff gap</p>
-          <p class="section-body">There was no design handoff process when I started. I moved conversations about design decisions from GitHub issues into <strong>Figma comments</strong> — engineers had context next to the thing they were building. The back-and-forth dropped noticeably.</p>
+        <p class="flow-label">Redesign</p>
+        <div class="flow-row">
+          <span class="flow-step">Click a resource</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step accent">Tag: added / updated / deleted</span>
+          <span class="flow-arrow">→</span>
+          <span class="flow-step">Only new additions enter the cart</span>
         </div>
+      </div>
+
+      <figure class="cs-figure reveal" style="margin-top: 24px;">
+        <img class="cs-img" src="../img/basf/devhub-product-overview.png" alt="DevHub product overview — resources tab listing a product's dependencies">
+        <figcaption class="cs-caption">The redesign as shipped — DevHub's product overview and resources tab.</figcaption>
+      </figure>
+
+      <div class="surface-card reveal" style="margin-top: 24px;">
+        <p class="section-body">
+          <strong>Handoff redesign.</strong> Ticket and design feedback lived in GitHub rpeos, with long comment sections, working with screen grabs annotated in Paint. Every detail needed explaining, but context still got lost, So I decided to move the conversation into the Figma file, where comments can be made in much clearer connection to the design. My PO could measure things directly, pull hex codes, check spacing and states — instead of working from a screenshot that needed explaining and still missed things. Devs asked implementation questions against the dynamic live design instead of a static image.
+        </p>
+      </div>
+
+      <div class="diagram-card reveal">
+        <div class="mini-grid mini-grid-3" style="grid-template-columns: 1fr 1fr;">
+          <div class="mini-card" style="align-items:flex-start; text-align:left; gap:14px;">
+            <div class="icon-circle"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></div>
+            <span class="mini-card-label">Before</span>
+            <span class="mini-card-sub">Long GitHub threads, working off screen grabs annotated in Paint. Every detail needed explaining — context still got lost.</span>
+          </div>
+          <div class="mini-card" style="align-items:flex-start; text-align:left; gap:14px; background: var(--accent-bg); border: 1px solid var(--accent-border);">
+            <div class="icon-circle" style="background:none; border:none;"><svg width="14" height="21" viewBox="0 0 38 57"><path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z" fill="#1abcfe"/><path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z" fill="#0acf83"/><path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z" fill="#ff7262"/><path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z" fill="#f24e1e"/><path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z" fill="#a259ff"/></svg></div>
+            <span class="mini-card-label" style="color: var(--accent);">After</span>
+            <span class="mini-card-sub">Comments directly on the live Figma file — measurable, hex codes, spacing and states, no secondhand image.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="surface-card-sm reveal" style="border-left: 3px solid var(--accent);">
+        <p class="section-eyebrow">Scope I Held Back</p>
+        <p class="section-body">Interviews kept surfacing a need for collaboration and community — people wanted to build on what others had already solved, not start from zero every time. My answer was a marketplace where users could browse and reuse each other's solutions. I held it back. Building shelf space for solutions before DevHub's core features were even stable would have meant solving the wrong problem first. It's still the obvious next phase — just not this one.</p>
       </div>
 
     </div>
@@ -225,22 +405,22 @@
     <div class="hmw-card reveal" style="max-width: 940px; width: calc(100% - 40px);">
       <p class="section-eyebrow">How Might We…</p>
       <h2 class="section-title">
-        Merge three platforms into one without developers losing capability, data scientists losing their workflows, or novice users losing the ability to build without expert help — and make the answers to those five anxieties visible in the product before anyone has to ask?
+        Merge three platforms without any user — least of all the non-technical ones — losing the ability to build independently, while preserving feature parity, keeping migration safe, and making cost changes transparent as they happen?
       </h2>
     </div>
   </section>
 
-  <!-- ============================== WHAT I BUILT ============================== -->
+  <!-- ============================== UI ============================== -->
   <section class="section" style="padding-top: 0;">
     <div class="section-inner">
       <div class="section-header reveal">
         <p class="section-eyebrow">Design</p>
-        <h2 class="section-title">End-to-end journeys, a guided wizard, and a handoff workflow built from scratch</h2>
+        <h2 class="section-title">One flow, built for many different starting points</h2>
       </div>
 
       <div class="surface-card reveal">
         <p class="section-body">
-          Once the brief was agreed, I moved into design. Three user groups meant three main flows — app creation for developers, pipeline onboarding for data scientists, and a guided dashboard for novice users. I built them in parallel, keeping the structure consistent enough to feel like one product, while each flow addressed the specific anxieties of the group using it.
+          The product creation wizard and product update flow — had to clear enough to give novice users confidence, but versatile enough for advanced users to have all their needs addressed.
         </p>
 
         <div class="numbered-list">
@@ -248,44 +428,54 @@
             <div class="numbered-badge">1</div>
             <div class="numbered-content">
               <strong>End-to-end user journeys</strong>
-              <p>For app creation, data pipeline management, and dashboard consumption — mapped across developer, data scientist, and novice user paths.</p>
+              <p>The single creation and update flow, mapped end-to-end across developer, data scientist, and novice user paths.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">2</div>
             <div class="numbered-content">
               <strong>Feature parity mapping</strong>
-              <p>Mapped every significant capability across Argus, the Data Science Platform, and the AppStore to confirm what DevHub would cover. This became the answer to the biggest user concern — and the basis for honest communication about what wasn't in scope for the first release.</p>
+              <p>Every significant capability across Argus, the Data Science Platform, and the AppStore, mapped to confirm what DevHub would cover — the direct answer to the biggest user concern.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">3</div>
             <div class="numbered-content">
               <strong>App creation wizard</strong>
-              <p>Reduced the onboarding path for novice users to a single guided flow. This was the direct design response to the feature parity concern: novice users needed proof that they could build in DevHub without knowing the infrastructure behind it.</p>
+              <p>A single guided flow for novice users — proof they could build in DevHub without knowing the infrastructure behind it.</p>
             </div>
           </div>
           <div class="numbered-item">
             <div class="numbered-badge">4</div>
             <div class="numbered-content">
               <strong>BASF Atoms extensions</strong>
-              <p>All components built within the BASF Atoms design system. Where patterns didn't exist — primarily the app wizard step flow and unified dashboard state management — I proposed and documented extensions, keeping them aligned with the existing token structure.</p>
-            </div>
-          </div>
-          <div class="numbered-item">
-            <div class="numbered-badge">5</div>
-            <div class="numbered-content">
-              <strong>Pricing and support surface — intern project</strong>
-              <p>Free tiers had existed in the legacy tools but hadn't been defined in the unified DevHub. Under my supervision, a master's student designed how pricing tiers and support options would be surfaced within the platform — making them visible to users before they had to ask. Their output was integrated directly into the live system.</p>
+              <p>All components built within the BASF Atoms design system. Where patterns didn't exist — the app wizard step flow — I proposed and documented extensions.</p>
             </div>
           </div>
         </div>
       </div>
 
-      <figure class="cs-figure reveal">
-        <img class="cs-img" src="../img/basf/prototype-screens.png" alt="BASF DevHub — hi-fi prototype screens">
-        <figcaption class="cs-caption">Hi-fi prototype screens for the DevHub product creation wizard and resource management flows, built within the BASF Atoms design system.</figcaption>
-      </figure>
+      <div class="diagram-card reveal">
+        <p class="flow-label" style="margin-bottom:20px;">The product creation wizard, step by step</p>
+        <div class="screenshot-carousel">
+          <figure class="screenshot-slide">
+            <img src="../img/basf/wizard-1-security.png" alt="Wizard step 1 — choose security level, with public internet, BASF intranet, and smart configuration options">
+            <figcaption>1. Choose security level</figcaption>
+          </figure>
+          <figure class="screenshot-slide">
+            <img src="../img/basf/wizard-2-resources.png" alt="Wizard step 2 — add resources, browsing a searchable, filterable catalog of available modules and templates">
+            <figcaption>2. Add resources</figcaption>
+          </figure>
+          <figure class="screenshot-slide">
+            <img src="../img/basf/wizard-3-general-info.png" alt="Wizard step 3 — general info, naming the product and assigning owner and co-owner">
+            <figcaption>3. General info</figcaption>
+          </figure>
+          <figure class="screenshot-slide">
+            <img src="../img/basf/wizard-4-review.png" alt="Wizard step 4 — review, showing the product resources being added before confirming">
+            <figcaption>4. Review</figcaption>
+          </figure>
+        </div>
+      </div>
 
     </div>
   </section>
@@ -295,26 +485,27 @@
     <div class="section-inner">
       <div class="section-header reveal">
         <p class="section-eyebrow">Testing & Iterations</p>
-        <h2 class="section-title">Walkthrough sessions built around scenarios, not open feedback</h2>
+        <h2 class="section-title">Scenario-led testing with the full beta group, not open feedback</h2>
       </div>
 
       <div class="surface-card reveal">
         <p class="section-body">
-          Before each handoff, I ran walkthrough sessions with the product owners and developers. The sessions were structured around specific scenarios — not open-ended feedback. The app wizard and permissions model both went through two rounds of iteration based on what those sessions surfaced.
+          Before the beta launched, I ran a single scenario-led test with the full group — about 50 people, not just the product owners and developers who used DevHub day to day. Each person clicked through an interactive Figma prototype toward a few specific goals — create an app, adjust permissions — and was instructed to leave feedback as comments directly on the file. From there, each round of iteration went back to the team rather than another full-group test. The app wizard and permissions model both went through two rounds based on what surfaced in that one pass.
         </p>
-        <p class="section-body" style="margin-top: 16px;">
-          I also mentored a master's student on an internship project on the same platform. Their work ended up integrated into the live system, which gave the wizard flow an extra round of real validation.
+        <p class="section-body" style="margin-top:16px;">
+          One signal from that test mattered more than it looked at the time: people kept losing track of a running pipeline once they clicked away from the confirmation screen — nothing showed status anywhere else. That gap is what the persistent, collapsible process-run cart under Key Decisions was designed to fix.
         </p>
       </div>
 
       <figure class="cs-figure reveal">
-        <img class="cs-img" src="../img/basf/testing.png" alt="BASF DevHub — Figma prototype walkthrough session">
-        <figcaption class="cs-caption">Walkthrough session in the Figma prototype — scenarios covered app creation, permissions, and dashboard navigation. Engineering feedback visible in the comment panel.</figcaption>
+        <img class="cs-img" src="../img/basf/testing.png" alt="BASF DevHub — Figma prototype testing session">
+        <figcaption class="cs-caption">Beta tester working through the Figma prototype — scenarios covered app creation and permissions.</figcaption>
       </figure>
 
       <div class="surface-card-sm reveal" style="border-left: 3px solid var(--accent);">
         <p class="section-eyebrow">What I'd Do Differently Here</p>
-        <p class="section-body">The walkthrough sessions were with product owners and developers — not the novice users whose concern about building without expert help was the central design question. Even two sessions with non-technical internal users would have told me whether the wizard actually answered that anxiety. It's the one gap I'd close first.</p>
+        <p class="section-body">I had a name attached to every comment, but I never cross-referenced them against role. A note from a novice user and one from a developer who'd been running Argus for years sat in the same list, indistinguishable unless I already recognized the name. And the flow itself was simple enough that most of what came back stayed minor — requests for prefilled fields, small tweaks — never surfacing whether the "can I build without help" anxiety was actually resolved.</p>
+        <p class="section-body">The other miss sits exactly where this case study should have numbers. A survey was built and ready to go at the end of the product creation flow, designed to catch the completion and error data the scenario sessions couldn't. It never shipped with the beta — a team reorg ate the few weeks right before launch when getting it live actually mattered, and it fell through the gap. That's the honest reason I have no steps-to-completion or error-rate numbers to point to: not that nobody looked, but that the one thing built to measure it never went live.</p>
       </div>
 
     </div>
@@ -326,36 +517,22 @@
 
       <div class="section-header reveal">
         <p class="section-eyebrow">Results</p>
-        <h2 class="section-title">Unified product vision — three legacy systems, one agreed direction</h2>
+        <h2 class="section-title">One platform where three used to run separately</h2>
       </div>
 
       <div class="stats-row reveal">
         <div class="stat-card">
-          <span class="stat-number">3 POs</span>
-          <span class="stat-label">aligned on a single product brief for the first time</span>
+          <span class="stat-number">~2k users</span>
+          <span class="stat-label">across three legacy platforms</span>
         </div>
         <div class="stat-card">
-          <span class="stat-number">1 wizard</span>
-          <span class="stat-label">replaced a fragmented multi-tool onboarding path for novice users</span>
+          <span class="stat-number">1 map</span>
+          <span class="stat-label">first side-by-side feature-parity comparison across all three platforms</span>
         </div>
         <div class="stat-card">
           <span class="stat-number">↓ friction</span>
-          <span class="stat-label">in design–engineering handoff by moving context into Figma</span>
+          <span class="stat-label">in design-engineering handoff by moving context into Figma</span>
         </div>
-        <div class="stat-card">
-          <span class="stat-number">1 intern</span>
-          <span class="stat-label">mentored — output integrated directly into the live platform</span>
-        </div>
-      </div>
-
-      <div class="surface-card-sm reveal" style="background: var(--accent-bg);">
-        <p class="section-eyebrow">What I'd Do Differently</p>
-        <p class="section-body">
-          <strong>Push harder for direct user access earlier.</strong> A lot of discovery was mediated through Product Owners — efficient but filtered. More direct exposure would have made the prioritisation table stronger and surfaced the novice onboarding gap sooner.
-        </p>
-        <p class="section-body" style="margin-top: 12px;">
-          <strong>Establish a quantitative baseline before starting.</strong> We knew things were fragmented, but we didn't have a number attached to it. Having one would have made this outcomes section significantly cleaner.
-        </p>
       </div>
 
     </div>
@@ -366,18 +543,21 @@
     <div class="section-inner">
       <div class="section-header reveal">
         <p class="section-eyebrow">Final Thoughts</p>
-        <h2 class="section-title">What I learned about navigating complexity without a clear brief</h2>
+        <h2 class="section-title">Where I'd push harder, looking back</h2>
       </div>
 
       <div class="surface-card reveal">
         <p class="section-body">
-          The brief was about UI consolidation. The real problem was that nobody had named what the merger meant for the people who had to keep using these tools every day. When a consolidation is announced without answering the questions users are actually asking — will I keep my features, can I migrate safely, will this cost more, will support get worse, can I still build without help — those questions don't disappear. They just become the friction that kills adoption.
+          I'd push harder, earlier, for direct access to roadmap decisions instead of discovery mediated mostly through the POs. It's efficient. It's also filtered, and it's probably why the novice-user testing gap wasn't caught sooner.
         </p>
         <p class="section-body" style="margin-top: 16px;">
-          Getting the POs to accept that those five concerns were design requirements, not just comms problems, was what made the brief useful. It wasn't a roadmap. It was a translation layer between user anxiety and product decisions.
+          Argus itself ran on a large, well-established open-source platform framework. Customizing it to match our designs cost far more dev time than planned, and the deeper the team went, the more problems surfaced — that's the steep learning curve I mentioned earlier. I could feel the friction every time I ran a walkthrough, and had a hunch the customization costs ran deeper than anyone had budgeted for. But that call belonged to engineering, not design. Even with a hunch, it wasn't mine to make.
         </p>
         <p class="section-body" style="margin-top: 16px;">
-          <strong>Next step:</strong> quantitative data from the wizard flow — steps-to-completion, error rates, support ticket volume before and after. That's what would turn this from a strong story into an undeniable one.
+          The platform launched under deadline pressure before its operational maturity fully matched its feature set. I didn't push back hard enough on that at the time.
+        </p>
+        <p class="section-body" style="margin-top: 16px;">
+          One gap I didn't close myself: showing people the cost impact of a build before they commit to it. I scoped that as a master's thesis project and mentored the student who designed the actual solution.
         </p>
       </div>
 
@@ -389,7 +569,7 @@
     <div class="section-inner">
       <div id="cs-survey">
         <div class="survey-header">
-          <h2 class="section-title">Help me improve this case study</h2>
+          <h2 class="section-title">Anything missing from this case study?</h2>
           <p class="section-body" style="max-width:480px;">Takes about 30 seconds — I read every response.</p>
           <button id="sv-toggle" class="survey-open-btn">Give feedback →</button>
         </div>
@@ -433,7 +613,7 @@
       toggle.textContent = opening ? 'Never mind ×' : 'Let me know →';
     });
     var capacity = null, relevance = null;
-    var caseStudy = 'BASF';
+    var caseStudy = 'BASF 2.0 (draft)';
     document.querySelectorAll('#sv-capacity .survey-btn').forEach(function(b) {
       b.addEventListener('click', function() {
         document.querySelectorAll('#sv-capacity .survey-btn').forEach(function(x) { x.classList.remove('picked'); });
@@ -527,6 +707,68 @@
     </div>
   </div>
 
+  <div class="lightbox-overlay" id="lightboxOverlay">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">&#8249;</button>
+    <img id="lightboxImg" src="" alt="">
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">&#8250;</button>
+  </div>
+
+  <script>
+  (function() {
+    var overlay = document.getElementById('lightboxOverlay');
+    var overlayImg = document.getElementById('lightboxImg');
+    var closeBtn = document.getElementById('lightboxClose');
+    var prevBtn = document.getElementById('lightboxPrev');
+    var nextBtn = document.getElementById('lightboxNext');
+
+    var currentGroup = [];
+    var currentIndex = 0;
+
+    function show(index) {
+      currentIndex = (index + currentGroup.length) % currentGroup.length;
+      var img = currentGroup[currentIndex];
+      overlayImg.src = img.src;
+      overlayImg.alt = img.alt || '';
+      var multi = currentGroup.length > 1;
+      prevBtn.hidden = !multi;
+      nextBtn.hidden = !multi;
+    }
+
+    function openLightbox(group, index) {
+      currentGroup = group;
+      show(index);
+      overlay.classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      overlay.classList.remove('visible');
+      overlayImg.src = '';
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.screenshot-carousel').forEach(function(carousel) {
+      var imgs = Array.prototype.slice.call(carousel.querySelectorAll('.screenshot-slide img'));
+      imgs.forEach(function(img, i) {
+        img.addEventListener('click', function() { openLightbox(imgs, i); });
+      });
+    });
+    document.querySelectorAll('.cs-img').forEach(function(img) {
+      img.addEventListener('click', function() { openLightbox([img], 0); });
+    });
+    overlay.addEventListener('click', function(e) { if (e.target === overlay) closeLightbox(); });
+    closeBtn.addEventListener('click', function(e) { e.stopPropagation(); closeLightbox(); });
+    prevBtn.addEventListener('click', function(e) { e.stopPropagation(); show(currentIndex - 1); });
+    nextBtn.addEventListener('click', function(e) { e.stopPropagation(); show(currentIndex + 1); });
+    document.addEventListener('keydown', function(e) {
+      if (!overlay.classList.contains('visible')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') show(currentIndex - 1);
+      if (e.key === 'ArrowRight') show(currentIndex + 1);
+    });
+  })();
+  </script>
+
 </div><!-- /page -->
 
 <script>
@@ -541,7 +783,6 @@
   }, { threshold: 0.1 });
   reveals.forEach(el => io.observe(el));
 </script>
-
 
 <div id="toast" style="
   position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px);
@@ -562,34 +803,6 @@
 </div>
 
 <script src="/contact-form.js"></script>
-
-<script>
-(function () {
-  var ov = document.createElement('div');
-  ov.className = 'lb-overlay';
-  var im = document.createElement('img');
-  ov.appendChild(im);
-  document.body.appendChild(ov);
-
-  document.querySelectorAll('.cs-img').forEach(function (el) {
-    el.style.cursor = 'zoom-in';
-    el.addEventListener('click', function (e) {
-      e.stopPropagation();
-      im.src = el.src;
-      im.alt = el.alt;
-      ov.classList.add('open');
-    });
-  });
-
-  ov.addEventListener('click', function () { ov.classList.remove('open'); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') ov.classList.remove('open');
-  });
-})();
-</script>
-
-
-
 
 <script>
 (function() {
